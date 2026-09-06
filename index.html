@@ -3,105 +3,1252 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#f5f7fb">
+<meta name="theme-color" content="#1d4ed8">
 <title>A等生活 · 助教日记</title>
+
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:#f4f6fb;color:#182033}
-.app{max-width:760px;margin:auto;padding:18px 14px 90px}.hero{background:linear-gradient(135deg,#ffffff,#edf2ff);border-radius:26px;padding:24px 20px;margin-bottom:14px;box-shadow:0 10px 30px #0000000d}
-h1{margin:0 0 6px;font-size:28px}.sub{color:#697386;font-size:14px}.quote{margin-top:18px;font-size:18px;font-weight:700}
-.tabs{display:flex;gap:8px;overflow:auto;margin:12px 0}.tab{border:0;background:#fff;padding:11px 15px;border-radius:14px;font-weight:700;white-space:nowrap}.tab.active{background:#1d4ed8;color:#fff}
-.card{background:#fff;border-radius:20px;padding:18px;margin:12px 0;box-shadow:0 6px 22px #0000000a}
-label{display:block;font-weight:700;margin:13px 0 7px;font-size:14px}input,textarea,select{width:100%;padding:12px;border:1px solid #dfe4ee;border-radius:12px;font:inherit;background:#fbfcfe}textarea{min-height:110px;resize:vertical}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.btn{border:0;border-radius:13px;padding:12px 15px;font-weight:800;cursor:pointer}.primary{background:#1d4ed8;color:white}.soft{background:#eef2ff;color:#1e40af}.danger{background:#fee2e2;color:#991b1b}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
-.entry{border:1px solid #e7eaf0;border-radius:16px;padding:14px;margin:10px 0}.entry h3{margin:0 0 5px}.meta{font-size:12px;color:#778195}.tag{display:inline-block;background:#eef2ff;color:#3730a3;border-radius:999px;padding:4px 8px;font-size:12px;margin:3px}.empty{text-align:center;color:#8992a4;padding:25px}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.stat{background:#f7f8fc;border-radius:15px;padding:13px;text-align:center}.num{font-size:23px;font-weight:900}
-@media(max-width:520px){.row{grid-template-columns:1fr}.app{padding-top:10px}}
+*{box-sizing:border-box}
+
+body{
+ margin:0;
+ font-family:system-ui,-apple-system,"Segoe UI",sans-serif;
+ background:#f4f6fb;
+ color:#182033;
+}
+
+.app{
+ max-width:760px;
+ margin:auto;
+ padding:14px 14px 90px;
+}
+
+.hero{
+ background:linear-gradient(135deg,#fff,#eaf0ff);
+ border-radius:26px;
+ padding:24px 20px;
+ margin-bottom:14px;
+ box-shadow:0 10px 30px #0000000d;
+}
+
+h1{
+ margin:0 0 6px;
+ font-size:28px;
+}
+
+.sub{
+ color:#697386;
+ font-size:14px;
+}
+
+.quote{
+ margin-top:18px;
+ font-size:18px;
+ font-weight:800;
+ line-height:1.5;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:8px;
+}
+
+.stat{
+ background:#fff;
+ border-radius:17px;
+ padding:13px 5px;
+ text-align:center;
+ box-shadow:0 5px 18px #00000009;
+}
+
+.num{
+ font-size:22px;
+ font-weight:900;
+}
+
+.stat small{
+ color:#737b8c;
+ font-size:11px;
+}
+
+.goal{
+ background:#fff;
+ padding:16px;
+ border-radius:20px;
+ margin:12px 0;
+ box-shadow:0 5px 18px #00000009;
+}
+
+.goal-title{
+ display:flex;
+ justify-content:space-between;
+ font-weight:800;
+}
+
+.progress{
+ height:10px;
+ background:#e9edf5;
+ border-radius:20px;
+ overflow:hidden;
+ margin-top:10px;
+}
+
+.progress-bar{
+ height:100%;
+ width:0%;
+ background:#1d4ed8;
+ border-radius:20px;
+ transition:.3s;
+}
+
+.tabs{
+ display:flex;
+ gap:8px;
+ overflow:auto;
+ margin:12px 0;
+}
+
+.tab{
+ border:0;
+ background:#fff;
+ padding:11px 15px;
+ border-radius:14px;
+ font-weight:800;
+ white-space:nowrap;
+}
+
+.tab.active{
+ background:#1d4ed8;
+ color:#fff;
+}
+
+.card{
+ background:#fff;
+ border-radius:20px;
+ padding:18px;
+ margin:12px 0;
+ box-shadow:0 6px 22px #0000000a;
+}
+
+label{
+ display:block;
+ font-weight:700;
+ margin:13px 0 7px;
+ font-size:14px;
+}
+
+input,textarea,select{
+ width:100%;
+ padding:12px;
+ border:1px solid #dfe4ee;
+ border-radius:12px;
+ font:inherit;
+ background:#fbfcfe;
+}
+
+textarea{
+ min-height:110px;
+ resize:vertical;
+}
+
+.row{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:10px;
+}
+
+.btn{
+ border:0;
+ border-radius:13px;
+ padding:12px 15px;
+ font-weight:800;
+ cursor:pointer;
+}
+
+.primary{
+ background:#1d4ed8;
+ color:#fff;
+}
+
+.soft{
+ background:#eef2ff;
+ color:#1e40af;
+}
+
+.danger{
+ background:#fee2e2;
+ color:#991b1b;
+}
+
+.actions{
+ display:flex;
+ gap:8px;
+ flex-wrap:wrap;
+ margin-top:16px;
+}
+
+.entry{
+ border:1px solid #e7eaf0;
+ border-radius:17px;
+ padding:15px;
+ margin:11px 0;
+}
+
+.entry h3{
+ margin:7px 0;
+}
+
+.meta{
+ font-size:12px;
+ color:#778195;
+}
+
+.tag{
+ display:inline-block;
+ background:#eef2ff;
+ color:#3730a3;
+ border-radius:999px;
+ padding:4px 8px;
+ font-size:12px;
+ margin:3px;
+}
+
+.empty{
+ text-align:center;
+ color:#8992a4;
+ padding:25px 10px;
+}
+
+.filter{
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8px;
+ margin-top:10px;
+}
+
+.download-apk{
+ margin:12px 0 18px;
+ padding:18px;
+ border-radius:18px;
+ background:linear-gradient(135deg,#eef2ff,#f8fafc);
+ border:1px solid #dbe3ff;
+}
+
+.apk-title{
+ font-size:18px;
+ font-weight:900;
+}
+
+.apk-sub{
+ font-size:13px;
+ color:#667085;
+ margin:7px 0 12px;
+}
+
+.apk-btn{
+ display:inline-block;
+ text-decoration:none;
+ background:#111827;
+ color:#fff;
+}
+
+.note{
+ font-size:12px;
+ color:#8992a4;
+ margin-top:8px;
+}
+
+@media(max-width:560px){
+ .stats{
+  grid-template-columns:repeat(2,1fr);
+ }
+ .row,.filter{
+  grid-template-columns:1fr;
+ }
+ .app{
+  padding-top:10px;
+ }
+ h1{
+  font-size:25px;
+ }
+}
 </style>
 </head>
+
 <body>
+
 <div class="app">
-  <section class="hero">
-    <h1>🌟 A等生活 · 助教日记</h1>
-    <div class="sub">记录每一天的努力、成长与助教时光</div>
-    <div class="quote" id="quote">今天的努力，会成为明天的底气。</div>
-  </section>
 
-  <div class="stats">
-    <div class="stat"><div class="num" id="count">0</div><small>总记录</small></div>
-    <div class="stat"><div class="num" id="studyCount">0</div><small>A等生活</small></div>
-    <div class="stat"><div class="num" id="taCount">0</div><small>助教记录</small></div>
-  </div>
+<section class="hero">
+<h1>🌟 A等生活 · 助教日记</h1>
+<div class="sub">记录每一天的努力、成长与助教时光</div>
+<div class="quote" id="quote">
+今天的努力，会成为明天的底气。
+</div>
+</section>
 
-  <div class="tabs">
-    <button class="tab active" onclick="showTab('new',this)">✍️ 写记录</button>
-    <button class="tab" onclick="showTab('list',this)">📖 我的记录</button>
-    <button class="tab" onclick="showTab('backup',this)">💾 保存/下载</button>
-  </div>
+<div class="stats">
 
-  <section id="new" class="card">
-    <h2>写下今天</h2>
-    <div class="row">
-      <div><label>日期</label><input id="date" type="date"></div>
-      <div><label>类型</label><select id="type"><option value="A等生活">⭐ A等生活</option><option value="助教生活">👨‍🏫 助教生活</option><option value="A等生活 + 助教">🌟 A等生活 + 助教</option></select></div>
-    </div>
-    <label>标题</label><input id="title" placeholder="例如：今天又进步了一点">
-    <label>今天做了什么？</label><textarea id="content" placeholder="学习、目标、助教工作、和学生的互动……"></textarea>
-    <div class="row">
-      <div><label>今日心情</label><select id="mood"><option>😊 很棒</option><option>🙂 不错</option><option>😐 普通</option><option>😮‍💨 有点累</option><option>💪 继续坚持</option></select></div>
-      <div><label>今日评分</label><select id="score"><option>5 ⭐</option><option>4 ⭐</option><option>3 ⭐</option><option>2 ⭐</option><option>1 ⭐</option></select></div>
-    </div>
-    <label>今天的收获 / 给自己的话</label><textarea id="lesson" placeholder="今天学到了什么？想对未来的自己说什么？"></textarea>
-    <div class="actions"><button class="btn primary" onclick="saveEntry()">💾 保存今天的记录</button><button class="btn soft" onclick="clearForm()">清空</button></div>
-  </section>
-
-  <section id="list" class="card" style="display:none">
-    <h2>📖 我的记录</h2>
-    <input id="search" placeholder="搜索标题、内容……" oninput="render()">
-    <div id="entries"></div>
-  </section>
-
-  <section id="backup" class="card" style="display:none">
-    <h2>💾 保存与下载</h2>
-    <p>记录保存在这台设备的浏览器中。建议定期下载备份，换手机时再导入。</p>
-    <div class="actions">
-      <button class="btn primary" onclick="downloadJSON()">⬇️ 下载完整备份</button>
-      <button class="btn soft" onclick="downloadTXT()">📄 下载文字版</button>
-      <label class="btn soft" style="display:inline-block">📤 导入备份<input id="importFile" type="file" accept=".json" onchange="importJSON(event)" style="display:none"></label>
-      <button class="btn danger" onclick="deleteAll()">删除全部记录</button>
-    </div>
-  </section>
+<div class="stat">
+<div class="num" id="count">0</div>
+<small>总记录</small>
 </div>
 
-<script>
-const KEY='a等生活助教日记_v1';
-let entries=JSON.parse(localStorage.getItem(KEY)||'[]');
-const quotes=['今天的努力，会成为明天的底气。','慢一点没关系，重要的是一直向前。','把小事做好，就是A等生活。','认真生活，认真学习，认真做好每一次助教。','你今天的坚持，正在悄悄改变未来。'];
-document.getElementById('date').value=new Date().toISOString().slice(0,10);
-document.getElementById('quote').textContent=quotes[new Date().getDate()%quotes.length];
+<div class="stat">
+<div class="num" id="studyCount">0</div>
+<small>A等生活</small>
+</div>
 
-function save(){localStorage.setItem(KEY,JSON.stringify(entries));updateStats();render()}
+<div class="stat">
+<div class="num" id="taCount">0</div>
+<small>助教记录</small>
+</div>
+
+<div class="stat">
+<div class="num" id="streak">0</div>
+<small>连续天数 🔥</small>
+</div>
+
+</div>
+
+<div class="goal">
+
+<div class="goal-title">
+<span>🎯 本月目标</span>
+<span id="goalText">0 / 20 天</span>
+</div>
+
+<div class="progress">
+<div class="progress-bar" id="progressBar"></div>
+</div>
+
+</div>
+
+<div class="tabs">
+
+<button class="tab active"
+onclick="showTab('new',this)">
+✍️ 写记录
+</button>
+
+<button class="tab"
+onclick="showTab('list',this)">
+📖 我的记录
+</button>
+
+<button class="tab"
+onclick="showTab('backup',this)">
+💾 保存/下载
+</button>
+
+</div>
+
+<section id="new" class="card">
+
+<h2 id="formTitle">✍️ 写下今天</h2>
+
+<div class="row">
+
+<div>
+<label>日期</label>
+<input id="date" type="date">
+</div>
+
+<div>
+<label>类型</label>
+
+<select id="type">
+
+<option value="A等生活">
+⭐ A等生活
+</option>
+
+<option value="助教生活">
+👨‍🏫 助教生活
+</option>
+
+<option value="A等生活 + 助教">
+🌟 A等生活 + 助教
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<label>标题</label>
+
+<input id="title"
+placeholder="例如：今天又进步了一点">
+
+<label>今天做了什么？</label>
+
+<textarea id="content"
+placeholder="学习、目标、助教工作、和学生的互动……"></textarea>
+
+<div class="row">
+
+<div>
+
+<label>今日心情</label>
+
+<select id="mood">
+
+<option>😊 很棒</option>
+<option>🙂 不错</option>
+<option>😐 普通</option>
+<option>😮‍💨 有点累</option>
+<option>💪 继续坚持</option>
+
+</select>
+
+</div>
+
+<div>
+
+<label>今日评分</label>
+
+<select id="score">
+
+<option>5 ⭐</option>
+<option>4 ⭐</option>
+<option>3 ⭐</option>
+<option>2 ⭐</option>
+<option>1 ⭐</option>
+
+</select>
+
+</div>
+
+</div>
+
+<label>今天的收获 / 给自己的话</label>
+
+<textarea id="lesson"
+placeholder="今天学到了什么？想对未来的自己说什么？"></textarea>
+
+<div class="actions">
+
+<button class="btn primary"
+onclick="saveEntry()">
+💾 保存今天的记录
+</button>
+
+<button class="btn soft"
+onclick="clearForm()">
+清空
+</button>
+
+<button class="btn danger"
+id="cancelEdit"
+style="display:none"
+onclick="cancelEdit()">
+取消编辑
+</button>
+
+</div>
+
+</section>
+
+
+<section id="list" class="card" style="display:none">
+
+<h2>📖 我的记录</h2>
+
+<input id="search"
+placeholder="🔎 搜索标题、内容……"
+oninput="render()">
+
+<div class="filter">
+
+<select id="filterType" onchange="render()">
+
+<option value="">全部类型</option>
+<option value="A等生活">⭐ A等生活</option>
+<option value="助教生活">👨‍🏫 助教生活</option>
+<option value="A等生活 + 助教">🌟 A等生活 + 助教</option>
+
+</select>
+
+<select id="filterMood" onchange="render()">
+
+<option value="">全部心情</option>
+<option>😊 很棒</option>
+<option>🙂 不错</option>
+<option>😐 普通</option>
+<option>😮‍💨 有点累</option>
+<option>💪 继续坚持</option>
+
+</select>
+
+</div>
+
+<div id="entries"></div>
+
+</section>
+
+
+<section id="backup" class="card" style="display:none">
+
+<h2>💾 保存与下载</h2>
+
+<div class="download-apk">
+
+<div class="apk-title">
+📱 A等生活 Android APK
+</div>
+
+<div class="apk-sub">
+想把这个网页安装到手机？点击下面按钮。
+</div>
+
+<a class="btn apk-btn"
+href="https://github.com/bryanching9318-alt/a-deng-life-apk/releases/latest"
+target="_blank"
+rel="noopener">
+⬇️ 下载 A等生活 APK
+</a>
+
+<div class="note">
+如果暂时没有 APK Release，可以继续使用网页版本。
+</div>
+
+</div>
+
+<p>
+记录保存在这台设备的浏览器中。
+建议定期下载备份。
+</p>
+
+<div class="actions">
+
+<button class="btn primary"
+onclick="downloadJSON()">
+⬇️ 下载完整备份
+</button>
+
+<button class="btn soft"
+onclick="downloadTXT()">
+📄 下载文字版
+</button>
+
+<label class="btn soft">
+📤 导入备份
+<input
+id="importFile"
+type="file"
+accept=".json"
+onchange="importJSON(event)"
+style="display:none">
+</label>
+
+<button class="btn danger"
+onclick="deleteAll()">
+删除全部记录
+</button>
+
+</div>
+
+</section>
+
+</div>
+
+
+<script>
+
+const KEY = 'a等生活助教日记_v1';
+
+let entries =
+JSON.parse(localStorage.getItem(KEY) || '[]');
+
+let editingId = null;
+
+const quotes = [
+
+'今天的努力，会成为明天的底气。',
+
+'慢一点没关系，重要的是一直向前。',
+
+'把小事做好，就是A等生活。',
+
+'认真生活，认真学习，认真做好每一次助教。',
+
+'你今天的坚持，正在悄悄改变未来。',
+
+'优秀不是一天形成的，而是每天进步一点点。',
+
+'别害怕慢，只要你没有停下来。',
+
+'今天认真一点，明天就会轻松一点。',
+
+'真正厉害的人，都是在没人看见的时候努力。',
+
+'愿你努力过后，拥有选择生活的底气。'
+
+];
+
+
+const $ = id =>
+document.getElementById(id);
+
+
+/* 初始化 */
+
+const today =
+new Date().toISOString().slice(0,10);
+
+$('date').value = today;
+
+$('quote').textContent =
+quotes[new Date().getDate() % quotes.length];
+
+
+/* 保存 */
+
+function save(){
+
+localStorage.setItem(
+KEY,
+JSON.stringify(entries)
+);
+
+updateStats();
+render();
+
+}
+
+
+/* 新增 / 编辑 */
+
 function saveEntry(){
- const e={id:Date.now(),date:date.value,type:type.value,title:title.value.trim()||'今天的记录',content:content.value.trim(),mood:mood.value,score:score.value,lesson:lesson.value.trim()};
- if(!e.content&&!e.lesson){alert('请至少写一点今天的记录。');return}
- entries.unshift(e);save();clearForm();alert('已保存！你的记录就在这台设备里。');showTab('list',document.querySelectorAll('.tab')[1]);
+
+const e = {
+
+date:$('date').value,
+
+type:$('type').value,
+
+title:$('title').value.trim() || '今天的记录',
+
+content:$('content').value.trim(),
+
+mood:$('mood').value,
+
+score:$('score').value,
+
+lesson:$('lesson').value.trim()
+
+};
+
+
+if(!e.content && !e.lesson){
+
+alert('请至少写一点今天的记录。');
+
+return;
+
 }
-function clearForm(){title.value='';content.value='';lesson.value='';mood.value='😊 很棒';score.value='5 ⭐'}
-function showTab(id,btn){['new','list','backup'].forEach(x=>document.getElementById(x).style.display=x===id?'block':'none');document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));btn.classList.add('active');if(id==='list')render()}
+
+
+/* 编辑 */
+
+if(editingId !== null){
+
+const index =
+entries.findIndex(x => x.id === editingId);
+
+if(index !== -1){
+
+entries[index] = {
+...entries[index],
+...e
+};
+
+}
+
+editingId = null;
+
+$('formTitle').textContent =
+'✍️ 写下今天';
+
+$('cancelEdit').style.display =
+'none';
+
+save();
+
+alert('记录已经更新！');
+
+showTab(
+'list',
+document.querySelectorAll('.tab')[1]
+);
+
+return;
+
+}
+
+
+/* 新增 */
+
+e.id =
+Date.now();
+
+entries.unshift(e);
+
+save();
+
+clearForm();
+
+alert('已保存！你的记录就在这台设备里。');
+
+showTab(
+'list',
+document.querySelectorAll('.tab')[1]
+);
+
+}
+
+
+/* 清空 */
+
+function clearForm(){
+
+$('date').value =
+new Date().toISOString().slice(0,10);
+
+$('type').value =
+'A等生活';
+
+$('title').value = '';
+
+$('content').value = '';
+
+$('mood').value =
+'😊 很棒';
+
+$('score').value =
+'5 ⭐';
+
+$('lesson').value = '';
+
+}
+
+
+/* 编辑记录 */
+
+function editEntry(id){
+
+const e =
+entries.find(x => x.id === id);
+
+if(!e) return;
+
+editingId = id;
+
+$('date').value = e.date;
+
+$('type').value = e.type;
+
+$('title').value = e.title;
+
+$('content').value = e.content;
+
+$('mood').value = e.mood;
+
+$('score').value = e.score;
+
+$('lesson').value = e.lesson;
+
+$('formTitle').textContent =
+'✏️ 编辑记录';
+
+$('cancelEdit').style.display =
+'inline-block';
+
+showTab(
+'new',
+document.querySelectorAll('.tab')[0]
+);
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+}
+
+
+/* 取消编辑 */
+
+function cancelEdit(){
+
+editingId = null;
+
+$('formTitle').textContent =
+'✍️ 写下今天';
+
+$('cancelEdit').style.display =
+'none';
+
+clearForm();
+
+}
+
+
+/* 切换页面 */
+
+function showTab(id,btn){
+
+['new','list','backup'].forEach(x => {
+
+$(x).style.display =
+x === id ? 'block' : 'none';
+
+});
+
+document
+.querySelectorAll('.tab')
+.forEach(x =>
+x.classList.remove('active')
+);
+
+btn.classList.add('active');
+
+if(id === 'list')
+render();
+
+}
+
+
+/* 显示记录 */
+
 function render(){
- const q=(search?.value||'').toLowerCase(); const box=document.getElementById('entries');
- const arr=entries.filter(e=>(e.title+' '+e.content+' '+e.lesson+' '+e.type).toLowerCase().includes(q));
- if(!arr.length){box.innerHTML='<div class="empty">还没有记录。写下你的第一篇吧 ✨</div>';return}
- box.innerHTML=arr.map(e=>`<article class="entry"><div class="meta">${e.date} · ${e.type} · ${e.mood}</div><h3>${esc(e.title)}</h3><span class="tag">${esc(e.score)}</span><p>${esc(e.content).replace(/\n/g,'<br>')}</p>${e.lesson?'<b>💡 收获：</b>'+esc(e.lesson).replace(/\n/g,'<br>'):''}<div class="actions"><button class="btn danger" onclick="removeEntry(${e.id})">删除</button></div></article>`).join('');
+
+const q =
+($('search').value || '')
+.toLowerCase();
+
+const type =
+$('filterType').value;
+
+const mood =
+$('filterMood').value;
+
+const box =
+$('entries');
+
+
+const arr =
+entries.filter(e => {
+
+const text =
+(
+e.title + ' ' +
+e.content + ' ' +
+e.lesson + ' ' +
+e.type
+).toLowerCase();
+
+return text.includes(q)
+&&
+(!type || e.type === type)
+&&
+(!mood || e.mood === mood);
+
+});
+
+
+if(!arr.length){
+
+box.innerHTML =
+'<div class="empty">还没有找到记录 ✨<br>写下你的第一篇吧！</div>';
+
+return;
+
 }
-function esc(s){return String(s).replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]))}
-function removeEntry(id){if(confirm('确定删除这条记录吗？')){entries=entries.filter(e=>e.id!==id);save()}}
-function updateStats(){count.textContent=entries.length;studyCount.textContent=entries.filter(e=>e.type.includes('A等')).length;taCount.textContent=entries.filter(e=>e.type.includes('助教')).length}
-function downloadJSON(){download(new Blob([JSON.stringify(entries,null,2)],{type:'application/json'}),'A等生活-助教日记-备份.json')}
-function downloadTXT(){let t='A等生活 · 助教日记\\n\\n'+entries.map(e=>`【${e.date}】${e.title}\\n类型：${e.type}\\n心情：${e.mood}｜评分：${e.score}\\n${e.content}\\n收获：${e.lesson}\\n--------------------`).join('\\n');download(new Blob([t],{type:'text/plain;charset=utf-8'}),'A等生活-助教日记.txt')}
-function download(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();URL.revokeObjectURL(a.href)}
-function importJSON(ev){const f=ev.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!Array.isArray(x))throw 0;entries=[...x,...entries].filter((e,i,a)=>a.findIndex(z=>z.id===e.id)===i);save();alert('导入成功！')}catch{alert('备份文件格式不正确。')}};r.readAsText(f)}
-function deleteAll(){if(confirm('确定删除全部记录？此操作无法撤销，请先下载备份。')){entries=[];save();render()}}
-updateStats();render();
+
+
+box.innerHTML =
+arr.map(e => `
+
+<article class="entry">
+
+<div class="meta">
+📅 ${esc(e.date)}
+· ${esc(e.type)}
+· ${esc(e.mood)}
+</div>
+
+<h3>
+${esc(e.title)}
+</h3>
+
+<span class="tag">
+${esc(e.score)}
+</span>
+
+<p>
+${esc(e.content).replace(/\n/g,'<br>')}
+</p>
+
+${
+e.lesson
+?
+'<p><b>💡 收获：</b><br>' +
+esc(e.lesson).replace(/\n/g,'<br>') +
+'</p>'
+:
+''
+}
+
+<div class="actions">
+
+<button
+class="btn soft"
+onclick="editEntry(${e.id})">
+✏️ 编辑
+</button>
+
+<button
+class="btn danger"
+onclick="removeEntry(${e.id})">
+🗑️ 删除
+</button>
+
+</div>
+
+</article>
+
+`).join('');
+
+}
+
+
+/* 防止 HTML 注入 */
+
+function esc(s){
+
+return String(s)
+.replace(/[&<>"']/g,m => ({
+
+'&':'&amp;',
+'<':'&lt;',
+'>':'&gt;',
+'"':'&quot;',
+"'":'&#39;'
+
+}[m]));
+
+}
+
+
+/* 删除 */
+
+function removeEntry(id){
+
+if(!confirm('确定删除这条记录吗？'))
+return;
+
+entries =
+entries.filter(e => e.id !== id);
+
+save();
+
+}
+
+
+/* 连续记录 */
+
+function calcStreak(){
+
+const days =
+new Set(
+entries
+.map(e => e.date)
+.filter(Boolean)
+);
+
+let current =
+new Date();
+
+let streak = 0;
+
+while(true){
+
+const key =
+current.toISOString().slice(0,10);
+
+if(days.has(key)){
+
+streak++;
+
+current.setDate(
+current.getDate() - 1
+);
+
+}else{
+
+break;
+
+}
+
+}
+
+return streak;
+
+}
+
+
+/* 本月目标 */
+
+function updateGoal(){
+
+const now =
+new Date();
+
+const month =
+now.toISOString().slice(0,7);
+
+const days =
+new Set(
+entries
+.filter(e =>
+e.date &&
+e.date.startsWith(month)
+)
+.map(e => e.date)
+);
+
+const count =
+days.size;
+
+const goal = 20;
+
+const percent =
+Math.min(
+100,
+Math.round(count / goal * 100)
+);
+
+$('goalText').textContent =
+count + ' / ' + goal + ' 天';
+
+$('progressBar').style.width =
+percent + '%';
+
+}
+
+
+/* 数据统计 */
+
+function updateStats(){
+
+$('count').textContent =
+entries.length;
+
+$('studyCount').textContent =
+entries.filter(e =>
+e.type.includes('A等')
+).length;
+
+$('taCount').textContent =
+entries.filter(e =>
+e.type.includes('助教')
+).length;
+
+$('streak').textContent =
+calcStreak();
+
+updateGoal();
+
+}
+
+
+/* 下载 JSON */
+
+function downloadJSON(){
+
+download(
+
+new Blob(
+[
+JSON.stringify(entries,null,2)
+],
+{
+type:'application/json'
+}
+),
+
+'A等生活-助教日记-完整备份.json'
+
+);
+
+}
+
+
+/* 下载 TXT */
+
+function downloadTXT(){
+
+let text =
+'A等生活 · 助教日记\n\n';
+
+text += entries.map(e => `
+
+【${e.date}】
+${e.title}
+
+类型：${e.type}
+心情：${e.mood}
+评分：${e.score}
+
+${e.content}
+
+💡 收获：
+${e.lesson}
+
+----------------------------
+
+`).join('\n');
+
+
+download(
+
+new Blob(
+[text],
+{
+type:'text/plain;charset=utf-8'
+}
+),
+
+'A等生活-助教日记.txt'
+
+);
+
+}
+
+
+/* 文件下载 */
+
+function download(blob,name){
+
+const a =
+document.createElement('a');
+
+a.href =
+URL.createObjectURL(blob);
+
+a.download = name;
+
+document.body.appendChild(a);
+
+a.click();
+
+a.remove();
+
+setTimeout(() =>
+URL.revokeObjectURL(a.href),
+1000
+);
+
+}
+
+
+/* 导入 JSON */
+
+function importJSON(ev){
+
+const file =
+ev.target.files[0];
+
+if(!file) return;
+
+const reader =
+new FileReader();
+
+reader.onload = () => {
+
+try{
+
+const data =
+JSON.parse(reader.result);
+
+if(!Array.isArray(data))
+throw new Error();
+
+let added = 0;
+
+data.forEach(item => {
+
+if(!entries.some(
+e => String(e.id) === String(item.id)
+)){
+
+entries.push(item);
+
+added++;
+
+}
+
+});
+
+entries.sort(
+(a,b) =>
+new Date(b.date) -
+new Date(a.date)
+);
+
+save();
+
+alert(
+'导入成功！新增 ' +
+added +
+' 条记录。'
+);
+
+ev.target.value = '';
+
+}catch(err){
+
+alert(
+'备份文件格式不正确，请选择之前下载的 JSON 备份。'
+);
+
+}
+
+};
+
+reader.readAsText(file);
+
+}
+
+
+/* 删除全部 */
+
+function deleteAll(){
+
+if(!confirm(
+'确定删除全部记录吗？\n\n此操作无法撤销，请先下载备份。'
+))
+return;
+
+entries = [];
+
+save();
+
+alert('全部记录已经删除。');
+
+}
+
+
+/* 启动 */
+
+updateStats();
+
+render();
+
 </script>
+
 </body>
 </html>
