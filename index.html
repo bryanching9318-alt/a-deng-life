@@ -2,1597 +2,540 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1d4ed8">
 <title>A等生活 · 助教日记</title>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-*{
-  box-sizing:border-box;
+:root{
+  --primary:#4f46e5;
+  --primary2:#7c3aed;
+  --cyan:#0891b2;
+  --text:#172033;
+  --muted:#6b7280;
+  --line:#e5e7eb;
+  --card:#ffffff;
+  --soft:#f7f8ff
 }
 
-html{
-  scroll-behavior:smooth;
-}
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
 
 body{
   margin:0;
-  min-height:100vh;
-  font-family:system-ui,-apple-system,"Microsoft YaHei",sans-serif;
-  color:#172033;
-  background:
-    radial-gradient(circle at 10% 10%,rgba(99,102,241,.28),transparent 30%),
-    radial-gradient(circle at 90% 15%,rgba(14,165,233,.25),transparent 28%),
-    radial-gradient(circle at 50% 100%,rgba(168,85,247,.20),transparent 35%),
-    linear-gradient(135deg,#eef4ff 0%,#f8f5ff 45%,#eefcff 100%);
+  font-family:system-ui,-apple-system,"Segoe UI",
+  "PingFang SC","Microsoft YaHei",sans-serif;
+  color:var(--text);
+  background:#f4f6fb;
+  min-height:100vh
 }
 
 body:before{
   content:"";
   position:fixed;
   inset:0;
-  pointer-events:none;
-  background:linear-gradient(
-    120deg,
-    rgba(255,255,255,.35),
-    transparent 45%,
-    rgba(255,255,255,.25)
-  );
+  z-index:-1;
+  background:
+    radial-gradient(circle at 8% 0%,#dfe4ff 0,transparent 28%),
+    radial-gradient(circle at 92% 4%,#fce2f0 0,transparent 25%),
+    linear-gradient(180deg,#f7f8ff 0,#f4f6fb 55%,#eef2f7 100%)
 }
 
-.wrap{
-  width:min(920px,100%);
+.app{
+  max-width:900px;
   margin:auto;
-  padding:20px 16px 50px;
+  padding:18px 16px 70px
 }
 
-.card{
-  background:rgba(255,255,255,.88);
-  backdrop-filter:blur(14px);
-  -webkit-backdrop-filter:blur(14px);
-  border:1px solid rgba(255,255,255,.75);
-  border-radius:24px;
-  padding:22px;
-  margin:16px 0;
-  box-shadow:
-    0 12px 35px rgba(31,41,55,.10),
-    0 2px 8px rgba(99,102,241,.06);
-}
-
-.card:first-child{
+.hero{
   position:relative;
   overflow:hidden;
-  padding:30px 24px;
-  background:
-    linear-gradient(135deg,
-      rgba(79,70,229,.96),
-      rgba(124,58,237,.94) 48%,
-      rgba(14,165,233,.92));
-  color:white;
-  box-shadow:
-    0 20px 45px rgba(79,70,229,.25);
-}
-
-.card:first-child:after{
-  content:"";
-  position:absolute;
-  width:180px;
-  height:180px;
-  border-radius:50%;
-  right:-60px;
-  top:-80px;
-  background:rgba(255,255,255,.14);
-}
-
-.card:first-child h1,
-.card:first-child .sub{
-  position:relative;
-  z-index:1;
-}
-
-h1{
-  margin:0 0 7px;
-  font-size:30px;
-  letter-spacing:.5px;
-}
-
-h2{
-  margin-top:0;
-  color:#27345c;
-}
-
-.sub{
-  color:rgba(255,255,255,.86);
-  font-size:15px;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:13px;
-}
-
-input,
-textarea,
-select,
-button{
-  width:100%;
-  padding:13px 14px;
-  border-radius:14px;
-  border:1px solid #dce3f2;
-  font-size:16px;
-  font-family:inherit;
-  transition:.2s ease;
-}
-
-input,
-textarea,
-select{
-  background:rgba(255,255,255,.94);
-  color:#172033;
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-  outline:none;
-  border-color:#6366f1;
-  box-shadow:0 0 0 4px rgba(99,102,241,.12);
-  transform:translateY(-1px);
-}
-
-textarea{
-  min-height:125px;
-  resize:vertical;
-  margin-top:13px;
-}
-
-button{
-  border:0;
-  color:white;
-  font-weight:800;
-  cursor:pointer;
-  background:linear-gradient(135deg,#4f46e5,#7c3aed);
-  box-shadow:0 7px 18px rgba(79,70,229,.22);
-}
-
-button:hover{
-  transform:translateY(-2px);
-  box-shadow:0 10px 23px rgba(79,70,229,.28);
-}
-
-button:active{
-  transform:translateY(0);
-}
-
-.secondary{
-  background:linear-gradient(135deg,#e8edff,#eef2ff);
-  color:#3730a3;
-  box-shadow:none;
-}
-
-.secondary:hover{
-  background:linear-gradient(135deg,#dfe5ff,#e9eaff);
-  box-shadow:none;
-}
-
-.danger{
-  background:linear-gradient(135deg,#ef4444,#dc2626);
-  box-shadow:0 7px 18px rgba(239,68,68,.20);
-}
-
-.row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.row>*{
-  flex:1;
-  min-width:120px;
-}
-
-.small{
-  font-size:13px;
-  color:#64748b;
-}
-
-#auth{
-  border-top:5px solid #6366f1;
-}
-
-#auth h2{
-  color:#4338ca;
-}
-
-#app .card:nth-child(1){
-  border-left:5px solid #06b6d4;
-}
-
-#app .card:nth-child(3){
-  border-top:5px solid #8b5cf6;
-}
-
-.quote{
-  position:relative;
-  overflow:hidden;
-  font-size:19px;
-  line-height:1.7;
-  font-weight:800;
-  text-align:center;
-  padding:22px;
-  color:#312e81;
-  background:
-    linear-gradient(135deg,
-      rgba(224,231,255,.95),
-      rgba(243,232,255,.95),
-      rgba(224,242,254,.95));
-  border:1px solid rgba(129,140,248,.25);
-  border-radius:22px;
-  box-shadow:0 10px 25px rgba(99,102,241,.10);
-}
-
-.quote:before{
-  content:"✦";
-  position:absolute;
-  left:18px;
-  top:8px;
-  font-size:30px;
-  color:#8b5cf6;
-  opacity:.5;
-}
-
-.quote:after{
-  content:"✦";
-  position:absolute;
-  right:18px;
-  bottom:3px;
-  font-size:25px;
-  color:#06b6d4;
-  opacity:.5;
-}
-
-.entry{
-  position:relative;
-  margin:16px 0;
-  padding:18px;
-  border-radius:18px;
-  border-left:6px solid #6366f1;
+  border-radius:28px;
+  padding:30px 25px 24px;
+  margin-bottom:14px;
+  color:#fff;
   background:linear-gradient(
     135deg,
-    rgba(248,250,255,.98),
-    rgba(245,243,255,.98)
+    #4338ca 0%,
+    #6366f1 48%,
+    #8b5cf6 100%
   );
-  box-shadow:0 7px 20px rgba(51,65,85,.08);
-  transition:.2s ease;
-}
-
-.entry:hover{
-  transform:translateY(-2px);
-  box-shadow:0 12px 25px rgba(79,70,229,.12);
-}
-
-.entry b{
-  color:#312e81;
-  font-size:18px;
-}
-
-.entry p{
-  line-height:1.75;
-  color:#334155;
-}
-
-.hide{
-  display:none !important;
-}
-
-#list{
-  margin-top:16px;
-}
-
-#saveMsg,
-#authMsg{
-  min-height:20px;
-  font-weight:600;
-}
-
-::placeholder{
-  color:#94a3b8;
-}
-
-@media(max-width:650px){
-  .wrap{
-    padding:12px 10px 35px;
-  }
-
-  .card{
-    border-radius:20px;
-    padding:18px;
-    margin:12px 0;
-  }
-
-  .card:first-child{
-    padding:25px 20px;
-  }
-
-  h1{
-    font-size:25px;
-  }
-
-  .grid{
-    grid-template-columns:1fr;
-  }
-
-  .row{
-    flex-direction:column;
-  }
-
-  .row>*{
-    width:100%;
-  }
-
-  input,
-  textarea,
-  select,
-  button{
-    font-size:16px;
-  }
-
-  .quote{
-    font-size:17px;
-    padding:19px 15px;
-  }
-
-  .entry{
-    padding:15px;
-  }
-}
-</style>
-</head>
-
-<body>
-
-<div class="wrap">
-
-  <div class="card">
-    <h1>🌟 A等生活 · 助教日记</h1>
-    <div class="sub">记录每一天的努力、成长与助教时光</div>
-  </div>
-
-  <div id="auth" class="card">
-    <h2>🔐 登录 / 注册</h2>
-
-    <p class="small">
-      使用你自己的“账号 + 密码”，不需要邮箱。
-    </p>
-
-    <div class="grid">
-      <input
-        id="username"
-        placeholder="账号，例如 chen2026"
-      >
-
-      <input
-        id="password"
-        type="password"
-        placeholder="密码"
-      >
-    </div>
-
-    <div class="row" style="margin-top:12px">
-      <button onclick="register()">注册账号</button>
-      <button onclick="login()">登录</button>
-    </div>
-
-    <p id="authMsg" class="small"></p>
-  </div>
-
-  <div id="app" class="hide">
-
-    <div class="card">
-      <div class="row">
-        <div>
-          <b id="who"></b>
-          <div class="small">
-            登录成功，资料会保存到云端 ☁️
-          </div>
-        </div>
-
-        <button
-          class="secondary"
-          onclick="logout()"
-        >
-          退出登录
-        </button>
-      </div>
-    </div>
-
-    <div class="quote" id="quote"></div>
-
-    <div class="card">
-
-      <h2>✍️ 写下今天</h2>
-
-      <div class="grid">
-
-        <input
-          id="date"
-          type="date"
-        >
-
-        <select id="type">
-          <option>A等生活</option>
-          <option>助教生活</option>
-          <option>A等生活 + 助教</option>
-        </select>
-
-        <input
-          id="title"
-          placeholder="标题"
-        >
-
-        <select id="mood">
-          <option>😊 很棒</option>
-          <option>🙂 不错</option>
-          <option>😐 普通</option>
-          <option>😔 有点累</option>
-          <option>💪 坚持</option>
-        </select>
-
-        <select id="score">
-          <option>5 ⭐</option>
-          <option>4 ⭐</option>
-          <option>3 ⭐</option>
-          <option>2 ⭐</option>
-          <option>1 ⭐</option>
-        </select>
-
-      </div>
-
-      <textarea
-        id="content"
-        placeholder="今天发生了什么？"
-      ></textarea>
-
-      <textarea
-        id="lesson"
-        placeholder="今天学到的人生道理 / 学习心得"
-      ></textarea>
-
-      <div class="row">
-
-        <button onclick="saveEntry()">
-          保存记录 ☁️
-        </button>
-
-        <button
-          class="secondary"
-          onclick="clearForm()"
-        >
-          清空
-        </button>
-
-      </div>
-
-      <p id="saveMsg" class="small"></p>
-
-    </div>
-
-    <div class="card">
-
-      <h2>📖 我的记录</h2>
-
-      <div class="grid">
-
-        <input
-          id="search"
-          placeholder="搜索标题或内容"
-          oninput="render()"
-        >
-
-        <select
-          id="filter"
-          onchange="render()"
-        >
-          <option value="">全部</option>
-          <option value="A等生活">A等生活</option>
-          <option value="助教生活">助教生活</option>
-          <option value="A等生活 + 助教">A等生活 + 助教</option>
-        </select>
-
-      </div>
-
-      <div id="list"></div>
-
-    </div>
-
-  </div>
-
-</div>
-
-<script>
-
-const SUPABASE_URL =
-  "https://covnjgtdwpsothkcasls.supabase.co";
-
-const SUPABASE_KEY =
-  "sb_publishable_MsamuvgocYfdrm_BbpXiAw_Bw6F48Z1";
-
-const sb =
-  supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-  );
-
-let currentUser = null;
-let editingId = null;
-let entries = [];
-
-const quotes = [
-
-  "今天的努力，会成为明天的底气。",
-  "慢一点没关系，重要的是一直向前。",
-  "把小事做好，就是A等生活。",
-  "认真生活，认真学习，认真做好每一次助教。",
-  "你今天的坚持，正在悄悄改变未来。",
-  "真正的成长，是每天比昨天更认真一点。",
-  "不要害怕走得慢，只要你没有停下来。",
-  "优秀不是天生的，是一次次坚持换来的。",
-  "今天多努力一点，未来就多一份选择。",
-  "你认真走过的每一步，都算数。",
-  "累的时候可以休息，但不要轻易放弃。",
-  "把今天过好，就是对未来最好的负责。",
-  "没有白费的努力，只有还没到时候的收获。",
-  "相信自己，你比想象中更有潜力。",
-  "先完成，再完美；先行动，再进步。",
-  "真正厉害的人，是把平凡的日子过得认真。",
-  "每一次坚持，都是在给未来的自己加分。",
-  "困难不会一直存在，坚持会让你越来越强。",
-  "别羡慕别人的起点，走好自己的路。",
-  "今天的你，正在成为明天更好的你。",
-  "学习不是为了证明给别人看，而是为了拥有更多可能。",
-  "愿你眼里有光，心里有方向，脚下有力量。",
-  "做一个自律的人，也做一个温柔的人。",
-  "把目标放在心里，把行动放在每天。",
-  "当你觉得坚持很难的时候，说明你正在成长。"
-
-];
-
-
-/* 每次打开网页随机一句 */
-document.getElementById("quote").textContent =
-  "💡 " +
-  quotes[Math.floor(Math.random() * quotes.length)];
-
-
-/* 默认今天 */
-document.getElementById("date").value =
-  new Date().toISOString().slice(0,10);
-
-
-/* 显示消息 */
-function msg(id,text){
-
-  document.getElementById(id).textContent = text;
-
-}
-
-
-/* SHA-256 */
-async function hash(s){
-
-  const b =
-    await crypto.subtle.digest(
-      "SHA-256",
-      new TextEncoder().encode(s)
-    );
-
-  return [
-    ...new Uint8Array(b)
-  ]
-  .map(
-    x => x.toString(16).padStart(2,"0")
-  )
-  .join("");
-
-}
-
-
-/* 注册 */
-async function register(){
-
-  const u =
-    username.value.trim();
-
-  const p =
-    password.value;
-
-  if(
-    u.length < 3 ||
-    p.length < 6
-  ){
-
-    return msg(
-      "authMsg",
-      "账号至少3个字符，密码至少6个字符。"
-    );
-
-  }
-
-  const h =
-    await hash(p);
-
-  const {
-    data,
-    error
-  } =
-    await sb
-      .from("app_accounts")
-      .insert({
-        username:u,
-        password_hash:h
-      })
-      .select("id,username")
-      .single();
-
-  if(error){
-
-    return msg(
-      "authMsg",
-      error.code === "23505"
-        ? "这个账号已经存在，请直接登录。"
-        : "注册失败："+error.message
-    );
-
-  }
-
-  await start(data);
-
-  msg("authMsg","");
-
-}
-
-
-/* 登录 */
-async function login(){
-
-  const u =
-    username.value.trim();
-
-  const p =
-    password.value;
-
-  if(!u || !p){
-
-    return msg(
-      "authMsg",
-      "请输入账号和密码。"
-    );
-
-  }
-
-  const h =
-    await hash(p);
-
-  const {
-    data,
-    error
-  } =
-    await sb
-      .from("app_accounts")
-      .select("id,username")
-      .eq("username",u)
-      .eq("password_hash",h)
-      .maybeSingle();
-
-  if(error || !data){
-
-    return msg(
-      "authMsg",
-      "账号或密码不正确。"
-    );
-
-  }
-
-  await start(data);
-
-}
-
-
-/* 登录成功 */
-async function start(user){
-
-  currentUser = user;
-
-  localStorage.setItem(
-    "a等生活当前账号_v3",
-    JSON.stringify(user)
-  );
-
-  auth.classList.add("hide");
-
-  app.classList.remove("hide");
-
-  who.textContent =
-    "👤 " + user.username;
-
-  await load();
-
-}
-
-
-/* 退出登录 */
-async function logout(){
-
-  currentUser = null;
-
-  entries = [];
-
-  localStorage.removeItem(
-    "a等生活当前账号_v3"
-  );
-
-  app.classList.add("hide");
-
-  auth.classList.remove("hide");
-
-  render();
-
-}
-
-
-/* 从云端读取记录 */
-async function load(){
-
-  const {
-    data,
-    error
-  } =
-    await sb
-      .from("diary_entries")
-      .select("*")
-      .eq("account_id",currentUser.id)
-      .order("date",{ascending:false})
-      .order("created_at",{ascending:false});
-
-  if(error){
-
-    saveMsg.textContent =
-      "读取失败：" + error.message;
-
-    return;
-
-  }
-
-  entries = data || [];
-
-  render();
-
-}
-
-
-/* 保存记录 */
-async function saveEntry(){
-
-  if(!currentUser){
-
-    return;
-
-  }
-
-  const payload = {
-
-    account_id:
-      currentUser.id,
-
-    date:
-      date.value,
-
-    type:
-      type.value,
-
-    title:
-      title.value.trim() ||
-      "今天的记录",
-
-    content:
-      content.value,
-
-    mood:
-      mood.value,
-
-    score:
-      score.value,
-
-    lesson:
-      lesson.value
-
-  };
-
-  let r;
-
-  if(editingId){
-
-    r =
-      await sb
-        .from("diary_entries")
-        .update(payload)
-        .eq("id",editingId)
-        .eq(
-          "account_id",
-          currentUser.id
-        );
-
-  }else{
-
-    r =
-      await sb
-        .from("diary_entries")
-        .insert(payload);
-
-  }
-
-  if(r.error){
-
-    return msg(
-      "saveMsg",
-      "保存失败："+r.error.message
-    );
-
-  }
-
-  const was =
-    !!editingId;
-
-  editingId = null;
-
-  clearForm();
-
-  await load();
-
-  msg(
-    "saveMsg",
-    was
-      ? "记录已更新 ☁️"
-      : "记录已保存到云端 ☁️"
-  );
-
-}
-
-
-/* 清空表单 */
-function clearForm(){
-
-  editingId = null;
-
-  date.value =
-    new Date()
-      .toISOString()
-      .slice(0,10);
-
-  title.value = "";
-
-  content.value = "";
-
-  lesson.value = "";
-
-  mood.value = "😊 很棒";
-
-  score.value = "5 ⭐";
-
-}
-
-
-/* 编辑记录 */
-function editEntry(id){
-
-  const e =
-    entries.find(
-      x => x.id === id
-    );
-
-  if(!e)return;
-
-  editingId = id;
-
-  date.value =
-    e.date;
-
-  type.value =
-    e.type;
-
-  title.value =
-    e.title;
-
-  content.value =
-    e.content || "";
-
-  lesson.value =
-    e.lesson || "";
-
-  mood.value =
-    e.mood || "😊 很棒";
-
-  score.value =
-    e.score || "5 ⭐";
-
-  scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-/* 删除记录 */
-async function delEntry(id){
-
-  if(
-    !confirm(
-      "确定删除这条记录吗？"
-    )
-  ){
-
-    return;
-
-  }
-
-  const {
-    error
-  } =
-    await sb
-      .from("diary_entries")
-      .delete()
-      .eq("id",id)
-      .eq(
-        "account_id",
-        currentUser.id
-      );
-
-  if(error){
-
-    return alert(
-      "删除失败："+error.message
-    );
-
-  }
-
-  await load();
-
-}
-
-
-/* 显示记录 */
-function render(){
-
-  const q =
-    (search.value || "")
-      .toLowerCase();
-
-  const f =
-    (filter.value || "")
-      .trim();
-
-  const arr =
-    entries.filter(
-      e =>
-        (!f || e.type === f) &&
-        (
-          !q ||
-          [
-            e.title,
-            e.content,
-            e.lesson
-          ]
-          .join(" ")
-          .toLowerCase()
-          .includes(q)
-        )
-    );
-
-  list.innerHTML =
-    arr.length
-
-      ? arr.map(e => `
-
-        <div class="entry">
-
-          <b>
-            ${esc(e.title)}
-          </b>
-
-          <span class="small">
-            ${e.date}
-            ·
-            ${esc(e.type)}
-            ·
-            ${esc(e.mood || "")}
-            ·
-            ${esc(e.score || "")}
-          </span>
-
-          <p>
-            ${esc(e.content || "")
-              .replace(/\n/g,"<br>")}
-          </p>
-
-          ${
-            e.lesson
-              ? `
-                <p>
-                  💭
-                  ${esc(e.lesson)}
-                </p>
-              `
-              : ""
-          }
-
-          <div class="row">
-
-            <button
-              onclick="editEntry(${e.id})"
-            >
-              ✏️ 编辑
-            </button>
-
-            <button
-              class="danger"
-              onclick="delEntry(${e.id})"
-            >
-              🗑️ 删除
-            </button>
-
-          </div>
-
-        </div>
-
-      `).join("")
-
-      :
-
-      "<p class='small'>还没有记录，写下第一篇吧 ✨</p>";
-
-}
-
-
-/* 防止 HTML 注入 */
-function esc(s){
-
-  return String(s ?? "")
-    .replace(
-      /[&<>"']/g,
-      c => ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#39;"
-      }[c])
-    );
-
-}
-
-
-/* 自动恢复之前登录的账号 */
-(
-  async()=>{
-
-    try{
-
-      const u =
-        JSON.parse(
-          localStorage.getItem(
-            "a等生活当前账号_v3"
-          )
-        );
-
-      if(u){
-
-        await start(u);
-
-      }
-
-    }catch(e){
-
-      console.log(e);
-
-    }
-
-  }
-)();
-
-</script>
-
-</body>
-</html>  position:relative;
-  overflow:hidden;
-  background:
-    linear-gradient(135deg,#5b5ce2,#8b5cf6 55%,#c084fc);
-  color:white;
-  border-radius:30px;
-  padding:28px 23px 24px;
-  margin-bottom:14px;
-  box-shadow:0 18px 45px #5b5ce233;
-}
-
-.hero:before,
-.hero:after{
-  content:"";
-  position:absolute;
-  border-radius:50%;
-  background:#ffffff1c;
-  pointer-events:none;
+  box-shadow:0 18px 45px #4338ca30
 }
 
 .hero:before{
-  width:180px;
-  height:180px;
-  right:-70px;
-  top:-80px;
+  content:"";
+  position:absolute;
+  width:230px;
+  height:230px;
+  border-radius:50%;
+  right:-80px;
+  top:-110px;
+  background:#ffffff18
 }
 
 .hero:after{
-  width:110px;
-  height:110px;
-  left:-55px;
-  bottom:-60px;
+  content:"";
+  position:absolute;
+  width:140px;
+  height:140px;
+  border-radius:50%;
+  left:-70px;
+  bottom:-90px;
+  background:#ffffff12
 }
 
 h1{
   position:relative;
-  margin:0 0 6px;
+  z-index:1;
+  margin:0;
   font-size:30px;
-  letter-spacing:-.5px;
+  letter-spacing:-.6px
 }
 
 .sub{
   position:relative;
-  color:#f3efff;
-  font-size:14px;
+  z-index:1;
+  margin-top:7px;
+  color:#ffffffd9;
+  font-size:14px
 }
-
-/* ===== 励志语录 ===== */
 
 .quote{
   position:relative;
-  margin-top:20px;
-  font-size:18px;
-  font-weight:850;
-  line-height:1.6;
+  z-index:1;
+  margin-top:19px;
+  padding:16px 17px;
+  border-radius:17px;
   background:#ffffff18;
-  border:1px solid #ffffff2b;
-  border-radius:18px;
-  padding:14px 15px;
-  backdrop-filter:blur(8px);
+  border:1px solid #ffffff2e;
+  font-size:18px;
+  font-weight:800;
+  line-height:1.6
 }
 
 .quote-btn{
   position:relative;
+  z-index:1;
   margin-top:10px;
-  border:1px solid #ffffff3d;
-  background:#ffffff20;
-  color:white;
-  border-radius:13px;
-  padding:9px 13px;
+  padding:9px 16px;
+  border:0;
+  border-radius:999px;
+  background:#fff;
+  color:#4338ca;
   font-weight:800;
-  cursor:pointer;
+  box-shadow:0 6px 18px #00000020;
+  cursor:pointer
 }
-
-/* ===== 账户 ===== */
 
 .account{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:10px;
-  margin:13px 0;
-  padding:14px 16px;
-  background:#fffffff2;
-  border:1px solid #e9e7ff;
-  border-radius:20px;
-  box-shadow:0 8px 28px #5b5ce214;
+  gap:12px;
+  padding:13px 15px;
+  margin:0 0 14px;
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  box-shadow:0 6px 18px #1f29370b
 }
 
 .account-status{
-  font-size:13px;
+  font-size:14px;
   font-weight:800;
-  word-break:break-all;
+  min-width:0
 }
 
 .account-status span{
-  color:#667085;
+  color:var(--muted);
+  font-weight:600
 }
-
-/* ===== 数据 ===== */
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:9px;
+  gap:10px;
+  margin-bottom:12px
 }
 
 .stat{
   background:#fff;
-  border:1px solid #ecebfa;
-  border-radius:19px;
-  padding:15px 6px;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:15px 8px;
   text-align:center;
-  box-shadow:0 8px 25px #5b5ce20b;
+  box-shadow:0 6px 18px #1f29370a
 }
 
 .num{
-  font-size:23px;
-  font-weight:950;
-  color:#5146c9;
+  font-size:25px;
+  font-weight:900;
+  color:var(--primary)
 }
 
 .stat small{
-  font-size:11px;
-  color:#73798f;
+  display:block;
+  margin-top:3px;
+  color:#7b8494;
+  font-weight:700;
+  font-size:11px
 }
-
-/* ===== 目标 ===== */
 
 .goal{
   background:#fff;
-  border:1px solid #ecebfa;
-  border-radius:20px;
+  border:1px solid var(--line);
+  border-radius:18px;
   padding:15px;
-  margin:13px 0;
-  box-shadow:0 8px 25px #5b5ce20b;
+  margin-bottom:14px;
+  box-shadow:0 6px 18px #1f29370a
 }
 
 .goalline{
   display:flex;
   justify-content:space-between;
+  gap:10px;
   font-size:13px;
-  font-weight:850;
+  font-weight:800
 }
 
 .bar{
-  height:10px;
-  background:#ecebfa;
-  border-radius:99px;
-  overflow:hidden;
+  height:9px;
   margin-top:10px;
+  background:#e9ecf4;
+  border-radius:99px;
+  overflow:hidden
 }
 
 .bar i{
   display:block;
   height:100%;
-  background:linear-gradient(90deg,#5b5ce2,#a855f7);
-  border-radius:99px;
   width:0;
-  transition:width .5s ease;
+  border-radius:99px;
+  background:linear-gradient(
+    90deg,
+    #4f46e5,
+    #7c3aed,
+    #ec4899
+  );
+  transition:width .45s ease
 }
 
-/* ===== 导航 ===== */
-
 .tabs{
-  display:flex;
+  display:grid;
+  grid-template-columns:1fr 1fr;
   gap:8px;
-  margin:14px 0;
+  margin:0 0 14px
 }
 
 .tab{
-  flex:1;
-  border:1px solid #e8e7f5;
+  padding:12px;
+  border:1px solid var(--line);
+  border-radius:15px;
   background:#fff;
-  color:#535a70;
-  padding:12px 14px;
-  border-radius:16px;
+  color:#667085;
   font-weight:850;
-  box-shadow:0 5px 18px #5b5ce208;
   cursor:pointer;
+  box-shadow:0 4px 12px #1f293707
 }
 
 .tab.active{
-  border-color:transparent;
-  background:linear-gradient(135deg,#5b5ce2,#8b5cf6);
   color:#fff;
-  box-shadow:0 8px 22px #6d5ce233;
+  border-color:transparent;
+  background:linear-gradient(
+    135deg,
+    #4f46e5,
+    #7c3aed
+  );
+  box-shadow:0 8px 18px #4f46e530
 }
-
-/* ===== 卡片 ===== */
 
 .card{
   background:#fff;
-  border:1px solid #ecebfa;
-  border-radius:23px;
-  padding:20px;
-  margin:13px 0;
-  box-shadow:0 10px 30px #5b5ce20b;
+  border:1px solid var(--line);
+  border-radius:22px;
+  padding:22px;
+  margin:0 0 14px;
+  box-shadow:0 8px 25px #1f29370b
 }
 
-h2{
-  margin:0 0 10px;
-  font-size:21px;
-}
-
-/* ===== 表单 ===== */
-
-label{
-  display:block;
-  font-weight:800;
-  margin:13px 0 7px;
-  font-size:14px;
-  color:#3c4055;
-}
-
-input,
-textarea,
-select{
-  width:100%;
-  padding:13px 14px;
-  border:1px solid #e2e3ef;
-  border-radius:14px;
-  font:inherit;
-  background:#fafaff;
-  color:#25283b;
-  outline:none;
-  transition:.2s;
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-  border-color:#8177e8;
-  box-shadow:0 0 0 4px #8177e81a;
-  background:#fff;
-}
-
-textarea{
-  min-height:115px;
-  resize:vertical;
+.card h2{
+  margin:0 0 16px;
+  font-size:20px;
+  color:#252d49
 }
 
 .row{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:11px;
+  gap:11px
 }
 
-/* ===== 按钮 ===== */
-
-.btn{
-  border:0;
-  border-radius:14px;
-  padding:11px 15px;
-  font-weight:850;
-  cursor:pointer;
-  transition:transform .15s,box-shadow .15s;
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px
 }
 
-.btn:active{
-  transform:scale(.98);
+label{
+  display:block;
+  margin:12px 0 7px;
+  font-size:13px;
+  font-weight:800;
+  color:#475467
 }
 
-.primary{
-  background:linear-gradient(135deg,#5b5ce2,#8b5cf6);
-  color:#fff;
-  box-shadow:0 7px 18px #6d5ce22b;
+input,textarea,select{
+  width:100%;
+  padding:12px 13px;
+  border:1px solid #dfe3eb;
+  border-radius:13px;
+  background:#fbfcff;
+  color:var(--text);
+  font:inherit;
+  outline:none;
+  transition:.2s
 }
 
-.soft{
-  background:#efefff;
-  color:#5146c9;
+input:focus,
+textarea:focus,
+select:focus{
+  border-color:#7c6ff0;
+  box-shadow:0 0 0 4px #7c6ff018;
+  background:#fff
 }
 
-.danger{
-  background:#fff0f1;
-  color:#b42335;
+textarea{
+  min-height:115px;
+  resize:vertical
 }
 
 .actions{
   display:flex;
   gap:9px;
   flex-wrap:wrap;
-  margin-top:16px;
+  margin-top:14px
+}
+
+.btn{
+  border:0;
+  border-radius:13px;
+  padding:12px 15px;
+  font-weight:850;
+  cursor:pointer;
+  transition:.18s
+}
+
+.btn:hover{
+  transform:translateY(-1px)
+}
+
+.primary{
+  background:linear-gradient(
+    135deg,
+    #4f46e5,
+    #7c3aed
+  );
+  color:#fff;
+  box-shadow:0 7px 18px #4f46e528
+}
+
+.soft{
+  background:#eeedff;
+  color:#4f46c8
+}
+
+.danger{
+  background:#fff0f2;
+  color:#c0264b
 }
 
 .btn:disabled{
   opacity:.55;
-  cursor:not-allowed;
-}
-
-/* ===== 日记 ===== */
-
-.entry{
-  border:1px solid #e7e5f5;
-  border-radius:19px;
-  padding:16px;
-  margin:11px 0;
-  background:linear-gradient(180deg,#fff,#fcfbff);
-  box-shadow:0 7px 22px #5b5ce20a;
-}
-
-.entry h3{
-  margin:7px 0;
-  font-size:18px;
-}
-
-.entry p{
-  line-height:1.65;
-  color:#464b61;
-}
-
-.meta{
-  font-size:12px;
-  color:#7b8195;
-}
-
-.tag{
-  display:inline-block;
-  background:#f0efff;
-  color:#5146c9;
-  border-radius:999px;
-  padding:5px 9px;
-  font-size:12px;
-  margin:2px;
-}
-
-/* ===== 搜索 ===== */
-
-.empty{
-  text-align:center;
-  color:#8a90a3;
-  padding:30px 10px;
+  cursor:not-allowed
 }
 
 .filters{
   display:grid;
-  grid-template-columns:1fr 155px;
+  grid-template-columns:1fr 180px;
   gap:9px;
-  margin:10px 0;
+  margin-bottom:13px
 }
 
-/* ===== 图片 ===== */
+.entry{
+  border:1px solid #e5e7ef;
+  border-radius:18px;
+  padding:17px;
+  margin:11px 0;
+  background:#fcfcff;
+  box-shadow:0 5px 16px #1f293707
+}
+
+.entry h3{
+  margin:8px 0;
+  font-size:18px;
+  color:#252d49
+}
+
+.meta{
+  font-size:12px;
+  color:#7b8494
+}
+
+.tag{
+  display:inline-block;
+  margin-top:2px;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#eeedff;
+  color:#4f46c8;
+  font-size:12px;
+  font-weight:800
+}
+
+.entry p{
+  line-height:1.7;
+  color:#475467
+}
 
 .photo-preview,
 .photo-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:8px;
-  margin-top:10px;
+  margin-top:10px
 }
 
 .photo-preview img,
 .photo-grid img{
   width:100%;
-  height:115px;
+  height:120px;
   object-fit:cover;
-  border-radius:15px;
-  border:1px solid #e4e2f1;
-  box-shadow:0 5px 15px #0000000b;
-  cursor:pointer;
-  transition:.2s;
+  border-radius:13px;
+  border:1px solid #e5e7eb
 }
 
-.photo-preview img:hover,
-.photo-grid img:hover{
-  transform:scale(1.02);
+.empty,
+.loading{
+  text-align:center;
+  padding:34px 15px;
+  color:#8a94a6
 }
-
-/* ===== 小提示 ===== */
 
 .note{
   font-size:12px;
-  color:#858b9e;
-  margin-top:9px;
-  line-height:1.5;
+  color:#8a94a6;
+  line-height:1.55;
+  margin-top:8px
 }
-
-/* ===== 登录弹窗 ===== */
 
 .modal{
   position:fixed;
   inset:0;
-  background:#17152f99;
   display:none;
   align-items:center;
   justify-content:center;
-  padding:20px;
-  z-index:99;
-  backdrop-filter:blur(6px);
+  padding:18px;
+  background:#111827aa;
+  z-index:99
 }
 
 .modal.show{
-  display:flex;
+  display:flex
 }
 
 .modal-card{
-  width:min(430px,100%);
+  width:min(440px,100%);
   background:#fff;
-  border-radius:25px;
+  border-radius:24px;
   padding:23px;
-  box-shadow:0 25px 70px #0005;
+  box-shadow:0 25px 80px #0006
 }
 
 .modal-card input{
-  margin:7px 0 12px;
+  margin:7px 0 12px
 }
 
 .modal-actions{
   display:flex;
-  gap:10px;
+  gap:9px
 }
 
 .modal-actions button{
-  flex:1;
+  flex:1
 }
 
 .auth-note{
   font-size:12px;
-  color:#777d90;
-  line-height:1.55;
+  color:#777;
+  line-height:1.5
 }
 
 .switch{
   border:0;
   background:none;
-  color:#5b5ce2;
+  color:#4f46c8;
   font-weight:850;
-  cursor:pointer;
+  cursor:pointer
 }
 
-.loading{
-  text-align:center;
-  padding:20px;
-  color:#687087;
-}
-
-/* ===== 手机 ===== */
-
-@media(max-width:520px){
-
-  .row{
-    grid-template-columns:1fr;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .filters{
-    grid-template-columns:1fr;
-  }
+@media(max-width:650px){
 
   .app{
-    padding:10px 11px 55px;
+    padding:10px 11px 55px
   }
 
   .hero{
-    border-radius:25px;
-    padding:24px 18px;
+    padding:25px 18px 21px;
+    border-radius:23px
   }
 
-  .hero h1{
-    font-size:26px;
+  h1{
+    font-size:25px
   }
 
-  .card{
-    padding:17px;
-    border-radius:20px;
+  .stats{
+    grid-template-columns:1fr 1fr
   }
 
-  .photo-preview,
-  .photo-grid{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .photo-preview img,
-  .photo-grid img{
-    height:125px;
+  .grid,
+  .row,
+  .filters{
+    grid-template-columns:1fr
   }
 
   .tabs{
     position:sticky;
-    top:5px;
-    z-index:10;
-    padding:4px;
-    background:#f8f7ffdd;
-    backdrop-filter:blur(10px);
+    top:0;
+    z-index:20;
+    padding:7px 0;
+    background:#f4f6fbeF
+  }
+
+  .card{
+    padding:17px;
+    border-radius:19px
+  }
+
+  .photo-preview,
+  .photo-grid{
+    grid-template-columns:repeat(2,1fr)
+  }
+
+  .photo-preview img,
+  .photo-grid img{
+    height:125px
+  }
+
+  .account{
+    align-items:stretch;
+    flex-direction:column
+  }
+
+  .account button{
+    width:100%
   }
 }
 </style>
@@ -1602,400 +545,352 @@ textarea{
 
 <div class="app">
 
-<!-- 顶部 -->
 <section class="hero">
 
-  <h1>🌟 A等生活 · 助教日记</h1>
+<h1>🌟 A等生活 · 助教日记</h1>
 
-  <div class="sub">
-    记录每一天的努力、成长与助教时光
-  </div>
+<div class="sub">
+记录每一天的努力、成长与助教时光
+</div>
 
-  <div class="quote" id="quote"></div>
+<div class="quote" id="quote"></div>
 
-  <button class="quote-btn" onclick="randomQuote()">
-    🔄 再来一句
-  </button>
+<button class="quote-btn" onclick="randomQuote()">
+🔄 再来一句
+</button>
 
 </section>
 
 
-<!-- 账户 -->
 <div class="account">
 
-  <div class="account-status" id="accountStatus">
-    ☁️ 未登录
-  </div>
+<div class="account-status" id="accountStatus">
+☁️ 未登录
+</div>
 
-  <button
-    class="btn soft"
-    id="accountBtn"
-    onclick="openAuth()">
-    登录 / 注册
-  </button>
+<button
+class="btn soft"
+id="accountBtn"
+onclick="openAuth()">
+登录 / 注册
+</button>
 
 </div>
 
 
-<!-- 数据统计 -->
 <div class="stats">
 
-  <div class="stat">
-    <div class="num" id="count">0</div>
-    <small>总记录</small>
-  </div>
+<div class="stat">
+<div class="num" id="count">0</div>
+<small>总记录</small>
+</div>
 
-  <div class="stat">
-    <div class="num" id="studyCount">0</div>
-    <small>A等生活</small>
-  </div>
+<div class="stat">
+<div class="num" id="studyCount">0</div>
+<small>A等生活</small>
+</div>
 
-  <div class="stat">
-    <div class="num" id="taCount">0</div>
-    <small>助教记录</small>
-  </div>
+<div class="stat">
+<div class="num" id="taCount">0</div>
+<small>助教记录</small>
+</div>
 
-  <div class="stat">
-    <div class="num" id="streak">0</div>
-    <small>连续天数</small>
-  </div>
+<div class="stat">
+<div class="num" id="streak">0</div>
+<small>连续天数</small>
+</div>
 
 </div>
 
 
-<!-- 目标 -->
 <div class="goal">
 
-  <div class="goalline">
-    <span>🎯 本月目标</span>
-    <span id="goalText">0 / 20 天</span>
-  </div>
+<div class="goalline">
+<span>🎯 本月目标</span>
+<span id="goalText">0 / 20 天</span>
+</div>
 
-  <div class="bar">
-    <i id="goalBar"></i>
-  </div>
+<div class="bar">
+<i id="goalBar"></i>
+</div>
 
 </div>
 
 
-<!-- 页面切换 -->
 <div class="tabs">
 
-  <button
-    class="tab active"
-    onclick="showTab('new',this)">
-    ✍️ 写记录
-  </button>
+<button
+class="tab active"
+onclick="showTab('new',this)">
+✍️ 写记录
+</button>
 
-  <button
-    class="tab"
-    onclick="showTab('list',this)">
-    📖 我的记录
-  </button>
+<button
+class="tab"
+onclick="showTab('list',this)">
+📖 我的记录
+</button>
 
 </div>
 
 
-<!-- 写记录 -->
 <section id="new" class="card">
 
-  <h2 id="formTitle">
-    写下今天
-  </h2>
+<h2 id="formTitle">写下今天</h2>
 
-  <div class="row">
+<div class="row">
 
-    <div>
-      <label>日期</label>
-      <input id="date" type="date">
-    </div>
+<div>
+<label>日期</label>
+<input id="date" type="date">
+</div>
 
-    <div>
-      <label>类型</label>
+<div>
+<label>类型</label>
 
-      <select id="type">
-        <option>A等生活</option>
-        <option>助教生活</option>
-        <option>A等生活 + 助教</option>
-      </select>
+<select id="type">
+<option>A等生活</option>
+<option>助教生活</option>
+<option>A等生活 + 助教</option>
+</select>
 
-    </div>
+</div>
 
-  </div>
+</div>
 
 
-  <label>标题</label>
+<label>标题</label>
 
-  <input
-    id="title"
-    placeholder="例如：今天又进步了一点">
-
-
-  <label>今天做了什么？</label>
-
-  <textarea
-    id="content"
-    placeholder="学习、目标、助教工作、和学生的互动……"></textarea>
+<input
+id="title"
+placeholder="例如：今天又进步了一点">
 
 
-  <div class="row">
+<label>今天做了什么？</label>
 
-    <div>
-
-      <label>今日心情</label>
-
-      <select id="mood">
-
-        <option>😊 很棒</option>
-        <option>🙂 不错</option>
-        <option>😐 普通</option>
-        <option>😮‍💨 有点累</option>
-        <option>💪 继续坚持</option>
-
-      </select>
-
-    </div>
+<textarea
+id="content"
+placeholder="学习、目标、助教工作、和学生的互动……">
+</textarea>
 
 
-    <div>
+<div class="row">
 
-      <label>今日评分</label>
+<div>
 
-      <select id="score">
+<label>今日心情</label>
 
-        <option>5 ⭐</option>
-        <option>4 ⭐</option>
-        <option>3 ⭐</option>
-        <option>2 ⭐</option>
-        <option>1 ⭐</option>
+<select id="mood">
+<option>😊 很棒</option>
+<option>🙂 不错</option>
+<option>😐 普通</option>
+<option>😮‍💨 有点累</option>
+<option>💪 继续坚持</option>
+</select>
 
-      </select>
-
-    </div>
-
-  </div>
+</div>
 
 
-  <label>
-    今天的收获 / 给自己的话
-  </label>
+<div>
 
-  <textarea
-    id="lesson"
-    placeholder="今天学到了什么？想对未来的自己说什么？"></textarea>
+<label>今日评分</label>
 
+<select id="score">
+<option>5 ⭐</option>
+<option>4 ⭐</option>
+<option>3 ⭐</option>
+<option>2 ⭐</option>
+<option>1 ⭐</option>
+</select>
 
-  <label>
-    📸 今天的照片
-  </label>
+</div>
 
-  <input
-    id="photo"
-    type="file"
-    accept="image/*"
-    multiple
-    onchange="previewPhotos(event)">
-
-  <div
-    class="photo-preview"
-    id="photoPreview">
-  </div>
-
-  <div class="note">
-    照片会直接上传到云端相册，不保存为本机日记数据。
-  </div>
+</div>
 
 
-  <div class="actions">
+<label>
+今天的收获 / 给自己的话
+</label>
 
-    <button
-      class="btn primary"
-      id="saveBtn"
-      onclick="saveEntry()">
-      ☁️ 保存到云端
-    </button>
+<textarea
+id="lesson"
+placeholder="今天学到了什么？想对未来的自己说什么？">
+</textarea>
 
-    <button
-      class="btn soft"
-      onclick="clearForm()">
-      清空
-    </button>
 
-    <button
-      class="btn danger"
-      id="cancelBtn"
-      onclick="cancelEdit()"
-      style="display:none">
-      取消编辑
-    </button>
+<label>📸 今天的照片</label>
 
-  </div>
+<input
+id="photo"
+type="file"
+accept="image/*"
+multiple
+onchange="previewPhotos(event)">
+
+
+<div
+class="photo-preview"
+id="photoPreview">
+</div>
+
+<div class="note">
+照片会直接上传到云端相册，不保存为本机日记数据。
+</div>
+
+
+<div class="actions">
+
+<button
+class="btn primary"
+id="saveBtn"
+onclick="saveEntry()">
+☁️ 保存到云端
+</button>
+
+<button
+class="btn soft"
+onclick="clearForm()">
+清空
+</button>
+
+<button
+class="btn danger"
+id="cancelBtn"
+onclick="cancelEdit()"
+style="display:none">
+取消编辑
+</button>
+
+</div>
 
 </section>
 
 
-<!-- 我的记录 -->
 <section
-  id="list"
-  class="card"
-  style="display:none">
+id="list"
+class="card"
+style="display:none">
 
-  <h2>
-    📖 我的记录
-  </h2>
+<h2>📖 我的记录</h2>
 
-  <div class="filters">
+<div class="filters">
 
-    <input
-      id="search"
-      placeholder="搜索标题、内容、收获……"
-      oninput="render()">
+<input
+id="search"
+placeholder="搜索标题、内容、收获……"
+oninput="render()">
 
-    <select
-      id="filter"
-      onchange="render()">
+<select
+id="filter"
+onchange="render()">
 
-      <option value="全部">
-        全部类型
-      </option>
+<option value="全部">全部类型</option>
+<option>A等生活</option>
+<option>助教生活</option>
+<option>A等生活 + 助教</option>
 
-      <option>
-        A等生活
-      </option>
+</select>
 
-      <option>
-        助教生活
-      </option>
+</div>
 
-      <option>
-        A等生活 + 助教
-      </option>
-
-    </select>
-
-  </div>
-
-  <div id="entries">
-
-    <div class="empty">
-      请先登录云端账户。
-    </div>
-
-  </div>
+<div id="entries">
+<div class="empty">
+请先登录云端账户。
+</div>
+</div>
 
 </section>
 
 </div>
 
 
-<!-- 登录弹窗 -->
 <div class="modal" id="authModal">
 
-  <div class="modal-card">
+<div class="modal-card">
 
-    <h2 id="authTitle">
-      👤 登录账户
-    </h2>
+<h2 id="authTitle">
+👤 登录账户
+</h2>
 
-    <p
-      class="auth-note"
-      id="authMsg">
-      登录后，日记和照片会保存到你的云端账户，
-      换设备登录也能继续查看。
-    </p>
+<p
+class="auth-note"
+id="authMsg">
+登录后，日记和照片会保存到你的云端账户，换设备登录也能继续查看。
+</p>
 
+<input
+id="authUser"
+type="email"
+placeholder="邮箱">
 
-    <input
-      id="authUser"
-      type="email"
-      placeholder="邮箱">
+<input
+id="authPass"
+type="password"
+placeholder="密码">
 
+<div class="modal-actions">
 
-    <input
-      id="authPass"
-      type="password"
-      placeholder="密码">
+<button
+class="btn soft"
+onclick="closeAuth()">
+取消
+</button>
 
+<button
+class="btn primary"
+onclick="submitAuth()"
+id="authSubmit">
+登录
+</button>
 
-    <div class="modal-actions">
+</div>
 
-      <button
-        class="btn soft"
-        onclick="closeAuth()">
-        取消
-      </button>
+<p style="text-align:center;margin:14px 0 0">
 
-      <button
-        class="btn primary"
-        onclick="submitAuth()"
-        id="authSubmit">
-        登录
-      </button>
+<button
+class="switch"
+onclick="toggleAuthMode()"
+id="authSwitch">
+没有账户？点击注册
+</button>
 
-    </div>
+</p>
 
-
-    <p
-      style="text-align:center;margin:14px 0 0">
-
-      <button
-        class="switch"
-        onclick="toggleAuthMode()"
-        id="authSwitch">
-        没有账户？点击注册
-      </button>
-
-    </p>
-
-  </div>
+</div>
 
 </div>
 
 
 <script>
 
-/* =========================
-   Supabase
-========================= */
-
-const SUPABASE_URL =
+const SUPABASE_URL=
 "https://covnjgtdwpsothkcasls.supabase.co";
 
-const SUPABASE_KEY =
+const SUPABASE_KEY=
 "sb_publishable_MsamuvgocYfdrm_BbpXiAw_Bw6F48Z1";
 
-const sb =
+const sb=
 supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
 
-const CLOUD_TABLE =
-"diary_entries";
+const CLOUD_TABLE="diary_entries";
 
-const CLOUD_BUCKET =
-"diary-photos";
+const CLOUD_BUCKET="diary-photos";
 
 
-/* =========================
-   状态
-========================= */
+let cloudUser=null;
 
-let cloudUser = null;
+let entries=[];
 
-let entries = [];
+let editingId=null;
 
-let editingId = null;
-
-let authMode = "login";
+let authMode="login";
 
 
-/* =========================
-   励志语录
-========================= */
-
-const quotes = [
+const quotes=[
 
 "今天的努力，会成为明天的底气。",
 
@@ -2050,1346 +945,1156 @@ const quotes = [
 ];
 
 
-const $ =
-id => document.getElementById(id);
+const $=id=>
+document.getElementById(id);
 
-
-/* =========================
-   随机语录
-========================= */
 
 function randomIndex(max){
 
-  if(
-    window.crypto &&
-    crypto.getRandomValues
-  ){
+if(window.crypto &&
+crypto.getRandomValues){
 
-    const a =
-      new Uint32Array(1);
+const a=new Uint32Array(1);
 
-    crypto.getRandomValues(a);
+crypto.getRandomValues(a);
 
-    return a[0] % max;
-  }
+return a[0]%max;
 
-  return Math.floor(
-    Math.random() * max
-  );
+}
+
+return Math.floor(
+Math.random()*max
+);
+
 }
 
 
 function randomQuote(){
 
-  $("quote").textContent =
-    quotes[
-      randomIndex(quotes.length)
-    ];
+$("quote").textContent=
+quotes[
+randomIndex(quotes.length)
+];
 
 }
 
-
-/* =========================
-   日期
-========================= */
 
 function today(){
 
-  const d = new Date();
+const d=new Date();
 
-  d.setMinutes(
-    d.getMinutes()
-    - d.getTimezoneOffset()
-  );
+d.setMinutes(
+d.getMinutes()-
+d.getTimezoneOffset()
+);
 
-  return d
-    .toISOString()
-    .slice(0,10);
+return d.toISOString().slice(0,10);
 
 }
 
 
-$("date").value = today();
-
-
-/* 打开网页时随机语录 */
+$("date").value=today();
 
 randomQuote();
 
 
-/* =========================
-   登录弹窗
-========================= */
-
 function openAuth(){
 
-  $("authModal")
-    .classList
-    .add("show");
+$("authModal")
+.classList.add("show");
 
-  $("authUser").value =
-    cloudUser?.email || "";
+$("authUser").value=
+cloudUser?.email||"";
 
-  $("authPass").value = "";
+$("authPass").value="";
 
-  $("authMsg").textContent =
-    "登录后，日记和照片会保存到你的云端账户，换设备登录也能继续查看。";
+$("authMsg").textContent=
+"登录后，日记和照片会保存到你的云端账户，换设备登录也能继续查看。";
+
 }
 
 
 function closeAuth(){
 
-  $("authModal")
-    .classList
-    .remove("show");
+$("authModal")
+.classList.remove("show");
 
 }
 
 
 function toggleAuthMode(){
 
-  authMode =
-    authMode === "login"
-    ? "register"
-    : "login";
+authMode=
+authMode==="login"
+?"register"
+:"login";
 
+$("authTitle").textContent=
+authMode==="login"
+?"👤 登录账户"
+:"🆕 注册账户";
 
-  $("authTitle").textContent =
-    authMode === "login"
-    ? "👤 登录账户"
-    : "🆕 注册账户";
+$("authSubmit").textContent=
+authMode==="login"
+?"登录"
+:"注册";
 
+$("authSwitch").textContent=
+authMode==="login"
+?"没有账户？点击注册"
+:"已有账户？点击登录";
 
-  $("authSubmit").textContent =
-    authMode === "login"
-    ? "登录"
-    : "注册";
-
-
-  $("authSwitch").textContent =
-    authMode === "login"
-    ? "没有账户？点击注册"
-    : "已有账户？点击登录";
-
-
-  $("authMsg").textContent =
-    authMode === "login"
-    ? "登录后，日记和照片会保存到你的云端账户，换设备登录也能继续查看。"
-    : "注册一个云端账户，你的日记和照片将与账户绑定。";
+$("authMsg").textContent=
+authMode==="login"
+?
+"登录后，日记和照片会保存到你的云端账户，换设备登录也能继续查看。"
+:
+"注册一个云端账户，你的日记和照片将与账户绑定。";
 
 }
 
-
-/* =========================
-   登录 / 注册
-========================= */
 
 async function submitAuth(){
 
-  const email =
-    $("authUser").value.trim();
+const email=
+$("authUser").value.trim();
 
-  const password =
-    $("authPass").value;
+const password=
+$("authPass").value;
 
+if(!email||!password){
 
-  if(!email || !password){
+$("authMsg").textContent=
+"请输入邮箱和密码。";
 
-    $("authMsg").textContent =
-      "请输入邮箱和密码。";
+return;
 
-    return;
+}
 
-  }
+if(password.length<6){
 
+$("authMsg").textContent=
+"密码至少需要 6 位。";
 
-  if(password.length < 6){
-
-    $("authMsg").textContent =
-      "密码至少需要 6 位。";
-
-    return;
-
-  }
-
-
-  $("authSubmit").disabled = true;
-
-
-  try{
-
-    let result;
-
-
-    if(authMode === "register"){
-
-      result =
-        await sb.auth.signUp({
-          email,
-          password
-        });
-
-    }else{
-
-      result =
-        await sb.auth.signInWithPassword({
-          email,
-          password
-        });
-
-    }
-
-
-    if(result.error)
-      throw result.error;
-
-
-    if(
-      authMode === "register" &&
-      !result.data.session
-    ){
-
-      $("authMsg").textContent =
-        "注册成功！如果系统要求邮箱验证，请先完成邮箱验证，再回来登录。";
-
-      return;
-
-    }
-
-
-    await refreshCloudSession();
-
-    closeAuth();
-
-    alert(
-      authMode === "login"
-      ? "登录成功！"
-      : "注册成功！"
-    );
-
-
-  }catch(e){
-
-    $("authMsg").textContent =
-      e.message ||
-      "操作失败，请重试。";
-
-  }finally{
-
-    $("authSubmit").disabled = false;
-
-  }
+return;
 
 }
 
 
-/* =========================
-   退出登录
-========================= */
+$("authSubmit").disabled=true;
+
+
+try{
+
+let result;
+
+if(authMode==="register")
+
+result=
+await sb.auth.signUp({
+email,
+password
+});
+
+else
+
+result=
+await sb.auth.signInWithPassword({
+email,
+password
+});
+
+
+if(result.error)
+throw result.error;
+
+
+if(
+authMode==="register" &&
+!result.data.session
+){
+
+$("authMsg").textContent=
+"注册成功！如果系统要求邮箱验证，请先完成邮箱验证，再回来登录。";
+
+return;
+
+}
+
+
+await refreshCloudSession();
+
+closeAuth();
+
+alert(
+authMode==="login"
+?"登录成功！"
+:"注册成功！"
+);
+
+}
+catch(e){
+
+$("authMsg").textContent=
+e.message||
+"操作失败，请重试。";
+
+}
+finally{
+
+$("authSubmit").disabled=false;
+
+}
+
+}
+
 
 async function logout(){
 
-  await sb.auth.signOut();
+await sb.auth.signOut();
 
-  cloudUser = null;
+cloudUser=null;
 
-  entries = [];
+entries=[];
 
-  editingId = null;
+editingId=null;
 
-  updateAccountUI();
+updateAccountUI();
 
-  render();
+render();
 
-  updateStats();
+updateStats();
 
-  clearForm();
+clearForm();
 
 }
 
-
-/* =========================
-   账户 UI
-========================= */
 
 function updateAccountUI(){
 
-  if(cloudUser){
+if(cloudUser){
 
-    $("accountStatus").innerHTML =
-      "☁️ 已登录：<span>"
-      + esc(cloudUser.email)
-      + "</span>";
+$("accountStatus").innerHTML=
+"☁️ 已登录：<span>"+
+esc(cloudUser.email)+
+"</span>";
 
-    $("accountBtn").textContent =
-      "退出账户";
+$("accountBtn").textContent=
+"退出账户";
 
-    $("accountBtn").onclick =
-      logout;
-
-  }else{
-
-    $("accountStatus").textContent =
-      "☁️ 未登录";
-
-    $("accountBtn").textContent =
-      "登录 / 注册";
-
-    $("accountBtn").onclick =
-      openAuth;
-
-  }
+$("accountBtn").onclick=
+logout;
 
 }
 
+else{
 
-/* =========================
-   云端 Session
-========================= */
+$("accountStatus").textContent=
+"☁️ 未登录";
+
+$("accountBtn").textContent=
+"登录 / 注册";
+
+$("accountBtn").onclick=
+openAuth;
+
+}
+
+}
+
 
 async function refreshCloudSession(){
 
-  const {data} =
-    await sb.auth.getSession();
+const {data}=
+await sb.auth.getSession();
 
-  cloudUser =
-    data.session?.user || null;
+cloudUser=
+data.session?.user||null;
 
-  updateAccountUI();
+updateAccountUI();
 
+if(cloudUser)
 
-  if(cloudUser){
+await loadCloudEntries();
 
-    await loadCloudEntries();
+else{
 
-  }else{
+entries=[];
 
-    entries = [];
+render();
 
-    render();
+updateStats();
 
-    updateStats();
-
-  }
+}
 
 }
 
 
-/* =========================
-   上传照片
-========================= */
+async function uploadPhoto(file,userId){
 
-async function uploadPhoto(
-  file,
-  userId
-){
+const ext=
+(
+file.name?.split(".").pop()||
+"jpg"
+)
+.replace(
+/[^a-z0-9]/gi,
+""
+)
+.toLowerCase()||
+"jpg";
 
-  const ext =
-    (
-      file.name
-      ?.split(".")
-      .pop()
-      || "jpg"
-    )
-    .replace(
-      /[^a-z0-9]/gi,
-      ""
-    )
-    .toLowerCase()
-    || "jpg";
+const path=
+userId+
+"/"+
+crypto.randomUUID()+
+"."+
+ext;
 
+const {error}=
+await sb.storage
+.from(CLOUD_BUCKET)
+.upload(
+path,
+file,
+{
+contentType:
+file.type||
+"image/jpeg",
+upsert:false
+}
+);
 
-  const path =
-    userId +
-    "/" +
-    crypto.randomUUID() +
-    "." +
-    ext;
+if(error)
+throw error;
 
-
-  const {error} =
-    await sb
-      .storage
-      .from(CLOUD_BUCKET)
-      .upload(
-        path,
-        file,
-        {
-          contentType:
-            file.type ||
-            "image/jpeg",
-
-          upsert:false
-        }
-      );
-
-
-  if(error)
-    throw error;
-
-
-  return path;
+return path;
 
 }
 
-
-/* =========================
-   获取照片 URL
-========================= */
 
 async function signedPhoto(path){
 
-  const {data,error} =
-    await sb
-      .storage
-      .from(CLOUD_BUCKET)
-      .createSignedUrl(
-        path,
-        3600
-      );
+const {data,error}=
+await sb.storage
+.from(CLOUD_BUCKET)
+.createSignedUrl(
+path,
+3600
+);
 
+if(error)
+throw error;
 
-  if(error)
-    throw error;
-
-
-  return data.signedUrl;
+return data.signedUrl;
 
 }
 
-
-/* =========================
-   读取云端日记
-========================= */
 
 async function loadCloudEntries(){
 
-  if(!cloudUser)
-    return;
+if(!cloudUser)
+return;
 
 
-  $("entries").innerHTML =
-    '<div class="loading">☁️ 正在读取你的云端记录…</div>';
+$("entries").innerHTML=
+'<div class="loading">☁️ 正在读取你的云端记录…</div>';
 
 
-  const {data,error} =
-    await sb
-      .from(CLOUD_TABLE)
-      .select("*")
-      .eq(
-        "user_id",
-        cloudUser.id
-      )
-      .order(
-        "date",
-        {ascending:false}
-      )
-      .order(
-        "created_at",
-        {ascending:false}
-      );
+const {data,error}=
+await sb.from(CLOUD_TABLE)
+.select("*")
+.eq("user_id",cloudUser.id)
+.order(
+"date",
+{ascending:false}
+)
+.order(
+"created_at",
+{ascending:false}
+);
 
 
-  if(error){
+if(error){
 
-    $("entries").innerHTML =
-      '<div class="empty">读取云端记录失败：'
-      + esc(error.message)
-      + '</div>';
+$("entries").innerHTML=
+'<div class="empty">读取云端记录失败：'+
+esc(error.message)+
+'</div>';
 
-    return;
-
-  }
-
-
-  entries = [];
-
-
-  for(
-    const x of (data || [])
-  ){
-
-    const photos = [];
-
-
-    for(
-      const path of (x.photos || [])
-    ){
-
-      try{
-
-        photos.push({
-          path,
-          url:
-            await signedPhoto(path)
-        });
-
-      }catch(e){}
-
-    }
-
-
-    entries.push({
-
-      id:x.id,
-
-      date:x.date,
-
-      type:x.type,
-
-      title:x.title,
-
-      content:x.content,
-
-      mood:x.mood,
-
-      score:x.score,
-
-      lesson:x.lesson,
-
-      photos
-
-    });
-
-  }
-
-
-  render();
-
-  updateStats();
+return;
 
 }
 
 
-/* =========================
-   保存记录
-========================= */
+entries=[];
+
+
+for(
+const x of (data||[])
+){
+
+const photos=[];
+
+
+for(
+const path of (x.photos||[])
+){
+
+try{
+
+photos.push({
+path,
+url:
+await signedPhoto(path)
+});
+
+}
+catch(e){}
+
+}
+
+
+entries.push({
+
+id:x.id,
+
+date:x.date,
+
+type:x.type,
+
+title:x.title,
+
+content:x.content,
+
+mood:x.mood,
+
+score:x.score,
+
+lesson:x.lesson,
+
+photos
+
+});
+
+}
+
+
+render();
+
+updateStats();
+
+}
+
 
 async function saveEntry(){
 
-  if(!cloudUser){
+if(!cloudUser){
 
-    openAuth();
+openAuth();
 
-    return;
-
-  }
-
-
-  const files =
-    [
-      ...(
-        $("photo").files || []
-      )
-    ];
-
-
-  const old =
-    editingId
-    ? entries.find(
-        x =>
-          String(x.id)
-          ===
-          String(editingId)
-      )
-    : null;
-
-
-  const e = {
-
-    date:
-      $("date").value,
-
-    type:
-      $("type").value,
-
-    title:
-      $("title").value.trim()
-      ||
-      "今天的记录",
-
-    content:
-      $("content").value.trim(),
-
-    mood:
-      $("mood").value,
-
-    score:
-      $("score").value,
-
-    lesson:
-      $("lesson").value.trim()
-
-  };
-
-
-  if(
-    !e.content &&
-    !e.lesson &&
-    !files.length &&
-    (old?.photos || []).length === 0
-  ){
-
-    alert(
-      "请至少写一点今天的记录或添加照片。"
-    );
-
-    return;
-
-  }
-
-
-  const btn =
-    $("saveBtn");
-
-  btn.disabled = true;
-
-  btn.textContent =
-    "☁️ 正在保存…";
-
-
-  const wasEditing =
-    !!editingId;
-
-
-  try{
-
-    const photoPaths =
-      (old?.photos || [])
-      .map(x => x.path)
-      .filter(Boolean);
-
-
-    for(
-      const f of files
-    ){
-
-      photoPaths.push(
-        await uploadPhoto(
-          f,
-          cloudUser.id
-        )
-      );
-
-    }
-
-
-    const payload = {
-
-      ...e,
-
-      user_id:
-        cloudUser.id,
-
-      photos:
-        photoPaths
-
-    };
-
-
-    let error;
-
-
-    if(editingId){
-
-      ({
-        error
-      } =
-        await sb
-          .from(CLOUD_TABLE)
-          .update(payload)
-          .eq(
-            "id",
-            editingId
-          )
-          .eq(
-            "user_id",
-            cloudUser.id
-          ));
-
-    }else{
-
-      ({
-        error
-      } =
-        await sb
-          .from(CLOUD_TABLE)
-          .insert(
-            payload
-          ));
-
-    }
-
-
-    if(error)
-      throw error;
-
-
-    await loadCloudEntries();
-
-    cancelEdit();
-
-    clearForm();
-
-
-    alert(
-      wasEditing
-      ? "已更新并同步到云端！"
-      : "已保存并同步到云端！"
-    );
-
-
-    showTab(
-      "list",
-      document.querySelectorAll(".tab")[1]
-    );
-
-
-  }catch(e){
-
-    alert(
-      "保存失败："
-      +
-      (e.message || e)
-    );
-
-
-  }finally{
-
-    btn.disabled = false;
-
-    btn.textContent =
-      wasEditing
-      ? "💾 更新记录"
-      : "☁️ 保存到云端";
-
-  }
+return;
 
 }
 
 
-/* =========================
-   照片预览
-========================= */
+const files=[
+...($("photo").files||[])
+];
+
+const old=
+editingId
+?
+entries.find(
+x=>String(x.id)===String(editingId)
+)
+:
+null;
+
+
+const e={
+
+date:$("date").value,
+
+type:$("type").value,
+
+title:
+$("title").value.trim()||
+"今天的记录",
+
+content:
+$("content").value.trim(),
+
+mood:
+$("mood").value,
+
+score:
+$("score").value,
+
+lesson:
+$("lesson").value.trim()
+
+};
+
+
+if(
+!e.content &&
+!e.lesson &&
+!files.length &&
+(old?.photos||[]).length===0
+){
+
+alert(
+"请至少写一点今天的记录或添加照片。"
+);
+
+return;
+
+}
+
+
+const btn=$("saveBtn");
+
+btn.disabled=true;
+
+btn.textContent=
+"☁️ 正在保存…";
+
+
+const wasEditing=
+!!editingId;
+
+
+try{
+
+const photoPaths=
+(old?.photos||[])
+.map(x=>x.path)
+.filter(Boolean);
+
+
+for(
+const f of files
+)
+
+photoPaths.push(
+await uploadPhoto(
+f,
+cloudUser.id
+)
+);
+
+
+const payload={
+...e,
+user_id:cloudUser.id,
+photos:photoPaths
+};
+
+
+let error;
+
+
+if(editingId){
+
+({
+error
+}=
+await sb
+.from(CLOUD_TABLE)
+.update(payload)
+.eq("id",editingId)
+.eq("user_id",cloudUser.id)
+);
+
+}
+
+else{
+
+({
+error
+}=
+await sb
+.from(CLOUD_TABLE)
+.insert(payload)
+);
+
+}
+
+
+if(error)
+throw error;
+
+
+await loadCloudEntries();
+
+cancelEdit();
+
+clearForm();
+
+alert(
+wasEditing
+?
+"已更新并同步到云端！"
+:
+"已保存并同步到云端！"
+);
+
+
+showTab(
+"list",
+document.querySelectorAll(".tab")[1]
+);
+
+}
+catch(e){
+
+alert(
+"保存失败："+
+(e.message||e)
+);
+
+}
+finally{
+
+btn.disabled=false;
+
+btn.textContent=
+wasEditing
+?
+"💾 更新记录"
+:
+"☁️ 保存到云端";
+
+}
+
+}
+
 
 function previewPhotos(ev){
 
-  const files =
-    ev.target.files || [];
+const files=
+ev.target.files||[];
 
-  const box =
-    $("photoPreview");
+const box=
+$("photoPreview");
 
-  box.innerHTML = "";
-
-
-  [
-    ...files
-  ].forEach(f => {
-
-    const r =
-      new FileReader();
+box.innerHTML="";
 
 
-    r.onload = () => {
+[
+...files
+].forEach(f=>{
 
-      const img =
-        document.createElement("img");
+const r=
+new FileReader();
 
-      img.src =
-        r.result;
+r.onload=()=>{
 
-      img.alt =
-        "预览照片";
+const img=
+document.createElement("img");
 
-      box.appendChild(img);
+img.src=r.result;
 
-    };
+img.alt="预览照片";
 
+box.appendChild(img);
 
-    r.readAsDataURL(f);
+};
 
-  });
+r.readAsDataURL(f);
+
+});
 
 }
 
-
-/* =========================
-   清空表单
-========================= */
 
 function clearForm(){
 
-  editingId = null;
+editingId=null;
 
-  $("formTitle").textContent =
-    "写下今天";
+$("formTitle").textContent=
+"写下今天";
 
-  $("saveBtn").textContent =
-    "☁️ 保存到云端";
+$("saveBtn").textContent=
+"☁️ 保存到云端";
 
-  $("cancelBtn").style.display =
-    "none";
+$("cancelBtn").style.display=
+"none";
 
-  $("title").value =
-    "";
+$("title").value="";
 
-  $("content").value =
-    "";
+$("content").value="";
 
-  $("lesson").value =
-    "";
+$("lesson").value="";
 
-  $("mood").value =
-    "😊 很棒";
+$("mood").value=
+"😊 很棒";
 
-  $("score").value =
-    "5 ⭐";
+$("score").value=
+"5 ⭐";
 
-  $("date").value =
-    today();
+$("date").value=
+today();
 
-  $("type").value =
-    "A等生活";
+$("type").value=
+"A等生活";
 
-  $("photo").value =
-    "";
+$("photo").value="";
 
-  $("photoPreview").innerHTML =
-    "";
+$("photoPreview").innerHTML="";
 
 }
 
-
-/* =========================
-   编辑记录
-========================= */
 
 function editEntry(id){
 
-  const e =
-    entries.find(
-      x =>
-        String(x.id)
-        ===
-        String(id)
-    );
+const e=
+entries.find(
+x=>String(x.id)===String(id)
+);
+
+if(!e)
+return;
 
 
-  if(!e)
-    return;
+editingId=e.id;
+
+$("date").value=
+e.date||today();
+
+$("type").value=
+e.type||"A等生活";
+
+$("title").value=
+e.title||"";
+
+$("content").value=
+e.content||"";
+
+$("mood").value=
+e.mood||"😊 很棒";
+
+$("score").value=
+e.score||"5 ⭐";
+
+$("lesson").value=
+e.lesson||"";
+
+$("photo").value="";
 
 
-  editingId =
-    e.id;
+$("photoPreview").innerHTML=
+(e.photos||[])
+.map(
+x=>
+x.url
+?
+`<img src="${x.url}" alt="已有照片">`
+:
+""
+)
+.join("");
 
 
-  $("date").value =
-    e.date || today();
+$("formTitle").textContent=
+"✏️ 编辑记录";
 
-  $("type").value =
-    e.type || "A等生活";
+$("saveBtn").textContent=
+"💾 更新记录";
 
-  $("title").value =
-    e.title || "";
-
-  $("content").value =
-    e.content || "";
-
-  $("mood").value =
-    e.mood || "😊 很棒";
-
-  $("score").value =
-    e.score || "5 ⭐";
-
-  $("lesson").value =
-    e.lesson || "";
+$("cancelBtn").style.display=
+"inline-block";
 
 
-  $("photo").value =
-    "";
+showTab(
+"new",
+document.querySelectorAll(".tab")[0]
+);
 
 
-  $("photoPreview").innerHTML =
-    (e.photos || [])
-      .map(
-        x =>
-          x.url
-          ? `<img src="${x.url}" alt="已有照片">`
-          : ""
-      )
-      .join("");
-
-
-  $("formTitle").textContent =
-    "✏️ 编辑记录";
-
-  $("saveBtn").textContent =
-    "💾 更新记录";
-
-  $("cancelBtn").style.display =
-    "inline-block";
-
-
-  showTab(
-    "new",
-    document.querySelectorAll(".tab")[0]
-  );
-
-
-  window.scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
 
 }
 
-
-/* =========================
-   取消编辑
-========================= */
 
 function cancelEdit(){
 
-  editingId = null;
+editingId=null;
 
-  $("formTitle").textContent =
-    "写下今天";
+$("formTitle").textContent=
+"写下今天";
 
-  $("saveBtn").textContent =
-    "☁️ 保存到云端";
+$("saveBtn").textContent=
+"☁️ 保存到云端";
 
-  $("cancelBtn").style.display =
-    "none";
+$("cancelBtn").style.display=
+"none";
 
 }
 
-
-/* =========================
-   删除记录
-========================= */
 
 async function removeEntry(id){
 
-  if(
-    !cloudUser ||
-    !confirm(
-      "确定删除这条记录吗？删除后云端记录也会删除。"
-    )
-  )
-    return;
+if(
+!cloudUser||
+!confirm(
+"确定删除这条记录吗？删除后云端记录也会删除。"
+)
+)
+return;
 
 
-  const e =
-    entries.find(
-      x =>
-        String(x.id)
-        ===
-        String(id)
-    );
+const e=
+entries.find(
+x=>String(x.id)===String(id)
+);
 
 
-  try{
+try{
 
-    const paths =
-      (e?.photos || [])
-      .map(x => x.path)
-      .filter(Boolean);
-
-
-    if(paths.length){
-
-      await sb
-        .storage
-        .from(CLOUD_BUCKET)
-        .remove(paths);
-
-    }
+const paths=
+(e?.photos||[])
+.map(x=>x.path)
+.filter(Boolean);
 
 
-    const {error} =
-      await sb
-        .from(CLOUD_TABLE)
-        .delete()
-        .eq("id",id)
-        .eq(
-          "user_id",
-          cloudUser.id
-        );
+if(paths.length)
+
+await sb.storage
+.from(CLOUD_BUCKET)
+.remove(paths);
 
 
-    if(error)
-      throw error;
+const {error}=
+await sb
+.from(CLOUD_TABLE)
+.delete()
+.eq("id",id)
+.eq("user_id",cloudUser.id);
 
 
-    await loadCloudEntries();
+if(error)
+throw error;
 
 
-  }catch(err){
+await loadCloudEntries();
 
-    alert(
-      "删除失败："
-      +
-      err.message
-    );
+}
+catch(err){
 
-  }
+alert(
+"删除失败："+err.message
+);
 
 }
 
+}
 
-/* =========================
-   页面切换
-========================= */
 
 function showTab(id,btn){
 
-  [
-    "new",
-    "list"
-  ].forEach(
-    x =>
-      $(x).style.display =
-        x === id
-        ? "block"
-        : "none"
-  );
+[
+"new",
+"list"
+].forEach(
+x=>
+$(x).style.display=
+x===id
+?
+"block"
+:
+"none"
+);
 
 
-  document
-    .querySelectorAll(".tab")
-    .forEach(
-      x =>
-        x.classList.remove(
-          "active"
-        )
-    );
+document
+.querySelectorAll(".tab")
+.forEach(
+x=>x.classList.remove("active")
+);
 
 
-  if(btn)
-    btn.classList.add("active");
+if(btn)
+btn.classList.add("active");
 
 
-  if(id === "list")
-    render();
+if(id==="list")
+render();
 
 }
 
-
-/* =========================
-   渲染记录
-========================= */
 
 function render(){
 
-  const box =
-    $("entries");
+const box=$("entries");
 
 
-  if(!cloudUser){
+if(!cloudUser){
 
-    box.innerHTML =
-      '<div class="empty">请先登录云端账户，再查看你的记录。</div>';
+box.innerHTML=
+'<div class="empty">请先登录云端账户，再查看你的记录。</div>';
 
-    return;
-
-  }
-
-
-  const q =
-    (
-      $("search")?.value
-      || ""
-    )
-    .toLowerCase();
-
-
-  const f =
-    $("filter")?.value
-    || "全部";
-
-
-  const arr =
-    entries.filter(e => {
-
-      const matchType =
-        f === "全部"
-        ||
-        e.type === f;
-
-
-      const text =
-        [
-          e.title,
-          e.content,
-          e.lesson,
-          e.type,
-          e.mood
-        ]
-        .join(" ")
-        .toLowerCase();
-
-
-      return (
-        matchType &&
-        text.includes(q)
-      );
-
-    });
-
-
-  if(!arr.length){
-
-    box.innerHTML =
-      '<div class="empty">还没有符合条件的记录。写下你的第一篇吧 ✨</div>';
-
-    return;
-
-  }
-
-
-  box.innerHTML =
-    arr.map(e => {
-
-      const photos =
-        (e.photos || [])
-          .filter(x => x.url)
-          .map(
-            x =>
-              `<img
-                src="${x.url}"
-                alt="记录照片"
-                loading="lazy"
-                onclick="window.open(this.src,'_blank')">`
-          )
-          .join("");
-
-
-      return `
-
-      <article class="entry">
-
-        <div class="meta">
-          📅 ${esc(e.date)}
-          · ${esc(e.type)}
-          · ${esc(e.mood)}
-        </div>
-
-        <h3>
-          ${esc(e.title)}
-        </h3>
-
-        <span class="tag">
-          ${esc(e.score)}
-        </span>
-
-        ${
-          e.content
-          ?
-          `<p>
-            ${esc(e.content)
-              .replace(/\n/g,"<br>")}
-          </p>`
-          :
-          ""
-        }
-
-        ${
-          e.lesson
-          ?
-          `<p>
-            <b>💡 收获：</b>
-            ${esc(e.lesson)
-              .replace(/\n/g,"<br>")}
-          </p>`
-          :
-          ""
-        }
-
-        ${
-          photos
-          ?
-          `<div class="photo-grid">
-            ${photos}
-          </div>`
-          :
-          ""
-        }
-
-        <div class="actions">
-
-          <button
-            class="btn soft"
-            onclick="editEntry('${String(e.id).replace(/'/g,"\\'")}')">
-            ✏️ 编辑
-          </button>
-
-          <button
-            class="btn danger"
-            onclick="removeEntry('${String(e.id).replace(/'/g,"\\'")}')">
-            🗑️ 删除
-          </button>
-
-        </div>
-
-      </article>
-
-      `;
-
-    }).join("");
+return;
 
 }
 
 
-/* =========================
-   统计
-========================= */
+const q=
+($("search")?.value||"")
+.toLowerCase();
+
+const f=
+$("filter")?.value||
+"全部";
+
+
+const arr=
+entries.filter(e=>{
+
+const matchType=
+f==="全部"||
+e.type===f;
+
+const text=[
+e.title,
+e.content,
+e.lesson,
+e.type,
+e.mood
+]
+.join(" ")
+.toLowerCase();
+
+return matchType&&text.includes(q);
+
+});
+
+
+if(!arr.length){
+
+box.innerHTML=
+'<div class="empty">还没有符合条件的记录。写下你的第一篇吧 ✨</div>';
+
+return;
+
+}
+
+
+box.innerHTML=
+arr.map(e=>{
+
+const photos=
+(e.photos||[])
+.filter(x=>x.url)
+.map(
+x=>
+`<img
+src="${x.url}"
+alt="记录照片"
+loading="lazy"
+onclick="window.open(this.src,'_blank')">`
+)
+.join("");
+
+
+return `
+<article class="entry">
+
+<div class="meta">
+📅 ${esc(e.date)}
+· ${esc(e.type)}
+· ${esc(e.mood)}
+</div>
+
+<h3>
+${esc(e.title)}
+</h3>
+
+<span class="tag">
+${esc(e.score)}
+</span>
+
+${
+e.content
+?
+`<p>
+${esc(e.content)
+.replace(/\n/g,"<br>")}
+</p>`
+:
+""
+}
+
+${
+e.lesson
+?
+`<p>
+<b>💡 收获：</b>
+${esc(e.lesson)
+.replace(/\n/g,"<br>")}
+</p>`
+:
+""
+}
+
+${
+photos
+?
+`<div class="photo-grid">
+${photos}
+</div>`
+:
+""
+}
+
+<div class="actions">
+
+<button
+class="btn soft"
+onclick="editEntry('${String(e.id).replace(/'/g,"\\'")}')">
+✏️ 编辑
+</button>
+
+<button
+class="btn danger"
+onclick="removeEntry('${String(e.id).replace(/'/g,"\\'")}')">
+🗑️ 删除
+</button>
+
+</div>
+
+</article>
+`;
+
+}).join("");
+
+}
+
 
 function updateStats(){
 
-  $("count").textContent =
-    entries.length;
+$("count").textContent=
+entries.length;
+
+$("studyCount").textContent=
+entries.filter(
+e=>
+String(e.type||"")
+.includes("A等")
+).length;
+
+$("taCount").textContent=
+entries.filter(
+e=>
+String(e.type||"")
+.includes("助教")
+).length;
+
+$("streak").textContent=
+calcStreak();
 
 
-  $("studyCount").textContent =
-    entries.filter(
-      e =>
-        String(e.type || "")
-        .includes("A等")
-    ).length;
+const ym=
+today().slice(0,7);
 
 
-  $("taCount").textContent =
-    entries.filter(
-      e =>
-        String(e.type || "")
-        .includes("助教")
-    ).length;
+const days=
+new Set(
+entries
+.filter(
+e=>
+String(e.date||"")
+.slice(0,7)===ym
+)
+.map(e=>e.date)
+).size;
 
 
-  $("streak").textContent =
-    calcStreak();
+const goal=20;
+
+const p=
+Math.min(
+100,
+days/goal*100
+);
 
 
-  const ym =
-    today().slice(0,7);
+$("goalText").textContent=
+`${days} / ${goal} 天`;
 
-
-  const days =
-    new Set(
-      entries
-        .filter(
-          e =>
-            String(e.date || "")
-            .slice(0,7)
-            === ym
-        )
-        .map(
-          e => e.date
-        )
-    ).size;
-
-
-  const goal = 20;
-
-
-  const p =
-    Math.min(
-      100,
-      days / goal * 100
-    );
-
-
-  $("goalText").textContent =
-    `${days} / ${goal} 天`;
-
-
-  $("goalBar").style.width =
-    p + "%";
+$("goalBar").style.width=
+p+"%";
 
 }
 
-
-/* =========================
-   连续天数
-========================= */
 
 function calcStreak(){
 
-  const ds =
-    new Set(
-      entries
-        .map(e => e.date)
-        .filter(Boolean)
-    );
+const ds=
+new Set(
+entries
+.map(e=>e.date)
+.filter(Boolean)
+);
 
 
-  let d =
-    new Date();
+let d=new Date();
+
+d.setHours(
+0,0,0,0
+);
+
+let n=0;
 
 
-  d.setHours(
-    0,0,0,0
-  );
+while(
+ds.has(
+d.toISOString().slice(0,10)
+)
+){
 
+n++;
 
-  let n = 0;
-
-
-  while(
-    ds.has(
-      d.toISOString()
-       .slice(0,10)
-    )
-  ){
-
-    n++;
-
-    d.setDate(
-      d.getDate() - 1
-    );
-
-  }
-
-
-  return n;
+d.setDate(
+d.getDate()-1
+);
 
 }
 
 
-/* =========================
-   防止 HTML 注入
-========================= */
+return n;
+
+}
+
 
 function esc(s){
 
-  return String(
-    s ?? ""
-  ).replace(
-    /[&<>"']/g,
-    m =>
-      ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#39;"
-      }[m])
-  );
+return String(s??"")
+.replace(
+/[&<>"']/g,
+m=>
+({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#39;"
+}[m])
+);
 
 }
 
 
-/* =========================
-   初始化
-========================= */
-
 sb.auth.onAuthStateChange(
-  () =>
-    setTimeout(
-      refreshCloudSession,
-      0
-    )
+()=>
+setTimeout(
+refreshCloudSession,
+0
+)
 );
 
 
