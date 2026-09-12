@@ -2,540 +2,193 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#1d4ed8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>A等生活 · 助教日记</title>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
-:root{
-  --primary:#4f46e5;
-  --primary2:#7c3aed;
-  --cyan:#0891b2;
-  --text:#172033;
-  --muted:#6b7280;
-  --line:#e5e7eb;
-  --card:#ffffff;
-  --soft:#f7f8ff
-}
-
 *{box-sizing:border-box}
-
-html{scroll-behavior:smooth}
 
 body{
   margin:0;
-  font-family:system-ui,-apple-system,"Segoe UI",
-  "PingFang SC","Microsoft YaHei",sans-serif;
-  color:var(--text);
-  background:#f4f6fb;
-  min-height:100vh
+  font-family:system-ui,-apple-system,"Microsoft YaHei",sans-serif;
+  background:linear-gradient(135deg,#eaf6ff,#fff7fb 55%,#f4fff9);
+  color:#243447;
 }
 
-body:before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
-  background:
-    radial-gradient(circle at 8% 0%,#dfe4ff 0,transparent 28%),
-    radial-gradient(circle at 92% 4%,#fce2f0 0,transparent 25%),
-    linear-gradient(180deg,#f7f8ff 0,#f4f6fb 55%,#eef2f7 100%)
-}
-
-.app{
-  max-width:900px;
+.wrap{
+  max-width:920px;
   margin:auto;
-  padding:18px 16px 70px
+  padding:14px;
+}
+
+.card{
+  background:#fff;
+  border-radius:22px;
+  padding:18px;
+  margin:14px 0;
+  box-shadow:0 10px 30px #00000010;
+  border:1px solid #edf2f7;
 }
 
 .hero{
-  position:relative;
-  overflow:hidden;
-  border-radius:28px;
-  padding:30px 25px 24px;
-  margin-bottom:14px;
+  background:linear-gradient(135deg,#3182ce,#805ad5);
   color:#fff;
-  background:linear-gradient(
-    135deg,
-    #4338ca 0%,
-    #6366f1 48%,
-    #8b5cf6 100%
-  );
-  box-shadow:0 18px 45px #4338ca30
+  padding:24px;
+  border-radius:26px;
+  box-shadow:0 14px 34px #3182ce30;
 }
 
-.hero:before{
-  content:"";
-  position:absolute;
-  width:230px;
-  height:230px;
-  border-radius:50%;
-  right:-80px;
-  top:-110px;
-  background:#ffffff18
+.hero h1{
+  margin:0 0 7px;
+  font-size:29px;
 }
 
-.hero:after{
-  content:"";
-  position:absolute;
-  width:140px;
-  height:140px;
-  border-radius:50%;
-  left:-70px;
-  bottom:-90px;
-  background:#ffffff12
+.hero .sub{
+  color:#eef6ff;
 }
 
 h1{
-  position:relative;
-  z-index:1;
-  margin:0;
-  font-size:30px;
-  letter-spacing:-.6px
+  margin:4px 0;
+  font-size:27px;
 }
 
 .sub{
-  position:relative;
-  z-index:1;
-  margin-top:7px;
-  color:#ffffffd9;
-  font-size:14px
+  color:#718096;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+@media(max-width:650px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+
+input,
+textarea,
+select,
+button{
+  width:100%;
+  padding:12px;
+  border-radius:13px;
+  border:1px solid #d8e1ea;
+  font-size:16px;
+}
+
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+
+button{
+  border:0;
+  background:#3182ce;
+  color:white;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.secondary{
+  background:#edf2f7;
+  color:#243447;
+}
+
+.danger{
+  background:#e53e3e;
+}
+
+.hide{
+  display:none;
+}
+
+.row{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.row>*{
+  flex:1;
+  min-width:120px;
+}
+
+.entry{
+  border-left:5px solid #3182ce;
+  padding:14px 0 14px 14px;
+  margin:15px 0;
+  background:#fbfdff;
+  border-radius:0 16px 16px 0;
+}
+
+.small{
+  font-size:13px;
+  color:#718096;
 }
 
 .quote{
-  position:relative;
-  z-index:1;
-  margin-top:19px;
-  padding:16px 17px;
-  border-radius:17px;
-  background:#ffffff18;
-  border:1px solid #ffffff2e;
   font-size:18px;
-  font-weight:800;
-  line-height:1.6
-}
-
-.quote-btn{
-  position:relative;
-  z-index:1;
-  margin-top:10px;
-  padding:9px 16px;
-  border:0;
-  border-radius:999px;
-  background:#fff;
-  color:#4338ca;
-  font-weight:800;
-  box-shadow:0 6px 18px #00000020;
-  cursor:pointer
-}
-
-.account{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:13px 15px;
-  margin:0 0 14px;
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  box-shadow:0 6px 18px #1f29370b
-}
-
-.account-status{
-  font-size:14px;
-  font-weight:800;
-  min-width:0
-}
-
-.account-status span{
-  color:var(--muted);
-  font-weight:600
+  font-weight:700;
+  text-align:center;
+  padding:16px;
+  background:#f0f7ff;
+  border-radius:16px;
+  margin-top:14px;
 }
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:10px;
-  margin-bottom:12px
 }
 
 .stat{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:15px 8px;
+  background:#f8fafc;
+  border-radius:16px;
+  padding:13px;
   text-align:center;
-  box-shadow:0 6px 18px #1f29370a
 }
 
-.num{
-  font-size:25px;
-  font-weight:900;
-  color:var(--primary)
-}
-
-.stat small{
+.stat b{
   display:block;
-  margin-top:3px;
-  color:#7b8494;
-  font-weight:700;
-  font-size:11px
+  font-size:22px;
 }
 
-.goal{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:15px;
-  margin-bottom:14px;
-  box-shadow:0 6px 18px #1f29370a
-}
-
-.goalline{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  font-size:13px;
-  font-weight:800
-}
-
-.bar{
-  height:9px;
-  margin-top:10px;
-  background:#e9ecf4;
-  border-radius:99px;
-  overflow:hidden
-}
-
-.bar i{
-  display:block;
-  height:100%;
-  width:0;
-  border-radius:99px;
-  background:linear-gradient(
-    90deg,
-    #4f46e5,
-    #7c3aed,
-    #ec4899
-  );
-  transition:width .45s ease
-}
-
-.tabs{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-  margin:0 0 14px
-}
-
-.tab{
-  padding:12px;
-  border:1px solid var(--line);
-  border-radius:15px;
-  background:#fff;
-  color:#667085;
-  font-weight:850;
-  cursor:pointer;
-  box-shadow:0 4px 12px #1f293707
-}
-
-.tab.active{
-  color:#fff;
-  border-color:transparent;
-  background:linear-gradient(
-    135deg,
-    #4f46e5,
-    #7c3aed
-  );
-  box-shadow:0 8px 18px #4f46e530
-}
-
-.card{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:22px;
-  padding:22px;
-  margin:0 0 14px;
-  box-shadow:0 8px 25px #1f29370b
-}
-
-.card h2{
-  margin:0 0 16px;
-  font-size:20px;
-  color:#252d49
-}
-
-.row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:11px
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:11px
-}
-
-label{
-  display:block;
-  margin:12px 0 7px;
-  font-size:13px;
-  font-weight:800;
-  color:#475467
-}
-
-input,textarea,select{
-  width:100%;
-  padding:12px 13px;
-  border:1px solid #dfe3eb;
-  border-radius:13px;
-  background:#fbfcff;
-  color:var(--text);
-  font:inherit;
-  outline:none;
-  transition:.2s
-}
-
-input:focus,
-textarea:focus,
-select:focus{
-  border-color:#7c6ff0;
-  box-shadow:0 0 0 4px #7c6ff018;
-  background:#fff
-}
-
-textarea{
-  min-height:115px;
-  resize:vertical
-}
-
-.actions{
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
-  margin-top:14px
-}
-
-.btn{
-  border:0;
-  border-radius:13px;
-  padding:12px 15px;
-  font-weight:850;
-  cursor:pointer;
-  transition:.18s
-}
-
-.btn:hover{
-  transform:translateY(-1px)
-}
-
-.primary{
-  background:linear-gradient(
-    135deg,
-    #4f46e5,
-    #7c3aed
-  );
-  color:#fff;
-  box-shadow:0 7px 18px #4f46e528
-}
-
-.soft{
-  background:#eeedff;
-  color:#4f46c8
-}
-
-.danger{
-  background:#fff0f2;
-  color:#c0264b
-}
-
-.btn:disabled{
-  opacity:.55;
-  cursor:not-allowed
-}
-
-.filters{
-  display:grid;
-  grid-template-columns:1fr 180px;
-  gap:9px;
-  margin-bottom:13px
-}
-
-.entry{
-  border:1px solid #e5e7ef;
-  border-radius:18px;
-  padding:17px;
-  margin:11px 0;
-  background:#fcfcff;
-  box-shadow:0 5px 16px #1f293707
-}
-
-.entry h3{
-  margin:8px 0;
-  font-size:18px;
-  color:#252d49
-}
-
-.meta{
-  font-size:12px;
-  color:#7b8494
-}
-
-.tag{
-  display:inline-block;
-  margin-top:2px;
-  padding:5px 9px;
-  border-radius:999px;
-  background:#eeedff;
-  color:#4f46c8;
-  font-size:12px;
-  font-weight:800
-}
-
-.entry p{
-  line-height:1.7;
-  color:#475467
-}
-
-.photo-preview,
 .photo-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:8px;
-  margin-top:10px
+  margin-top:10px;
 }
 
-.photo-preview img,
 .photo-grid img{
   width:100%;
-  height:120px;
+  aspect-ratio:1;
+  border-radius:12px;
   object-fit:cover;
+}
+
+.notice{
+  background:#f0fff4;
+  border:1px solid #c6f6d5;
+  padding:11px;
   border-radius:13px;
-  border:1px solid #e5e7eb
+  font-size:14px;
+  margin:10px 0;
 }
 
-.empty,
-.loading{
-  text-align:center;
-  padding:34px 15px;
-  color:#8a94a6
-}
-
-.note{
-  font-size:12px;
-  color:#8a94a6;
-  line-height:1.55;
-  margin-top:8px
-}
-
-.modal{
-  position:fixed;
-  inset:0;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:18px;
-  background:#111827aa;
-  z-index:99
-}
-
-.modal.show{
-  display:flex
-}
-
-.modal-card{
-  width:min(440px,100%);
-  background:#fff;
-  border-radius:24px;
-  padding:23px;
-  box-shadow:0 25px 80px #0006
-}
-
-.modal-card input{
-  margin:7px 0 12px
-}
-
-.modal-actions{
-  display:flex;
-  gap:9px
-}
-
-.modal-actions button{
-  flex:1
-}
-
-.auth-note{
-  font-size:12px;
-  color:#777;
-  line-height:1.5
-}
-
-.switch{
-  border:0;
-  background:none;
-  color:#4f46c8;
-  font-weight:850;
-  cursor:pointer
-}
-
-@media(max-width:650px){
-
-  .app{
-    padding:10px 11px 55px
-  }
-
-  .hero{
-    padding:25px 18px 21px;
-    border-radius:23px
-  }
-
-  h1{
-    font-size:25px
-  }
-
+@media(max-width:600px){
   .stats{
-    grid-template-columns:1fr 1fr
+    grid-template-columns:repeat(2,1fr);
   }
 
-  .grid,
-  .row,
-  .filters{
-    grid-template-columns:1fr
-  }
-
-  .tabs{
-    position:sticky;
-    top:0;
-    z-index:20;
-    padding:7px 0;
-    background:#f4f6fbeF
-  }
-
-  .card{
-    padding:17px;
-    border-radius:19px
-  }
-
-  .photo-preview,
-  .photo-grid{
-    grid-template-columns:repeat(2,1fr)
-  }
-
-  .photo-preview img,
-  .photo-grid img{
-    height:125px
-  }
-
-  .account{
-    align-items:stretch;
-    flex-direction:column
-  }
-
-  .account button{
-    width:100%
+  .hero h1{
+    font-size:25px;
   }
 }
 </style>
@@ -543,354 +196,285 @@ textarea{
 
 <body>
 
-<div class="app">
+<div class="wrap">
 
-<section class="hero">
+  <div class="hero">
+    <h1>🌟 A等生活 · 助教日记</h1>
+    <div class="sub">
+      记录每一天的努力、成长与助教时光
+    </div>
+  </div>
 
-<h1>🌟 A等生活 · 助教日记</h1>
+  <!-- 登录 -->
+  <div id="auth" class="card">
 
-<div class="sub">
-记录每一天的努力、成长与助教时光
-</div>
+    <h2>🔐 登录 / 注册</h2>
 
-<div class="quote" id="quote"></div>
+    <p class="small">
+      使用你自己的“账号 + 密码”，不需要邮箱。
+    </p>
 
-<button class="quote-btn" onclick="randomQuote()">
-🔄 再来一句
-</button>
+    <div class="grid">
 
-</section>
+      <input
+        id="username"
+        placeholder="账号，例如 chen2026"
+      >
 
+      <input
+        id="password"
+        type="password"
+        placeholder="密码"
+      >
 
-<div class="account">
+    </div>
 
-<div class="account-status" id="accountStatus">
-☁️ 未登录
-</div>
+    <div class="row" style="margin-top:12px">
 
-<button
-class="btn soft"
-id="accountBtn"
-onclick="openAuth()">
-登录 / 注册
-</button>
+      <button onclick="register()">
+        注册账号
+      </button>
 
-</div>
+      <button onclick="login()">
+        登录
+      </button>
 
+    </div>
 
-<div class="stats">
+    <p id="authMsg" class="small"></p>
 
-<div class="stat">
-<div class="num" id="count">0</div>
-<small>总记录</small>
-</div>
+  </div>
 
-<div class="stat">
-<div class="num" id="studyCount">0</div>
-<small>A等生活</small>
-</div>
 
-<div class="stat">
-<div class="num" id="taCount">0</div>
-<small>助教记录</small>
-</div>
+  <!-- 主程序 -->
+  <div id="app" class="hide">
 
-<div class="stat">
-<div class="num" id="streak">0</div>
-<small>连续天数</small>
-</div>
+    <!-- 用户 -->
+    <div class="card">
 
-</div>
+      <div class="row">
 
+        <div>
+          <b id="who"></b>
 
-<div class="goal">
+          <div class="small">
+            登录成功，资料会保存到云端 ☁️
+          </div>
+        </div>
 
-<div class="goalline">
-<span>🎯 本月目标</span>
-<span id="goalText">0 / 20 天</span>
-</div>
+        <button
+          class="secondary"
+          onclick="logout()"
+        >
+          退出登录
+        </button>
 
-<div class="bar">
-<i id="goalBar"></i>
-</div>
+      </div>
 
-</div>
+    </div>
 
 
-<div class="tabs">
+    <!-- 励志语录 -->
+    <div class="quote" id="quote"></div>
 
-<button
-class="tab active"
-onclick="showTab('new',this)">
-✍️ 写记录
-</button>
 
-<button
-class="tab"
-onclick="showTab('list',this)">
-📖 我的记录
-</button>
+    <!-- 写日记 -->
+    <div class="card">
 
-</div>
+      <h2>✍️ 写下今天</h2>
 
+      <div class="grid">
 
-<section id="new" class="card">
+        <input
+          id="date"
+          type="date"
+        >
 
-<h2 id="formTitle">写下今天</h2>
+        <select id="type">
 
-<div class="row">
+          <option>A等生活</option>
 
-<div>
-<label>日期</label>
-<input id="date" type="date">
-</div>
+          <option>助教生活</option>
 
-<div>
-<label>类型</label>
+          <option>A等生活 + 助教</option>
 
-<select id="type">
-<option>A等生活</option>
-<option>助教生活</option>
-<option>A等生活 + 助教</option>
-</select>
+        </select>
 
-</div>
+        <input
+          id="title"
+          placeholder="标题"
+        >
 
-</div>
+        <select id="mood">
 
+          <option>😊 很棒</option>
 
-<label>标题</label>
+          <option>🙂 不错</option>
 
-<input
-id="title"
-placeholder="例如：今天又进步了一点">
+          <option>😐 普通</option>
 
+          <option>😔 有点累</option>
 
-<label>今天做了什么？</label>
+          <option>💪 坚持</option>
 
-<textarea
-id="content"
-placeholder="学习、目标、助教工作、和学生的互动……">
-</textarea>
+        </select>
 
+        <select id="score">
 
-<div class="row">
+          <option>5 ⭐</option>
 
-<div>
+          <option>4 ⭐</option>
 
-<label>今日心情</label>
+          <option>3 ⭐</option>
 
-<select id="mood">
-<option>😊 很棒</option>
-<option>🙂 不错</option>
-<option>😐 普通</option>
-<option>😮‍💨 有点累</option>
-<option>💪 继续坚持</option>
-</select>
+          <option>2 ⭐</option>
 
-</div>
+          <option>1 ⭐</option>
 
+        </select>
 
-<div>
+      </div>
 
-<label>今日评分</label>
+      <textarea
+        id="content"
+        placeholder="今天发生了什么？"
+      ></textarea>
 
-<select id="score">
-<option>5 ⭐</option>
-<option>4 ⭐</option>
-<option>3 ⭐</option>
-<option>2 ⭐</option>
-<option>1 ⭐</option>
-</select>
+      <textarea
+        id="lesson"
+        placeholder="今天学到的人生道理 / 学习心得"
+      ></textarea>
 
-</div>
+      <label class="small">
+        📷 添加照片（照片上传到云端）
+      </label>
 
-</div>
+      <input
+        id="photos"
+        type="file"
+        accept="image/*"
+        multiple
+      >
 
+      <div
+        id="photoPreview"
+        class="photo-grid"
+      ></div>
 
-<label>
-今天的收获 / 给自己的话
-</label>
+      <div class="row">
 
-<textarea
-id="lesson"
-placeholder="今天学到了什么？想对未来的自己说什么？">
-</textarea>
+        <button onclick="saveEntry()">
+          保存记录 ☁️
+        </button>
 
+        <button
+          class="secondary"
+          onclick="clearForm()"
+        >
+          清空
+        </button>
 
-<label>📸 今天的照片</label>
+      </div>
 
-<input
-id="photo"
-type="file"
-accept="image/*"
-multiple
-onchange="previewPhotos(event)">
+      <p id="saveMsg" class="small"></p>
 
+    </div>
 
-<div
-class="photo-preview"
-id="photoPreview">
-</div>
 
-<div class="note">
-照片会直接上传到云端相册，不保存为本机日记数据。
-</div>
+    <!-- 统计 -->
+    <div class="card">
 
+      <h2>📊 我的 A等生活</h2>
 
-<div class="actions">
+      <div class="stats">
 
-<button
-class="btn primary"
-id="saveBtn"
-onclick="saveEntry()">
-☁️ 保存到云端
-</button>
+        <div class="stat">
+          <b id="count">0</b>
+          <span class="small">全部记录</span>
+        </div>
 
-<button
-class="btn soft"
-onclick="clearForm()">
-清空
-</button>
+        <div class="stat">
+          <b id="studyCount">0</b>
+          <span class="small">A等生活</span>
+        </div>
 
-<button
-class="btn danger"
-id="cancelBtn"
-onclick="cancelEdit()"
-style="display:none">
-取消编辑
-</button>
+        <div class="stat">
+          <b id="taCount">0</b>
+          <span class="small">助教生活</span>
+        </div>
 
-</div>
+        <div class="stat">
+          <b id="streak">0</b>
+          <span class="small">连续天数</span>
+        </div>
 
-</section>
+      </div>
 
+    </div>
 
-<section
-id="list"
-class="card"
-style="display:none">
 
-<h2>📖 我的记录</h2>
+    <!-- 日记 -->
+    <div class="card">
 
-<div class="filters">
+      <h2>📖 我的记录</h2>
 
-<input
-id="search"
-placeholder="搜索标题、内容、收获……"
-oninput="render()">
+      <div class="grid">
 
-<select
-id="filter"
-onchange="render()">
+        <input
+          id="search"
+          placeholder="搜索标题或内容"
+          oninput="render()"
+        >
 
-<option value="全部">全部类型</option>
-<option>A等生活</option>
-<option>助教生活</option>
-<option>A等生活 + 助教</option>
+        <select
+          id="filter"
+          onchange="render()"
+        >
 
-</select>
+          <option value="">全部</option>
 
-</div>
+          <option>A等生活</option>
 
-<div id="entries">
-<div class="empty">
-请先登录云端账户。
-</div>
-</div>
+          <option>助教生活</option>
 
-</section>
+          <option>A等生活 + 助教</option>
 
-</div>
+        </select>
 
+      </div>
 
-<div class="modal" id="authModal">
+      <div id="list"></div>
 
-<div class="modal-card">
+    </div>
 
-<h2 id="authTitle">
-👤 登录账户
-</h2>
-
-<p
-class="auth-note"
-id="authMsg">
-登录后，日记和照片会保存到你的云端账户，换设备登录也能继续查看。
-</p>
-
-<input
-id="authUser"
-type="email"
-placeholder="邮箱">
-
-<input
-id="authPass"
-type="password"
-placeholder="密码">
-
-<div class="modal-actions">
-
-<button
-class="btn soft"
-onclick="closeAuth()">
-取消
-</button>
-
-<button
-class="btn primary"
-onclick="submitAuth()"
-id="authSubmit">
-登录
-</button>
-
-</div>
-
-<p style="text-align:center;margin:14px 0 0">
-
-<button
-class="switch"
-onclick="toggleAuthMode()"
-id="authSwitch">
-没有账户？点击注册
-</button>
-
-</p>
-
-</div>
+  </div>
 
 </div>
 
 
 <script>
 
-const SUPABASE_URL=
+const SUPABASE_URL =
 "https://covnjgtdwpsothkcasls.supabase.co";
 
-const SUPABASE_KEY=
+const SUPABASE_KEY =
 "sb_publishable_MsamuvgocYfdrm_BbpXiAw_Bw6F48Z1";
 
-const sb=
+const sb =
 supabase.createClient(
-SUPABASE_URL,
-SUPABASE_KEY
+  SUPABASE_URL,
+  SUPABASE_KEY
 );
 
+const CLOUD_BUCKET =
+"diary-photos";
 
-const CLOUD_TABLE="diary_entries";
-
-const CLOUD_BUCKET="diary-photos";
-
-
-let cloudUser=null;
-
-let entries=[];
-
-let editingId=null;
-
-let authMode="login";
+let currentUser = null;
+let editingId = null;
+let entries = [];
 
 
-const quotes=[
+const quotes = [
 
 "今天的努力，会成为明天的底气。",
 
@@ -945,1166 +529,826 @@ const quotes=[
 ];
 
 
-const $=id=>
-document.getElementById(id);
+document.getElementById("quote").textContent =
+"💡 " +
+quotes[new Date().getDate() % quotes.length];
 
 
-function randomIndex(max){
+document.getElementById("date").value =
+new Date().toISOString().slice(0,10);
 
-if(window.crypto &&
-crypto.getRandomValues){
 
-const a=new Uint32Array(1);
+function msg(id,text){
 
-crypto.getRandomValues(a);
-
-return a[0]%max;
-
-}
-
-return Math.floor(
-Math.random()*max
-);
+  document.getElementById(id).textContent =
+  text;
 
 }
 
 
-function randomQuote(){
+/* 密码 SHA-256 */
+async function hash(s){
 
-$("quote").textContent=
-quotes[
-randomIndex(quotes.length)
-];
+  const b =
+  await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(s)
+  );
 
-}
-
-
-function today(){
-
-const d=new Date();
-
-d.setMinutes(
-d.getMinutes()-
-d.getTimezoneOffset()
-);
-
-return d.toISOString().slice(0,10);
+  return [
+    ...new Uint8Array(b)
+  ]
+  .map(x =>
+    x.toString(16).padStart(2,"0")
+  )
+  .join("");
 
 }
 
 
-$("date").value=today();
+/* 注册 */
+async function register(){
 
-randomQuote();
+  const u =
+  username.value.trim();
+
+  const p =
+  password.value;
+
+  if(
+    u.length < 3 ||
+    p.length < 6
+  ){
+
+    return msg(
+      "authMsg",
+      "账号至少3个字符，密码至少6个字符。"
+    );
+
+  }
+
+  const h =
+  await hash(p);
+
+  const {
+    data,
+    error
+  } =
+  await sb
+  .from("app_accounts")
+  .insert({
+    username:u,
+    password_hash:h
+  })
+  .select("id,username")
+  .single();
 
 
-function openAuth(){
+  if(error){
 
-$("authModal")
-.classList.add("show");
+    return msg(
+      "authMsg",
+      error.code === "23505"
+      ? "这个账号已经存在，请直接登录。"
+      : "注册失败："+error.message
+    );
 
-$("authUser").value=
-cloudUser?.email||"";
+  }
 
-$("authPass").value="";
+  await start(data);
 
-$("authMsg").textContent=
-"登录后，日记和照片会保存到你的云端账户，换设备登录也能继续查看。";
-
-}
-
-
-function closeAuth(){
-
-$("authModal")
-.classList.remove("show");
-
-}
-
-
-function toggleAuthMode(){
-
-authMode=
-authMode==="login"
-?"register"
-:"login";
-
-$("authTitle").textContent=
-authMode==="login"
-?"👤 登录账户"
-:"🆕 注册账户";
-
-$("authSubmit").textContent=
-authMode==="login"
-?"登录"
-:"注册";
-
-$("authSwitch").textContent=
-authMode==="login"
-?"没有账户？点击注册"
-:"已有账户？点击登录";
-
-$("authMsg").textContent=
-authMode==="login"
-?
-"登录后，日记和照片会保存到你的云端账户，换设备登录也能继续查看。"
-:
-"注册一个云端账户，你的日记和照片将与账户绑定。";
+  msg("authMsg","");
 
 }
 
 
-async function submitAuth(){
+/* 登录 */
+async function login(){
 
-const email=
-$("authUser").value.trim();
+  const u =
+  username.value.trim();
 
-const password=
-$("authPass").value;
+  const p =
+  password.value;
 
-if(!email||!password){
+  if(!u || !p){
 
-$("authMsg").textContent=
-"请输入邮箱和密码。";
+    return msg(
+      "authMsg",
+      "请输入账号和密码。"
+    );
 
-return;
+  }
 
-}
+  const h =
+  await hash(p);
 
-if(password.length<6){
-
-$("authMsg").textContent=
-"密码至少需要 6 位。";
-
-return;
-
-}
-
-
-$("authSubmit").disabled=true;
-
-
-try{
-
-let result;
-
-if(authMode==="register")
-
-result=
-await sb.auth.signUp({
-email,
-password
-});
-
-else
-
-result=
-await sb.auth.signInWithPassword({
-email,
-password
-});
+  const {
+    data,
+    error
+  } =
+  await sb
+  .from("app_accounts")
+  .select("id,username")
+  .eq("username",u)
+  .eq("password_hash",h)
+  .maybeSingle();
 
 
-if(result.error)
-throw result.error;
+  if(error || !data){
 
+    return msg(
+      "authMsg",
+      "账号或密码不正确。"
+    );
 
-if(
-authMode==="register" &&
-!result.data.session
-){
+  }
 
-$("authMsg").textContent=
-"注册成功！如果系统要求邮箱验证，请先完成邮箱验证，再回来登录。";
-
-return;
+  await start(data);
 
 }
 
 
-await refreshCloudSession();
+/* 登录成功 */
+async function start(user){
 
-closeAuth();
+  currentUser =
+  user;
 
-alert(
-authMode==="login"
-?"登录成功！"
-:"注册成功！"
-);
+  localStorage.setItem(
+    "a等生活当前账号_v3",
+    JSON.stringify(user)
+  );
 
-}
-catch(e){
+  auth.classList.add("hide");
 
-$("authMsg").textContent=
-e.message||
-"操作失败，请重试。";
+  app.classList.remove("hide");
 
-}
-finally{
+  who.textContent =
+  "👤 " + user.username;
 
-$("authSubmit").disabled=false;
-
-}
+  await load();
 
 }
 
 
+/* 退出 */
 async function logout(){
 
-await sb.auth.signOut();
+  currentUser = null;
 
-cloudUser=null;
+  entries = [];
 
-entries=[];
+  localStorage.removeItem(
+    "a等生活当前账号_v3"
+  );
 
-editingId=null;
+  app.classList.add("hide");
 
-updateAccountUI();
+  auth.classList.remove("hide");
 
-render();
-
-updateStats();
-
-clearForm();
+  render();
 
 }
 
 
-function updateAccountUI(){
+/* 读取云端记录 */
+async function load(){
 
-if(cloudUser){
-
-$("accountStatus").innerHTML=
-"☁️ 已登录：<span>"+
-esc(cloudUser.email)+
-"</span>";
-
-$("accountBtn").textContent=
-"退出账户";
-
-$("accountBtn").onclick=
-logout;
-
-}
-
-else{
-
-$("accountStatus").textContent=
-"☁️ 未登录";
-
-$("accountBtn").textContent=
-"登录 / 注册";
-
-$("accountBtn").onclick=
-openAuth;
-
-}
-
-}
+  const {
+    data,
+    error
+  } =
+  await sb
+  .from("diary_entries")
+  .select("*")
+  .eq("account_id",currentUser.id)
+  .order("date",{ascending:false})
+  .order("created_at",{ascending:false});
 
 
-async function refreshCloudSession(){
+  if(error){
 
-const {data}=
-await sb.auth.getSession();
+    saveMsg.textContent =
+    "读取失败："+error.message;
 
-cloudUser=
-data.session?.user||null;
+    return;
 
-updateAccountUI();
+  }
 
-if(cloudUser)
+  entries =
+  data || [];
 
-await loadCloudEntries();
+  updateStats();
 
-else{
-
-entries=[];
-
-render();
-
-updateStats();
-
-}
+  render();
 
 }
 
 
-async function uploadPhoto(file,userId){
-
-const ext=
-(
-file.name?.split(".").pop()||
-"jpg"
-)
-.replace(
-/[^a-z0-9]/gi,
-""
-)
-.toLowerCase()||
-"jpg";
-
-const path=
-userId+
-"/"+
-crypto.randomUUID()+
-"."+
-ext;
-
-const {error}=
-await sb.storage
-.from(CLOUD_BUCKET)
-.upload(
-path,
-file,
-{
-contentType:
-file.type||
-"image/jpeg",
-upsert:false
-}
-);
-
-if(error)
-throw error;
-
-return path;
-
-}
-
-
-async function signedPhoto(path){
-
-const {data,error}=
-await sb.storage
-.from(CLOUD_BUCKET)
-.createSignedUrl(
-path,
-3600
-);
-
-if(error)
-throw error;
-
-return data.signedUrl;
-
-}
-
-
-async function loadCloudEntries(){
-
-if(!cloudUser)
-return;
-
-
-$("entries").innerHTML=
-'<div class="loading">☁️ 正在读取你的云端记录…</div>';
-
-
-const {data,error}=
-await sb.from(CLOUD_TABLE)
-.select("*")
-.eq("user_id",cloudUser.id)
-.order(
-"date",
-{ascending:false}
-)
-.order(
-"created_at",
-{ascending:false}
-);
-
-
-if(error){
-
-$("entries").innerHTML=
-'<div class="empty">读取云端记录失败：'+
-esc(error.message)+
-'</div>';
-
-return;
-
-}
-
-
-entries=[];
-
-
-for(
-const x of (data||[])
-){
-
-const photos=[];
-
-
-for(
-const path of (x.photos||[])
-){
-
-try{
-
-photos.push({
-path,
-url:
-await signedPhoto(path)
-});
-
-}
-catch(e){}
-
-}
-
-
-entries.push({
-
-id:x.id,
-
-date:x.date,
-
-type:x.type,
-
-title:x.title,
-
-content:x.content,
-
-mood:x.mood,
-
-score:x.score,
-
-lesson:x.lesson,
-
-photos
-
-});
-
-}
-
-
-render();
-
-updateStats();
-
-}
-
-
+/* 保存记录 */
 async function saveEntry(){
 
-if(!cloudUser){
+  if(!currentUser)
+    return;
 
-openAuth();
 
-return;
+  msg(
+    "saveMsg",
+    "正在保存……"
+  );
+
+
+  const files =
+  [
+    ...(document
+      .getElementById("photos")
+      .files || [])
+  ];
+
+
+  let photoUrls = [];
+
+
+  /* 上传照片 */
+  for(const file of files){
+
+    const safe =
+    file.name.replace(
+      /[^\w.\-一-龥]/g,
+      "_"
+    );
+
+
+    const path =
+    currentUser.id +
+    "/" +
+    Date.now() +
+    "_" +
+    Math.random()
+      .toString(36)
+      .slice(2) +
+    "_" +
+    safe;
+
+
+    const up =
+    await sb
+    .storage
+    .from(CLOUD_BUCKET)
+    .upload(
+      path,
+      file,
+      {
+        upsert:false
+      }
+    );
+
+
+    if(up.error){
+
+      return msg(
+        "saveMsg",
+        "照片上传失败："+up.error.message
+      );
+
+    }
+
+
+    const signed =
+    await sb
+    .storage
+    .from(CLOUD_BUCKET)
+    .createSignedUrl(
+      path,
+      60*60*24*365
+    );
+
+
+    if(signed.error){
+
+      return msg(
+        "saveMsg",
+        "照片链接生成失败："+signed.error.message
+      );
+
+    }
+
+
+    photoUrls.push(
+      signed.data.signedUrl
+    );
+
+  }
+
+
+  const payload = {
+
+    account_id:
+    currentUser.id,
+
+    date:
+    date.value,
+
+    type:
+    type.value,
+
+    title:
+    title.value.trim() ||
+    "今天的记录",
+
+    content:
+    content.value,
+
+    mood:
+    mood.value,
+
+    score:
+    score.value,
+
+    lesson:
+    lesson.value,
+
+    photos:
+    photoUrls
+
+  };
+
+
+  let r;
+
+
+  /* 编辑 */
+  if(editingId){
+
+    const old =
+    entries.find(
+      x => x.id === editingId
+    );
+
+
+    payload.photos = [
+      ...(old?.photos || []),
+      ...photoUrls
+    ];
+
+
+    r =
+    await sb
+    .from("diary_entries")
+    .update(payload)
+    .eq("id",editingId)
+    .eq(
+      "account_id",
+      currentUser.id
+    );
+
+  }
+
+
+  /* 新增 */
+  else{
+
+    r =
+    await sb
+    .from("diary_entries")
+    .insert(payload);
+
+  }
+
+
+  if(r.error){
+
+    return msg(
+      "saveMsg",
+      "保存失败："+r.error.message
+    );
+
+  }
+
+
+  const was =
+  !!editingId;
+
+
+  editingId = null;
+
+  clearForm();
+
+  await load();
+
+
+  msg(
+    "saveMsg",
+    was
+    ? "记录已更新 ☁️"
+    : "记录已保存到云端 ☁️"
+  );
 
 }
 
 
-const files=[
-...($("photo").files||[])
-];
-
-const old=
-editingId
-?
-entries.find(
-x=>String(x.id)===String(editingId)
-)
-:
-null;
-
-
-const e={
-
-date:$("date").value,
-
-type:$("type").value,
-
-title:
-$("title").value.trim()||
-"今天的记录",
-
-content:
-$("content").value.trim(),
-
-mood:
-$("mood").value,
-
-score:
-$("score").value,
-
-lesson:
-$("lesson").value.trim()
-
-};
-
-
-if(
-!e.content &&
-!e.lesson &&
-!files.length &&
-(old?.photos||[]).length===0
-){
-
-alert(
-"请至少写一点今天的记录或添加照片。"
-);
-
-return;
-
-}
-
-
-const btn=$("saveBtn");
-
-btn.disabled=true;
-
-btn.textContent=
-"☁️ 正在保存…";
-
-
-const wasEditing=
-!!editingId;
-
-
-try{
-
-const photoPaths=
-(old?.photos||[])
-.map(x=>x.path)
-.filter(Boolean);
-
-
-for(
-const f of files
-)
-
-photoPaths.push(
-await uploadPhoto(
-f,
-cloudUser.id
-)
-);
-
-
-const payload={
-...e,
-user_id:cloudUser.id,
-photos:photoPaths
-};
-
-
-let error;
-
-
-if(editingId){
-
-({
-error
-}=
-await sb
-.from(CLOUD_TABLE)
-.update(payload)
-.eq("id",editingId)
-.eq("user_id",cloudUser.id)
-);
-
-}
-
-else{
-
-({
-error
-}=
-await sb
-.from(CLOUD_TABLE)
-.insert(payload)
-);
-
-}
-
-
-if(error)
-throw error;
-
-
-await loadCloudEntries();
-
-cancelEdit();
-
-clearForm();
-
-alert(
-wasEditing
-?
-"已更新并同步到云端！"
-:
-"已保存并同步到云端！"
-);
-
-
-showTab(
-"list",
-document.querySelectorAll(".tab")[1]
-);
-
-}
-catch(e){
-
-alert(
-"保存失败："+
-(e.message||e)
-);
-
-}
-finally{
-
-btn.disabled=false;
-
-btn.textContent=
-wasEditing
-?
-"💾 更新记录"
-:
-"☁️ 保存到云端";
-
-}
-
-}
-
-
-function previewPhotos(ev){
-
-const files=
-ev.target.files||[];
-
-const box=
-$("photoPreview");
-
-box.innerHTML="";
-
-
-[
-...files
-].forEach(f=>{
-
-const r=
-new FileReader();
-
-r.onload=()=>{
-
-const img=
-document.createElement("img");
-
-img.src=r.result;
-
-img.alt="预览照片";
-
-box.appendChild(img);
-
-};
-
-r.readAsDataURL(f);
-
-});
-
-}
-
-
+/* 清空 */
 function clearForm(){
 
-editingId=null;
+  editingId = null;
 
-$("formTitle").textContent=
-"写下今天";
+  date.value =
+  new Date()
+  .toISOString()
+  .slice(0,10);
 
-$("saveBtn").textContent=
-"☁️ 保存到云端";
+  title.value = "";
 
-$("cancelBtn").style.display=
-"none";
+  content.value = "";
 
-$("title").value="";
+  lesson.value = "";
 
-$("content").value="";
+  mood.value =
+  "😊 很棒";
 
-$("lesson").value="";
+  score.value =
+  "5 ⭐";
 
-$("mood").value=
-"😊 很棒";
+  document
+  .getElementById("photos")
+  .value = "";
 
-$("score").value=
-"5 ⭐";
-
-$("date").value=
-today();
-
-$("type").value=
-"A等生活";
-
-$("photo").value="";
-
-$("photoPreview").innerHTML="";
+  document
+  .getElementById("photoPreview")
+  .innerHTML = "";
 
 }
 
 
+/* 编辑 */
 function editEntry(id){
 
-const e=
-entries.find(
-x=>String(x.id)===String(id)
-);
+  const e =
+  entries.find(
+    x => x.id === id
+  );
 
-if(!e)
-return;
-
-
-editingId=e.id;
-
-$("date").value=
-e.date||today();
-
-$("type").value=
-e.type||"A等生活";
-
-$("title").value=
-e.title||"";
-
-$("content").value=
-e.content||"";
-
-$("mood").value=
-e.mood||"😊 很棒";
-
-$("score").value=
-e.score||"5 ⭐";
-
-$("lesson").value=
-e.lesson||"";
-
-$("photo").value="";
+  if(!e)
+    return;
 
 
-$("photoPreview").innerHTML=
-(e.photos||[])
-.map(
-x=>
-x.url
-?
-`<img src="${x.url}" alt="已有照片">`
-:
-""
-)
-.join("");
+  editingId =
+  id;
+
+  date.value =
+  e.date;
+
+  type.value =
+  e.type;
+
+  title.value =
+  e.title;
+
+  content.value =
+  e.content || "";
+
+  lesson.value =
+  e.lesson || "";
+
+  mood.value =
+  e.mood || "😊 很棒";
+
+  score.value =
+  e.score || "5 ⭐";
 
 
-$("formTitle").textContent=
-"✏️ 编辑记录";
-
-$("saveBtn").textContent=
-"💾 更新记录";
-
-$("cancelBtn").style.display=
-"inline-block";
-
-
-showTab(
-"new",
-document.querySelectorAll(".tab")[0]
-);
-
-
-window.scrollTo({
-top:0,
-behavior:"smooth"
-});
+  scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
 
 }
 
 
-function cancelEdit(){
+/* 删除 */
+async function delEntry(id){
 
-editingId=null;
-
-$("formTitle").textContent=
-"写下今天";
-
-$("saveBtn").textContent=
-"☁️ 保存到云端";
-
-$("cancelBtn").style.display=
-"none";
-
-}
+  if(
+    !confirm(
+      "确定删除这条记录吗？"
+    )
+  )
+    return;
 
 
-async function removeEntry(id){
-
-if(
-!cloudUser||
-!confirm(
-"确定删除这条记录吗？删除后云端记录也会删除。"
-)
-)
-return;
-
-
-const e=
-entries.find(
-x=>String(x.id)===String(id)
-);
+  const {
+    error
+  } =
+  await sb
+  .from("diary_entries")
+  .delete()
+  .eq("id",id)
+  .eq(
+    "account_id",
+    currentUser.id
+  );
 
 
-try{
+  if(error){
 
-const paths=
-(e?.photos||[])
-.map(x=>x.path)
-.filter(Boolean);
+    return alert(
+      "删除失败："+error.message
+    );
 
-
-if(paths.length)
-
-await sb.storage
-.from(CLOUD_BUCKET)
-.remove(paths);
+  }
 
 
-const {error}=
-await sb
-.from(CLOUD_TABLE)
-.delete()
-.eq("id",id)
-.eq("user_id",cloudUser.id);
-
-
-if(error)
-throw error;
-
-
-await loadCloudEntries();
-
-}
-catch(err){
-
-alert(
-"删除失败："+err.message
-);
-
-}
+  await load();
 
 }
 
 
-function showTab(id,btn){
+/* 日期 */
+function uniqueDates(){
 
-[
-"new",
-"list"
-].forEach(
-x=>
-$(x).style.display=
-x===id
-?
-"block"
-:
-"none"
-);
-
-
-document
-.querySelectorAll(".tab")
-.forEach(
-x=>x.classList.remove("active")
-);
-
-
-if(btn)
-btn.classList.add("active");
-
-
-if(id==="list")
-render();
+  return [
+    ...new Set(
+      entries
+      .map(e => e.date)
+      .filter(Boolean)
+    )
+  ].sort();
 
 }
 
 
-function render(){
-
-const box=$("entries");
-
-
-if(!cloudUser){
-
-box.innerHTML=
-'<div class="empty">请先登录云端账户，再查看你的记录。</div>';
-
-return;
-
-}
-
-
-const q=
-($("search")?.value||"")
-.toLowerCase();
-
-const f=
-$("filter")?.value||
-"全部";
-
-
-const arr=
-entries.filter(e=>{
-
-const matchType=
-f==="全部"||
-e.type===f;
-
-const text=[
-e.title,
-e.content,
-e.lesson,
-e.type,
-e.mood
-]
-.join(" ")
-.toLowerCase();
-
-return matchType&&text.includes(q);
-
-});
-
-
-if(!arr.length){
-
-box.innerHTML=
-'<div class="empty">还没有符合条件的记录。写下你的第一篇吧 ✨</div>';
-
-return;
-
-}
-
-
-box.innerHTML=
-arr.map(e=>{
-
-const photos=
-(e.photos||[])
-.filter(x=>x.url)
-.map(
-x=>
-`<img
-src="${x.url}"
-alt="记录照片"
-loading="lazy"
-onclick="window.open(this.src,'_blank')">`
-)
-.join("");
-
-
-return `
-<article class="entry">
-
-<div class="meta">
-📅 ${esc(e.date)}
-· ${esc(e.type)}
-· ${esc(e.mood)}
-</div>
-
-<h3>
-${esc(e.title)}
-</h3>
-
-<span class="tag">
-${esc(e.score)}
-</span>
-
-${
-e.content
-?
-`<p>
-${esc(e.content)
-.replace(/\n/g,"<br>")}
-</p>`
-:
-""
-}
-
-${
-e.lesson
-?
-`<p>
-<b>💡 收获：</b>
-${esc(e.lesson)
-.replace(/\n/g,"<br>")}
-</p>`
-:
-""
-}
-
-${
-photos
-?
-`<div class="photo-grid">
-${photos}
-</div>`
-:
-""
-}
-
-<div class="actions">
-
-<button
-class="btn soft"
-onclick="editEntry('${String(e.id).replace(/'/g,"\\'")}')">
-✏️ 编辑
-</button>
-
-<button
-class="btn danger"
-onclick="removeEntry('${String(e.id).replace(/'/g,"\\'")}')">
-🗑️ 删除
-</button>
-
-</div>
-
-</article>
-`;
-
-}).join("");
-
-}
-
-
-function updateStats(){
-
-$("count").textContent=
-entries.length;
-
-$("studyCount").textContent=
-entries.filter(
-e=>
-String(e.type||"")
-.includes("A等")
-).length;
-
-$("taCount").textContent=
-entries.filter(
-e=>
-String(e.type||"")
-.includes("助教")
-).length;
-
-$("streak").textContent=
-calcStreak();
-
-
-const ym=
-today().slice(0,7);
-
-
-const days=
-new Set(
-entries
-.filter(
-e=>
-String(e.date||"")
-.slice(0,7)===ym
-)
-.map(e=>e.date)
-).size;
-
-
-const goal=20;
-
-const p=
-Math.min(
-100,
-days/goal*100
-);
-
-
-$("goalText").textContent=
-`${days} / ${goal} 天`;
-
-$("goalBar").style.width=
-p+"%";
-
-}
-
-
+/* 连续天数 */
 function calcStreak(){
 
-const ds=
-new Set(
-entries
-.map(e=>e.date)
-.filter(Boolean)
-);
+  const ds =
+  new Set(
+    uniqueDates()
+  );
+
+  let d =
+  new Date();
+
+  d.setHours(
+    0,0,0,0
+  );
+
+  let n = 0;
 
 
-let d=new Date();
+  while(
+    ds.has(
+      d.toISOString()
+      .slice(0,10)
+    )
+  ){
 
-d.setHours(
-0,0,0,0
-);
+    n++;
 
-let n=0;
+    d.setDate(
+      d.getDate()-1
+    );
+
+  }
 
 
-while(
-ds.has(
-d.toISOString().slice(0,10)
-)
-){
-
-n++;
-
-d.setDate(
-d.getDate()-1
-);
+  return n;
 
 }
 
 
-return n;
+/* 更新统计 */
+function updateStats(){
+
+  document
+  .getElementById("count")
+  .textContent =
+  entries.length;
+
+
+  document
+  .getElementById("studyCount")
+  .textContent =
+  entries.filter(
+    e =>
+    String(
+      e.type || ""
+    ).includes("A等")
+  ).length;
+
+
+  document
+  .getElementById("taCount")
+  .textContent =
+  entries.filter(
+    e =>
+    String(
+      e.type || ""
+    ).includes("助教")
+  ).length;
+
+
+  document
+  .getElementById("streak")
+  .textContent =
+  calcStreak();
 
 }
 
 
+/* 显示记录 */
+function render(){
+
+  const q =
+  (search.value || "")
+  .toLowerCase();
+
+
+  const f =
+  (filter.value || "")
+  .trim();
+
+
+  const arr =
+  entries.filter(
+    e =>
+    (!f || e.type === f) &&
+    (
+      !q ||
+      [
+        e.title,
+        e.content,
+        e.lesson
+      ]
+      .join(" ")
+      .toLowerCase()
+      .includes(q)
+    )
+  );
+
+
+  list.innerHTML =
+  arr.length
+
+  ?
+
+  arr.map(e => `
+
+    <div class="entry">
+
+      <b>
+        ${esc(e.title)}
+      </b>
+
+      <span class="small">
+        ${e.date}
+        ·
+        ${esc(e.type)}
+        ·
+        ${esc(e.mood || "")}
+        ·
+        ${esc(e.score || "")}
+      </span>
+
+      <p>
+        ${esc(
+          e.content || ""
+        ).replace(
+          /\n/g,
+          "<br>"
+        )}
+      </p>
+
+      ${
+        e.lesson
+        ?
+        `<p>
+          💭 ${esc(e.lesson)}
+        </p>`
+        :
+        ""
+      }
+
+      ${
+        (e.photos || []).length
+        ?
+        `<div class="photo-grid">
+
+          ${e.photos.map(x => `
+
+            <img
+              src="${esc(x)}"
+              alt="记录照片"
+              loading="lazy"
+            >
+
+          `).join("")}
+
+        </div>`
+        :
+        ""
+      }
+
+      <div class="row">
+
+        <button
+          onclick="editEntry(${e.id})"
+        >
+          编辑
+        </button>
+
+        <button
+          class="danger"
+          onclick="delEntry(${e.id})"
+        >
+          删除
+        </button>
+
+      </div>
+
+    </div>
+
+  `).join("")
+
+  :
+
+  "<p class='small'>还没有记录，写下第一篇吧 ✨</p>";
+
+
+  updateStats();
+
+}
+
+
+/* 照片预览 */
+document
+.getElementById("photos")
+.addEventListener(
+  "change",
+  e => {
+
+    document
+    .getElementById("photoPreview")
+    .innerHTML =
+
+    [
+      ...e.target.files
+    ]
+    .map(
+      f =>
+      `<img
+        src="${URL.createObjectURL(f)}"
+        alt="预览"
+      >`
+    )
+    .join("");
+
+  }
+);
+
+
+/* 防止HTML注入 */
 function esc(s){
 
-return String(s??"")
-.replace(
-/[&<>"']/g,
-m=>
-({
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#39;"
-}[m])
-);
+  return String(
+    s ?? ""
+  ).replace(
+    /[&<>"']/g,
+    c =>
+    ({
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+    }[c])
+  );
 
 }
 
 
-sb.auth.onAuthStateChange(
-()=>
-setTimeout(
-refreshCloudSession,
-0
-)
-);
+/* 自动恢复登录 */
+(async()=>{
 
+  try{
 
-updateAccountUI();
+    const u =
+    JSON.parse(
+      localStorage.getItem(
+        "a等生活当前账号_v3"
+      )
+    );
 
-updateStats();
+    if(u)
+      await start(u);
 
-render();
+  }catch(e){
 
-refreshCloudSession();
+    console.log(e);
+
+  }
+
+})();
 
 </script>
 
