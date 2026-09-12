@@ -9,20 +9,20 @@
 
 <style>
 *{
-  box-sizing:border-box;
+  box-sizing:border-box
 }
 
 body{
   margin:0;
   font-family:system-ui,-apple-system,"Microsoft YaHei",sans-serif;
   background:linear-gradient(135deg,#eaf6ff,#fff7fb 55%,#f4fff9);
-  color:#243447;
+  color:#243447
 }
 
 .wrap{
   max-width:920px;
   margin:auto;
-  padding:14px;
+  padding:14px
 }
 
 .card{
@@ -31,7 +31,7 @@ body{
   padding:18px;
   margin:14px 0;
   box-shadow:0 10px 30px #00000010;
-  border:1px solid #edf2f7;
+  border:1px solid #edf2f7
 }
 
 .hero{
@@ -39,35 +39,37 @@ body{
   color:#fff;
   padding:24px;
   border-radius:26px;
-  box-shadow:0 14px 34px #3182ce30;
+  box-shadow:0 14px 34px #3182ce30
 }
 
 .hero h1{
   margin:0 0 7px;
-  font-size:29px;
+  font-size:29px
 }
 
 .hero .sub{
-  color:#eef6ff;
+  color:#eef6ff
 }
 
 h1{
   margin:4px 0;
-  font-size:27px;
-}
-
-h2{
-  margin-top:5px;
+  font-size:27px
 }
 
 .sub{
-  color:#718096;
+  color:#718096
 }
 
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:12px;
+  gap:12px
+}
+
+@media(max-width:650px){
+  .grid{
+    grid-template-columns:1fr
+  }
 }
 
 input,
@@ -78,13 +80,12 @@ button{
   padding:12px;
   border-radius:13px;
   border:1px solid #d8e1ea;
-  font-size:16px;
+  font-size:16px
 }
 
 textarea{
   min-height:120px;
-  resize:vertical;
-  margin-top:12px;
+  resize:vertical
 }
 
 button{
@@ -92,40 +93,44 @@ button{
   background:#3182ce;
   color:white;
   font-weight:700;
-  cursor:pointer;
-}
-
-button:active{
-  transform:scale(.98);
+  cursor:pointer
 }
 
 .secondary{
   background:#edf2f7;
-  color:#243447;
+  color:#243447
 }
 
 .danger{
-  background:#e53e3e;
+  background:#e53e3e
 }
 
 .hide{
-  display:none !important;
+  display:none
 }
 
 .row{
   display:flex;
   gap:10px;
-  flex-wrap:wrap;
+  flex-wrap:wrap
 }
 
 .row>*{
   flex:1;
-  min-width:120px;
+  min-width:120px
+}
+
+.entry{
+  border-left:5px solid #3182ce;
+  padding:14px 0 14px 14px;
+  margin:15px 0;
+  background:#fbfdff;
+  border-radius:0 16px 16px 0
 }
 
 .small{
   font-size:13px;
-  color:#718096;
+  color:#718096
 }
 
 .quote{
@@ -135,58 +140,32 @@ button:active{
   padding:16px;
   background:#f0f7ff;
   border-radius:16px;
-  margin-top:14px;
+  margin-top:14px
 }
 
 .stats{
   display:grid;
   grid-template-columns:repeat(4,1fr);
-  gap:10px;
+  gap:10px
 }
 
 .stat{
   background:#f8fafc;
   border-radius:16px;
   padding:13px;
-  text-align:center;
+  text-align:center
 }
 
 .stat b{
   display:block;
-  font-size:22px;
-}
-
-.entry{
-  border-left:5px solid #3182ce;
-  padding:14px 0 14px 14px;
-  margin:15px 0;
-  background:#fbfdff;
-  border-radius:0 16px 16px 0;
-}
-
-.entry-title{
-  font-size:19px;
-  font-weight:800;
-  margin-bottom:5px;
-}
-
-.entry-content{
-  line-height:1.7;
-  margin:12px 0;
-}
-
-.lesson{
-  background:#fff8e8;
-  padding:12px;
-  border-radius:12px;
-  line-height:1.6;
+  font-size:22px
 }
 
 .photo-grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:8px;
-  margin-top:10px;
+  margin-top:10px
 }
 
 .photo-grid img{
@@ -195,7 +174,7 @@ button:active{
   border-radius:12px;
   object-fit:cover;
   cursor:pointer;
-  background:#edf2f7;
+  background:#f1f5f9
 }
 
 .notice{
@@ -204,7 +183,7 @@ button:active{
   padding:11px;
   border-radius:13px;
   font-size:14px;
-  margin:10px 0;
+  margin:10px 0
 }
 
 .modal{
@@ -215,11 +194,11 @@ button:active{
   align-items:center;
   justify-content:center;
   padding:18px;
-  z-index:9999;
+  z-index:9999
 }
 
 .modal.hide{
-  display:none;
+  display:none
 }
 
 .modal-card{
@@ -228,37 +207,24 @@ button:active{
   background:#fff;
   border-radius:24px;
   padding:20px;
-  box-shadow:0 20px 60px #00000030;
+  box-shadow:0 20px 60px #00000030
 }
 
 .modal-card h2{
-  margin-top:0;
+  margin-top:0
 }
 
 .modal-card input{
-  margin:6px 0;
+  margin:6px 0
 }
 
-#photos{
-  margin-top:8px;
-}
-
-@media(max-width:650px){
-
-  .grid{
-    grid-template-columns:1fr;
+@media(max-width:600px){
+  .stats{
+    grid-template-columns:repeat(2,1fr)
   }
 
   .hero h1{
-    font-size:25px;
-  }
-
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .photo-grid{
-    grid-template-columns:repeat(3,1fr);
+    font-size:25px
   }
 }
 </style>
@@ -268,7 +234,6 @@ button:active{
 
 <div class="wrap">
 
-  <!-- 顶部 -->
   <div class="hero">
     <h1>🌟 A等生活 · 助教日记</h1>
     <div class="sub">
@@ -282,14 +247,14 @@ button:active{
     <h2>🔐 登录 / 注册</h2>
 
     <p class="small">
-      使用自己的账号 + 密码登录，不需要邮箱。
+      使用你自己的“账号 + 密码”，不需要邮箱。
     </p>
 
     <div class="grid">
 
       <input
         id="username"
-        placeholder="账号，例如 chen_0122"
+        placeholder="账号，例如 chen2026"
       >
 
       <input
@@ -300,7 +265,10 @@ button:active{
 
     </div>
 
-    <div class="row" style="margin-top:12px">
+    <div
+      class="row"
+      style="margin-top:12px"
+    >
 
       <button onclick="register()">
         注册账号
@@ -334,11 +302,13 @@ button:active{
       <div class="row">
 
         <div>
+
           <b id="who"></b>
 
           <div class="small">
             登录成功，资料会保存到云端 ☁️
           </div>
+
         </div>
 
         <button
@@ -360,7 +330,7 @@ button:active{
     ></div>
 
 
-    <!-- 写日记 -->
+    <!-- 写记录 -->
     <div class="card">
 
       <h2>✍️ 写下今天</h2>
@@ -374,47 +344,70 @@ button:active{
 
         <select id="type">
 
-          <option>A等生活</option>
+          <option>
+            A等生活
+          </option>
 
-          <option>助教生活</option>
+          <option>
+            助教生活
+          </option>
 
-          <option>A等生活 + 助教</option>
+          <option>
+            A等生活 + 助教
+          </option>
 
         </select>
-
 
         <input
           id="title"
           placeholder="标题"
         >
 
-
         <select id="mood">
 
-          <option>😊 很棒</option>
+          <option>
+            😊 很棒
+          </option>
 
-          <option>🙂 不错</option>
+          <option>
+            🙂 不错
+          </option>
 
-          <option>😐 普通</option>
+          <option>
+            😐 普通
+          </option>
 
-          <option>😔 有点累</option>
+          <option>
+            😔 有点累
+          </option>
 
-          <option>💪 坚持</option>
+          <option>
+            💪 坚持
+          </option>
 
         </select>
 
-
         <select id="score">
 
-          <option>5 ⭐</option>
+          <option>
+            5 ⭐
+          </option>
 
-          <option>4 ⭐</option>
+          <option>
+            4 ⭐
+          </option>
 
-          <option>3 ⭐</option>
+          <option>
+            3 ⭐
+          </option>
 
-          <option>2 ⭐</option>
+          <option>
+            2 ⭐
+          </option>
 
-          <option>1 ⭐</option>
+          <option>
+            1 ⭐
+          </option>
 
         </select>
 
@@ -434,7 +427,7 @@ button:active{
 
 
       <label class="small">
-        📷 添加照片
+        📷 添加照片（照片上传到云端）
       </label>
 
       <input
@@ -444,20 +437,16 @@ button:active{
         multiple
       >
 
-
       <div
         id="photoPreview"
         class="photo-grid"
       ></div>
 
 
-      <div
-        class="row"
-        style="margin-top:12px"
-      >
+      <div class="row">
 
         <button onclick="saveEntry()">
-          ☁️ 保存记录
+          保存记录 ☁️
         </button>
 
         <button
@@ -468,7 +457,6 @@ button:active{
         </button>
 
       </div>
-
 
       <p
         id="saveMsg"
@@ -487,22 +475,30 @@ button:active{
 
         <div class="stat">
           <b id="count">0</b>
-          <span class="small">全部记录</span>
+          <span class="small">
+            全部记录
+          </span>
         </div>
 
         <div class="stat">
           <b id="studyCount">0</b>
-          <span class="small">A等生活</span>
+          <span class="small">
+            A等生活
+          </span>
         </div>
 
         <div class="stat">
           <b id="taCount">0</b>
-          <span class="small">助教生活</span>
+          <span class="small">
+            助教生活
+          </span>
         </div>
 
         <div class="stat">
           <b id="streak">0</b>
-          <span class="small">连续天数</span>
+          <span class="small">
+            连续天数
+          </span>
         </div>
 
       </div>
@@ -510,7 +506,7 @@ button:active{
     </div>
 
 
-    <!-- 搜索 -->
+    <!-- 记录 -->
     <div class="card">
 
       <h2>📖 我的记录</h2>
@@ -548,7 +544,6 @@ button:active{
 
       </div>
 
-
       <div id="list"></div>
 
     </div>
@@ -566,20 +561,23 @@ button:active{
 
   <div class="modal-card">
 
-    <h2>🔑 找回旧账号</h2>
+    <h2>
+      🔑 找回旧账号
+    </h2>
 
     <p class="small">
       这个功能只给已经设置过恢复信息的旧账号使用。
     </p>
 
     <div class="notice">
+
       <b>⚠️ 注意</b>
 
       <div>
         新注册的账号不会自动拥有恢复码。
       </div>
-    </div>
 
+    </div>
 
     <input
       id="recoveryUsername"
@@ -604,7 +602,6 @@ button:active{
       placeholder="再次输入新密码"
     >
 
-
     <div
       class="row"
       style="margin-top:12px"
@@ -623,7 +620,6 @@ button:active{
 
     </div>
 
-
     <p
       id="recoveryMsg"
       class="small"
@@ -637,7 +633,7 @@ button:active{
 <script>
 
 /* =========================
-   Supabase
+   SUPABASE
 ========================= */
 
 const SUPABASE_URL =
@@ -673,71 +669,73 @@ let entries = [];
 
 const quotes = [
 
-"今天的努力，会成为明天的底气。",
+  "今天的努力，会成为明天的底气。",
 
-"慢一点没关系，重要的是一直向前。",
+  "慢一点没关系，重要的是一直向前。",
 
-"把小事做好，就是A等生活。",
+  "把小事做好，就是A等生活。",
 
-"认真生活，认真学习，认真做好每一次助教。",
+  "认真生活，认真学习，认真做好每一次助教。",
 
-"你今天的坚持，正在悄悄改变未来。",
+  "你今天的坚持，正在悄悄改变未来。",
 
-"真正的成长，是每天比昨天更认真一点。",
+  "真正的成长，是每天比昨天更认真一点。",
 
-"不要害怕走得慢，只要你没有停下来。",
+  "不要害怕走得慢，只要你没有停下来。",
 
-"优秀不是天生的，是一次次坚持换来的。",
+  "优秀不是天生的，是一次次坚持换来的。",
 
-"今天多努力一点，未来就多一份选择。",
+  "今天多努力一点，未来就多一份选择。",
 
-"你认真走过的每一步，都算数。",
+  "你认真走过的每一步，都算数。",
 
-"累的时候可以休息，但不要轻易放弃。",
+  "累的时候可以休息，但不要轻易放弃。",
 
-"把今天过好，就是对未来最好的负责。",
+  "把今天过好，就是对未来最好的负责。",
 
-"没有白费的努力，只有还没到时候的收获。",
+  "没有白费的努力，只有还没到时候的收获。",
 
-"相信自己，你比想象中更有潜力。",
+  "相信自己，你比想象中更有潜力。",
 
-"先完成，再完美；先行动，再进步。",
+  "先完成，再完美；先行动，再进步。",
 
-"真正厉害的人，是把平凡的日子过得认真。",
+  "真正厉害的人，是把平凡的日子过得认真。",
 
-"每一次坚持，都是在给未来的自己加分。",
+  "每一次坚持，都是在给未来的自己加分。",
 
-"困难不会一直存在，坚持会让你越来越强。",
+  "困难不会一直存在，坚持会让你越来越强。",
 
-"别羡慕别人的起点，走好自己的路。",
+  "别羡慕别人的起点，走好自己的路。",
 
-"今天的你，正在成为明天更好的你。",
+  "今天的你，正在成为明天更好的你。",
 
-"学习不是为了证明给别人看，而是为了拥有更多可能。",
+  "学习不是为了证明给别人看，而是为了拥有更多可能。",
 
-"愿你眼里有光，心里有方向，脚下有力量。",
+  "愿你眼里有光，心里有方向，脚下有力量。",
 
-"做一个自律的人，也做一个温柔的人。",
+  "做一个自律的人，也做一个温柔的人。",
 
-"把目标放在心里，把行动放在每天。",
+  "把目标放在心里，把行动放在每天。",
 
-"当你觉得坚持很难的时候，说明你正在成长。"
+  "当你觉得坚持很难的时候，说明你正在成长。"
 
 ];
+
+
+/* =========================
+   初始化
+========================= */
 
 document.getElementById("quote").textContent =
 "💡 " +
-quotes[
-  new Date().getDate() %
-  quotes.length
-];
+quotes[new Date().getDate() % quotes.length];
 
 document.getElementById("date").value =
 new Date().toISOString().slice(0,10);
 
 
 /* =========================
-   提示
+   消息
 ========================= */
 
 function msg(id,text){
@@ -749,19 +747,19 @@ function msg(id,text){
 
 
 /* =========================
-   SHA-256
+   SHA256
 ========================= */
 
-async function hash(text){
+async function hash(s){
 
-  const buffer =
+  const b =
   await crypto.subtle.digest(
     "SHA-256",
-    new TextEncoder().encode(text)
+    new TextEncoder().encode(s)
   );
 
   return [
-    ...new Uint8Array(buffer)
+    ...new Uint8Array(b)
   ]
   .map(
     x =>
@@ -779,14 +777,10 @@ async function hash(text){
 async function register(){
 
   const u =
-  document.getElementById("username")
-  .value
-  .trim();
+  username.value.trim();
 
   const p =
-  document.getElementById("password")
-  .value;
-
+  password.value;
 
   if(
     u.length < 3 ||
@@ -800,10 +794,8 @@ async function register(){
 
   }
 
-
   const h =
   await hash(p);
-
 
   const {
     data,
@@ -818,21 +810,16 @@ async function register(){
   .select("id,username")
   .single();
 
-
   if(error){
 
     return msg(
       "authMsg",
-
       error.code === "23505"
-
       ? "这个账号已经存在，请直接登录。"
-
       : "注册失败："+error.message
     );
 
   }
-
 
   await start(data);
 
@@ -848,14 +835,10 @@ async function register(){
 async function login(){
 
   const u =
-  document.getElementById("username")
-  .value
-  .trim();
+  username.value.trim();
 
   const p =
-  document.getElementById("password")
-  .value;
-
+  password.value;
 
   if(!u || !p){
 
@@ -866,10 +849,8 @@ async function login(){
 
   }
 
-
   const h =
   await hash(p);
-
 
   const {
     data,
@@ -882,8 +863,10 @@ async function login(){
   .eq("password_hash",h)
   .maybeSingle();
 
-
-  if(error || !data){
+  if(
+    error ||
+    !data
+  ){
 
     return msg(
       "authMsg",
@@ -892,14 +875,13 @@ async function login(){
 
   }
 
-
   await start(data);
 
 }
 
 
 /* =========================
-   找回密码
+   找回旧账号
 ========================= */
 
 function openRecovery(){
@@ -908,6 +890,11 @@ function openRecovery(){
   .getElementById("recoveryModal")
   .classList
   .remove("hide");
+
+  msg(
+    "recoveryMsg",
+    ""
+  );
 
 }
 
@@ -918,6 +905,22 @@ function closeRecovery(){
   .getElementById("recoveryModal")
   .classList
   .add("hide");
+
+  [
+    "recoveryUsername",
+    "recoveryKey",
+    "newPassword",
+    "newPassword2"
+  ]
+  .forEach(
+    id =>
+    document.getElementById(id).value=""
+  );
+
+  msg(
+    "recoveryMsg",
+    ""
+  );
 
 }
 
@@ -1060,31 +1063,39 @@ async function resetOldPassword(){
   );
 
 
-  setTimeout(()=>{
+  setTimeout(
+    ()=>{
+      closeRecovery();
 
-    closeRecovery();
+      username.value =
+      u;
 
-    document.getElementById("username").value =
-    u;
+      password.value =
+      np;
 
-    document.getElementById("password").value =
-    np;
-
-  },1200);
+    },
+    1200
+  );
 
 }
 
 
-/* =========================
-   ⭐ 关键：照片链接处理
-========================= */
+/* ==================================================
+   照片系统
+   ================================================== */
+
 
 /*
-  数据库现在保存 Storage 路径，
-  而不是永久 Signed URL。
-
-  这样照片不会因为 Signed URL 过期
-  而突然无法显示。
+  把数据库里面保存的照片资料
+  转换成可以真正显示的图片 URL。
+  
+  新版本：
+  数据库保存 Storage 路径
+  
+  旧版本：
+  数据库可能保存 Signed URL
+  或者文件名
+  或者 UUID
 */
 
 async function getPhotoUrl(photo){
@@ -1094,39 +1105,153 @@ async function getPhotoUrl(photo){
   }
 
 
+  let raw =
+  String(photo).trim();
+
+
+  if(!raw){
+    return null;
+  }
+
+
   /*
-    兼容旧照片：
-    如果数据库里面已经是 URL，
-    直接使用。
+    如果以前保存的是 URL，
+    自动从 URL 中找出 Storage 路径。
   */
 
   if(
-    typeof photo === "string" &&
-    (
-      photo.startsWith("http://") ||
-      photo.startsWith("https://")
-    )
+    raw.startsWith("http://") ||
+    raw.startsWith("https://")
   ){
 
-    return photo;
+    try{
+
+      const marker =
+      "/storage/v1/object/";
+
+      const pos =
+      raw.indexOf(marker);
+
+
+      if(pos >= 0){
+
+        let part =
+        raw.slice(
+          pos + marker.length
+        );
+
+
+        /*
+          去掉：
+          sign/
+          public/
+        */
+
+        part =
+        part.replace(
+          /^(sign|public)\//,
+          ""
+        );
+
+
+        const bucketPrefix =
+        CLOUD_BUCKET + "/";
+
+
+        if(
+          part.startsWith(bucketPrefix)
+        ){
+
+          raw =
+          part
+          .slice(bucketPrefix.length)
+          .split("?")[0];
+
+        }else{
+
+          raw =
+          part
+          .split("?")[0];
+
+        }
+
+
+        try{
+
+          raw =
+          decodeURIComponent(raw);
+
+        }catch(e){}
+
+      }
+
+    }catch(e){
+
+      console.log(
+        "旧照片 URL 解析失败:",
+        e
+      );
+
+    }
 
   }
 
 
-  const raw =
-  String(photo)
-  .replace(/^\/+/,"");
+  /*
+    清理路径
+  */
+
+  raw =
+  raw.replace(
+    /^\/+/,
+    ""
+  );
 
 
-  const candidates = [
-
-    raw
-
-  ];
+  raw =
+  raw.replace(
+    /^diary-photos\//,
+    ""
+  );
 
 
   /*
-    兼容以前可能只保存文件名的情况
+    建立多个可能路径
+  */
+
+  const candidates = [];
+
+
+  const add =
+  x => {
+
+    if(
+      x &&
+      !candidates.includes(x)
+    ){
+
+      candidates.push(x);
+
+    }
+
+  };
+
+
+  /*
+    原始路径
+  */
+
+  add(raw);
+
+
+  /*
+    如果以前只保存文件名：
+    
+    xxx.jpg
+    
+    尝试：
+    
+    2/xxx.jpg
   */
 
   if(
@@ -1136,55 +1261,123 @@ async function getPhotoUrl(photo){
     )
   ){
 
-    candidates.push(
-      String(currentUser.id)+"/"+raw
+    add(
+      String(currentUser.id)+
+      "/"+
+      raw
     );
 
   }
 
 
+  /*
+    某些旧版本可能保存：
+    
+    chen_0122/xxx.jpg
+  */
+
+  if(
+    currentUser?.username &&
+    !raw.startsWith(
+      String(currentUser.username)+"/"
+    )
+  ){
+
+    add(
+      String(currentUser.username)+
+      "/"+
+      raw
+    );
+
+  }
+
+
+  /*
+    逐个尝试生成 Signed URL
+  */
+
   for(
     const path of candidates
   ){
 
-    const {
-      data,
-      error
-    } =
-    await sb
-    .storage
-    .from(CLOUD_BUCKET)
-    .createSignedUrl(
-      path,
-      60*60*24*7
-    );
+    try{
+
+      const {
+        data,
+        error
+      } =
+      await sb
+      .storage
+      .from(CLOUD_BUCKET)
+      .createSignedUrl(
+        path,
+        60 * 60 * 24 * 7
+      );
 
 
-    if(
-      !error &&
-      data?.signedUrl
-    ){
+      if(
+        !error &&
+        data?.signedUrl
+      ){
 
-      return data.signedUrl;
+        return data.signedUrl;
+
+      }
+
+    }catch(e){
+
+      console.log(
+        "照片路径读取失败:",
+        path,
+        e
+      );
 
     }
 
   }
 
 
-  console.log(
-    "找不到照片:",
-    photo
-  );
+  /*
+    如果 Bucket 是公开的，
+    再尝试 Public URL
+  */
+
+  for(
+    const path of candidates
+  ){
+
+    try{
+
+      const {
+        data
+      } =
+      sb
+      .storage
+      .from(CLOUD_BUCKET)
+      .getPublicUrl(path);
+
+
+      if(
+        data?.publicUrl
+      ){
+
+        return data.publicUrl;
+
+      }
+
+    }catch(e){}
+
+  }
+
 
   return null;
 
 }
 
 
-/* =========================
-   读取云端
-========================= */
+/* ==================================================
+   读取云端记录
+   ================================================== */
 
 async function load(){
 
@@ -1206,11 +1399,15 @@ async function load(){
   )
   .order(
     "date",
-    {ascending:false}
+    {
+      ascending:false
+    }
   )
   .order(
     "created_at",
-    {ascending:false}
+    {
+      ascending:false
+    }
   );
 
 
@@ -1231,8 +1428,7 @@ async function load(){
 
 
   /*
-    把数据库里的照片路径
-    转成当前可以显示的 URL
+    为每一条记录重新取得照片链接
   */
 
   for(
@@ -1283,6 +1479,10 @@ async function load(){
     }
 
 
+    /*
+      displayPhotos 专门用来显示
+    */
+
     entry.displayPhotos =
     fixed;
 
@@ -1296,16 +1496,14 @@ async function load(){
 }
 
 
-/* =========================
+/* ==================================================
    保存记录
-========================= */
+   ================================================== */
 
 async function saveEntry(){
 
   if(!currentUser){
-
     return;
-
   }
 
 
@@ -1315,17 +1513,21 @@ async function saveEntry(){
   );
 
 
-  const fileInput =
-  document.getElementById("photos");
-
-
   const files =
   [
-    ...(fileInput.files || [])
+    ...(
+      document
+      .getElementById("photos")
+      .files || []
+    )
   ];
 
 
-  const photoPaths = [];
+  /*
+    新上传的照片只保存 Storage 路径
+  */
+
+  let photoPaths = [];
 
 
   /*
@@ -1349,15 +1551,13 @@ async function saveEntry(){
     Date.now() +
     "_" +
     Math.random()
-    .toString(36)
-    .slice(2) +
+      .toString(36)
+      .slice(2) +
     "_" +
     safe;
 
 
-    const {
-      error:uploadError
-    } =
+    const up =
     await sb
     .storage
     .from(CLOUD_BUCKET)
@@ -1370,22 +1570,21 @@ async function saveEntry(){
     );
 
 
-    if(uploadError){
+    if(up.error){
 
       return msg(
         "saveMsg",
-        "照片上传失败："+uploadError.message
+        "照片上传失败："+up.error.message
       );
 
     }
 
 
     /*
-      ⭐ 这里非常重要
-
-      不再保存 Signed URL。
-
-      只保存 Storage 路径。
+      关键：
+      不保存 Signed URL
+      
+      只保存真正的 Storage 路径
     */
 
     photoPaths.push(path);
@@ -1393,40 +1592,36 @@ async function saveEntry(){
   }
 
 
+  /*
+    记录资料
+  */
+
   const payload = {
 
     account_id:
     currentUser.id,
 
     date:
-    document.getElementById("date").value,
+    date.value,
 
     type:
-    document.getElementById("type").value,
+    type.value,
 
     title:
-    document
-    .getElementById("title")
-    .value
-    .trim() ||
+    title.value.trim() ||
     "今天的记录",
 
     content:
-    document
-    .getElementById("content")
-    .value,
+    content.value,
 
     mood:
-    document
-    .getElementById("mood").value,
+    mood.value,
 
     score:
-    document
-    .getElementById("score").value,
+    score.value,
 
     lesson:
-    document
-    .getElementById("lesson").value,
+    lesson.value,
 
     photos:
     photoPaths
@@ -1434,7 +1629,7 @@ async function saveEntry(){
   };
 
 
-  let result;
+  let r;
 
 
   /*
@@ -1455,16 +1650,17 @@ async function saveEntry(){
     : [];
 
 
+    /*
+      编辑时保留旧照片
+    */
+
     payload.photos = [
-
       ...oldPhotos,
-
       ...photoPaths
-
     ];
 
 
-    result =
+    r =
     await sb
     .from("diary_entries")
     .update(payload)
@@ -1477,16 +1673,13 @@ async function saveEntry(){
       currentUser.id
     );
 
-  }
+  }else{
 
+    /*
+      新记录
+    */
 
-  /*
-    新记录
-  */
-
-  else{
-
-    result =
+    r =
     await sb
     .from("diary_entries")
     .insert(payload);
@@ -1494,32 +1687,38 @@ async function saveEntry(){
   }
 
 
-  if(result.error){
+  if(r.error){
 
     return msg(
       "saveMsg",
-      "保存失败："+result.error.message
+      "保存失败："+r.error.message
     );
 
   }
 
 
-  const wasEditing =
+  const was =
   !!editingId;
 
 
-  editingId = null;
+  editingId =
+  null;
 
 
   clearForm();
 
+
+  /*
+    重新从云端读取
+    重新生成照片链接
+  */
 
   await load();
 
 
   msg(
     "saveMsg",
-    wasEditing
+    was
     ? "记录已更新 ☁️"
     : "记录已保存到云端 ☁️"
   );
@@ -1527,54 +1726,59 @@ async function saveEntry(){
 }
 
 
-/* =========================
+/* ==================================================
    清空
-========================= */
+   ================================================== */
 
 function clearForm(){
 
-  editingId = null;
+  editingId =
+  null;
 
 
-  document.getElementById("date").value =
+  date.value =
   new Date()
   .toISOString()
   .slice(0,10);
 
 
-  document.getElementById("title").value =
+  title.value =
   "";
 
 
-  document.getElementById("content").value =
+  content.value =
   "";
 
 
-  document.getElementById("lesson").value =
+  lesson.value =
   "";
 
 
-  document.getElementById("mood").value =
+  mood.value =
   "😊 很棒";
 
 
-  document.getElementById("score").value =
+  score.value =
   "5 ⭐";
 
 
-  document.getElementById("photos").value =
+  document
+  .getElementById("photos")
+  .value =
   "";
 
 
-  document.getElementById("photoPreview").innerHTML =
+  document
+  .getElementById("photoPreview")
+  .innerHTML =
   "";
 
 }
 
 
-/* =========================
+/* ==================================================
    编辑
-========================= */
+   ================================================== */
 
 function editEntry(id){
 
@@ -1589,38 +1793,45 @@ function editEntry(id){
   }
 
 
-  editingId = id;
+  editingId =
+  id;
 
 
-  document.getElementById("date").value =
+  date.value =
   e.date || "";
 
 
-  document.getElementById("type").value =
-  e.type || "A等生活";
+  type.value =
+  e.type ||
+  "A等生活";
 
 
-  document.getElementById("title").value =
-  e.title || "";
+  title.value =
+  e.title ||
+  "";
 
 
-  document.getElementById("content").value =
-  e.content || "";
+  content.value =
+  e.content ||
+  "";
 
 
-  document.getElementById("lesson").value =
-  e.lesson || "";
+  lesson.value =
+  e.lesson ||
+  "";
 
 
-  document.getElementById("mood").value =
-  e.mood || "😊 很棒";
+  mood.value =
+  e.mood ||
+  "😊 很棒";
 
 
-  document.getElementById("score").value =
-  e.score || "5 ⭐";
+  score.value =
+  e.score ||
+  "5 ⭐";
 
 
-  window.scrollTo({
+  scrollTo({
     top:0,
     behavior:"smooth"
   });
@@ -1628,9 +1839,9 @@ function editEntry(id){
 }
 
 
-/* =========================
+/* ==================================================
    删除
-========================= */
+   ================================================== */
 
 async function delEntry(id){
 
@@ -1663,11 +1874,9 @@ async function delEntry(id){
 
   if(error){
 
-    alert(
+    return alert(
       "删除失败："+error.message
     );
-
-    return;
 
   }
 
@@ -1677,24 +1886,27 @@ async function delEntry(id){
 }
 
 
-/* =========================
-   连续天数
-========================= */
+/* ==================================================
+   日期
+   ================================================== */
 
 function uniqueDates(){
 
   return [
     ...new Set(
       entries
-      .map(
-        e => e.date
-      )
+      .map(e => e.date)
       .filter(Boolean)
     )
-  ].sort();
+  ]
+  .sort();
 
 }
 
+
+/* ==================================================
+   连续天数
+   ================================================== */
 
 function calcStreak(){
 
@@ -1709,20 +1921,26 @@ function calcStreak(){
 
 
   d.setHours(
-    0,0,0,0
+    0,
+    0,
+    0,
+    0
   );
 
 
-  let n = 0;
+  let n =
+  0;
 
 
   while(
     ds.has(
-      d.toISOString().slice(0,10)
+      d.toISOString()
+      .slice(0,10)
     )
   ){
 
     n++;
+
 
     d.setDate(
       d.getDate()-1
@@ -1736,18 +1954,20 @@ function calcStreak(){
 }
 
 
-/* =========================
+/* ==================================================
    统计
-========================= */
+   ================================================== */
 
 function updateStats(){
 
-  document.getElementById("count")
+  document
+  .getElementById("count")
   .textContent =
   entries.length;
 
 
-  document.getElementById("studyCount")
+  document
+  .getElementById("studyCount")
   .textContent =
   entries.filter(
     e =>
@@ -1756,7 +1976,8 @@ function updateStats(){
   ).length;
 
 
-  document.getElementById("taCount")
+  document
+  .getElementById("taCount")
   .textContent =
   entries.filter(
     e =>
@@ -1765,182 +1986,101 @@ function updateStats(){
   ).length;
 
 
-  document.getElementById("streak")
+  document
+  .getElementById("streak")
   .textContent =
   calcStreak();
 
 }
 
 
-/* =========================
-   HTML 安全处理
-========================= */
-
-function esc(value){
-
-  return String(
-    value ?? ""
-  ).replace(
-    /[&<>"']/g,
-    c => ({
-
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-
-    }[c])
-  );
-
-}
-
-
-/* =========================
+/* ==================================================
    显示记录
-========================= */
+   ================================================== */
 
 function render(){
 
   const q =
-  (
-    document
-    .getElementById("search")
-    .value ||
-    ""
-  )
+  (search.value || "")
   .toLowerCase();
 
 
   const f =
-  document
-  .getElementById("filter")
-  .value ||
-  "";
+  (filter.value || "")
+  .trim();
 
 
   const arr =
   entries.filter(
     e =>
 
-    (
-      !f ||
-      e.type === f
-    )
+      (!f ||
+      e.type === f)
 
-    &&
+      &&
 
-    (
-      !q ||
+      (
+        !q ||
 
-      [
-        e.title,
-        e.content,
-        e.lesson
-      ]
-      .join(" ")
-      .toLowerCase()
-      .includes(q)
-    )
+        [
+          e.title,
+          e.content,
+          e.lesson
+        ]
+        .join(" ")
+        .toLowerCase()
+        .includes(q)
+      )
 
   );
 
 
-  const list =
-  document.getElementById("list");
-
-
-  if(!arr.length){
-
-    list.innerHTML =
-    `
-      <p class="small">
-        还没有记录，写下第一篇吧 ✨
-      </p>
-    `;
-
-    updateStats();
-
-    return;
-
-  }
-
-
   list.innerHTML =
-  arr.map(
-    e => `
+
+  arr.length
+
+  ?
+
+  arr.map(e => `
 
     <div class="entry">
 
-      <div class="entry-title">
+      <b>
         ${esc(e.title)}
-      </div>
+      </b>
 
-
-      <div class="small">
-
+      <span class="small">
         ${esc(e.date || "")}
-
         ·
-
         ${esc(e.type || "")}
-
         ·
-
         ${esc(e.mood || "")}
-
         ·
-
         ${esc(e.score || "")}
+      </span>
 
-      </div>
 
-
-      ${
-        e.content
-
-        ?
-
-        `
-        <div class="entry-content">
-          ${esc(e.content).replace(
-            /\n/g,
-            "<br>"
-          )}
-        </div>
-        `
-
-        :
-
-        ""
-      }
+      <p>
+        ${
+          esc(e.content || "")
+          .replace(/\n/g,"<br>")
+        }
+      </p>
 
 
       ${
         e.lesson
-
         ?
-
-        `
-        <div class="lesson">
-          💭 ${esc(e.lesson).replace(
-            /\n/g,
-            "<br>"
-          )}
-        </div>
-        `
-
+        `<p>
+          💭 ${esc(e.lesson)}
+        </p>`
         :
-
         ""
       }
 
 
       ${
-        (
-          e.displayPhotos ||
-          []
-        ).length
+        (e.displayPhotos || []).length
 
         ?
 
@@ -1948,19 +2088,30 @@ function render(){
         <div class="photo-grid">
 
           ${
-            (
-              e.displayPhotos ||
-              []
-            )
+            (e.displayPhotos || [])
             .map(
               x => `
 
-              <img
-                src="${esc(x)}"
-                alt="记录照片"
-                loading="lazy"
-                onclick="window.open('${esc(x)}','_blank')"
-              >
+                <img
+                  src="${esc(x)}"
+                  alt="记录照片"
+                  loading="lazy"
+
+                  onclick="
+                    window.open(
+                      '${esc(x)}',
+                      '_blank'
+                    )
+                  "
+
+                  onerror="
+                    this.style.display='none';
+                    this.insertAdjacentHTML(
+                      'afterend',
+                      '<div class=&quot;small&quot;>📷 照片暂时无法显示</div>'
+                    )
+                  "
+                >
 
               `
             )
@@ -1976,17 +2127,13 @@ function render(){
       }
 
 
-      <div
-        class="row"
-        style="margin-top:12px"
-      >
+      <div class="row">
 
         <button
           onclick="editEntry(${e.id})"
         >
           编辑
         </button>
-
 
         <button
           class="danger"
@@ -1999,9 +2146,16 @@ function render(){
 
     </div>
 
-    `
-  )
-  .join("");
+  `)
+  .join("")
+
+  :
+
+  `
+    <p class="small">
+      还没有记录，写下第一篇吧 ✨
+    </p>
+  `;
 
 
   updateStats();
@@ -2009,56 +2163,67 @@ function render(){
 }
 
 
-/* =========================
-   新照片预览
-========================= */
+/* ==================================================
+   照片选择预览
+   ================================================== */
 
 document
 .getElementById("photos")
 .addEventListener(
   "change",
-  function(e){
+  e => {
 
-    const preview =
-    document.getElementById(
-      "photoPreview"
-    );
-
-
-    preview.innerHTML =
-    "";
-
+    document
+    .getElementById("photoPreview")
+    .innerHTML =
 
     [
       ...e.target.files
     ]
-    .forEach(
-      file => {
+    .map(
+      f => `
 
-        const img =
-        document.createElement("img");
+        <img
+          src="${URL.createObjectURL(f)}"
+          alt="预览"
+        >
 
-
-        img.src =
-        URL.createObjectURL(file);
-
-
-        img.alt =
-        "预览";
-
-
-        preview.appendChild(img);
-
-      }
-    );
+      `
+    )
+    .join("");
 
   }
 );
 
 
-/* =========================
+/* ==================================================
+   HTML 转义
+   ================================================== */
+
+function esc(s){
+
+  return String(
+    s ?? ""
+  )
+  .replace(
+    /[&<>"']/g,
+    c => ({
+
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
+
+    }[c])
+  );
+
+}
+
+
+/* ==================================================
    登录成功
-========================= */
+   ================================================== */
 
 async function start(user){
 
@@ -2091,22 +2256,28 @@ async function start(user){
   user.username;
 
 
+  /*
+    登录以后重新读取：
+    日记 + 云端照片
+  */
+
   await load();
 
 }
 
 
-/* =========================
-   登出
-========================= */
+/* ==================================================
+   退出
+   ================================================== */
 
 async function logout(){
 
-  currentUser = null;
+  currentUser =
+  null;
 
-  entries = [];
 
-  editingId = null;
+  entries =
+  [];
 
 
   localStorage.removeItem(
@@ -2125,18 +2296,21 @@ async function logout(){
   .classList
   .remove("hide");
 
+
+  render();
+
 }
 
 
-/* =========================
+/* ==================================================
    自动恢复登录
-========================= */
+   ================================================== */
 
 (async()=>{
 
   try{
 
-    const saved =
+    const u =
     JSON.parse(
       localStorage.getItem(
         "a等生活当前账号_v3"
@@ -2144,18 +2318,15 @@ async function logout(){
     );
 
 
-    if(saved){
+    if(u){
 
-      await start(saved);
+      await start(u);
 
     }
 
   }catch(e){
 
-    console.log(
-      "自动登录失败:",
-      e
-    );
+    console.log(e);
 
   }
 
