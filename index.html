@@ -1,1356 +1,1328 @@
 <!doctype html>
-<html lang="zh-CN">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>A等生活 · 助教日记</title>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-*{box-sizing:border-box}
-
-body{
-  margin:0;
-  font-family:system-ui,-apple-system,"Microsoft YaHei",sans-serif;
-  background:linear-gradient(135deg,#eaf6ff,#fff7fb 55%,#f4fff9);
-  color:#243447;
-}
-
-.wrap{
-  max-width:920px;
-  margin:auto;
-  padding:14px;
-}
-
-.card{
-  background:#fff;
-  border-radius:22px;
-  padding:18px;
-  margin:14px 0;
-  box-shadow:0 10px 30px #00000010;
-  border:1px solid #edf2f7;
-}
-
-.hero{
-  background:linear-gradient(135deg,#3182ce,#805ad5);
-  color:#fff;
-  padding:24px;
-  border-radius:26px;
-  box-shadow:0 14px 34px #3182ce30;
-}
-
-.hero h1{
-  margin:0 0 7px;
-  font-size:29px;
-}
-
-.hero .sub{
-  color:#eef6ff;
-}
-
-h1{
-  margin:4px 0;
-  font-size:27px;
-}
-
-.sub{
-  color:#718096;
-}
-
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-@media(max-width:650px){
-  .grid{
-    grid-template-columns:1fr;
-  }
-}
-
-input,
-textarea,
-select,
-button{
-  width:100%;
-  padding:12px;
-  border-radius:13px;
-  border:1px solid #d8e1ea;
-  font-size:16px;
-}
-
-textarea{
-  min-height:120px;
-  resize:vertical;
-}
-
-button{
-  border:0;
-  background:#3182ce;
-  color:white;
-  font-weight:700;
-  cursor:pointer;
-}
-
-.secondary{
-  background:#edf2f7;
-  color:#243447;
-}
-
-.danger{
-  background:#e53e3e;
-}
-
-.hide{
-  display:none;
-}
-
-.row{
-  display:flex;
-  gap:10px;
-  flex-wrap:wrap;
-}
-
-.row>*{
-  flex:1;
-  min-width:120px;
-}
-
-.entry{
-  border-left:5px solid #3182ce;
-  padding:14px 0 14px 14px;
-  margin:15px 0;
-  background:#fbfdff;
-  border-radius:0 16px 16px 0;
-}
-
-.small{
-  font-size:13px;
-  color:#718096;
-}
-
-.quote{
-  font-size:18px;
-  font-weight:700;
-  text-align:center;
-  padding:16px;
-  background:#f0f7ff;
-  border-radius:16px;
-  margin-top:14px;
-}
-
-.stats{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:10px;
-}
-
-.stat{
-  background:#f8fafc;
-  border-radius:16px;
-  padding:13px;
-  text-align:center;
-}
-
-.stat b{
-  display:block;
-  font-size:22px;
-}
-
-.photo-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:8px;
-  margin-top:10px;
-}
-
-.photo-grid img{
-  width:100%;
-  aspect-ratio:1;
-  border-radius:12px;
-  object-fit:cover;
-}
-
-.notice{
-  background:#f0fff4;
-  border:1px solid #c6f6d5;
-  padding:11px;
-  border-radius:13px;
-  font-size:14px;
-  margin:10px 0;
-}
-
-@media(max-width:600px){
-  .stats{
-    grid-template-columns:repeat(2,1fr);
-  }
-
-  .hero h1{
-    font-size:25px;
-  }
-}
-</style>
-</head>
-
-<body>
 
-<div class="wrap">
-
-  <div class="hero">
-    <h1>🌟 A等生活 · 助教日记</h1>
-    <div class="sub">
-      记录每一天的努力、成长与助教时光
-    </div>
-  </div>
-
-  <!-- 登录 -->
-  <div id="auth" class="card">
-
-    <h2>🔐 登录 / 注册</h2>
-
-    <p class="small">
-      使用你自己的“账号 + 密码”，不需要邮箱。
-    </p>
-
-    <div class="grid">
-
-      <input
-        id="username"
-        placeholder="账号，例如 chen2026"
-      >
-
-      <input
-        id="password"
-        type="password"
-        placeholder="密码"
-      >
-
-    </div>
-
-    <div class="row" style="margin-top:12px">
-
-      <button onclick="register()">
-        注册账号
-      </button>
-
-      <button onclick="login()">
-        登录
-      </button>
-
-    </div>
-
-    <p id="authMsg" class="small"></p>
-
-  </div>
-
-
-  <!-- 主程序 -->
-  <div id="app" class="hide">
-
-    <!-- 用户 -->
-    <div class="card">
-
-      <div class="row">
-
-        <div>
-          <b id="who"></b>
-
-          <div class="small">
-            登录成功，资料会保存到云端 ☁️
-          </div>
-        </div>
-
-        <button
-          class="secondary"
-          onclick="logout()"
-        >
-          退出登录
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- 励志语录 -->
-    <div class="quote" id="quote"></div>
-
-
-    <!-- 写日记 -->
-    <div class="card">
-
-      <h2>✍️ 写下今天</h2>
-
-      <div class="grid">
-
-        <input
-          id="date"
-          type="date"
-        >
-
-        <select id="type">
-
-          <option>A等生活</option>
-
-          <option>助教生活</option>
-
-          <option>A等生活 + 助教</option>
-
-        </select>
-
-        <input
-          id="title"
-          placeholder="标题"
-        >
-
-        <select id="mood">
-
-          <option>😊 很棒</option>
-
-          <option>🙂 不错</option>
-
-          <option>😐 普通</option>
-
-          <option>😔 有点累</option>
-
-          <option>💪 坚持</option>
-
-        </select>
-
-        <select id="score">
-
-          <option>5 ⭐</option>
-
-          <option>4 ⭐</option>
-
-          <option>3 ⭐</option>
-
-          <option>2 ⭐</option>
-
-          <option>1 ⭐</option>
-
-        </select>
-
-      </div>
-
-      <textarea
-        id="content"
-        placeholder="今天发生了什么？"
-      ></textarea>
-
-      <textarea
-        id="lesson"
-        placeholder="今天学到的人生道理 / 学习心得"
-      ></textarea>
-
-      <label class="small">
-        📷 添加照片（照片上传到云端）
-      </label>
-
-      <input
-        id="photos"
-        type="file"
-        accept="image/*"
-        multiple
-      >
-
-      <div
-        id="photoPreview"
-        class="photo-grid"
-      ></div>
-
-      <div class="row">
-
-        <button onclick="saveEntry()">
-          保存记录 ☁️
-        </button>
-
-        <button
-          class="secondary"
-          onclick="clearForm()"
-        >
-          清空
-        </button>
-
-      </div>
-
-      <p id="saveMsg" class="small"></p>
-
-    </div>
-
-
-    <!-- 统计 -->
-    <div class="card">
-
-      <h2>📊 我的 A等生活</h2>
-
-      <div class="stats">
-
-        <div class="stat">
-          <b id="count">0</b>
-          <span class="small">全部记录</span>
-        </div>
-
-        <div class="stat">
-          <b id="studyCount">0</b>
-          <span class="small">A等生活</span>
-        </div>
-
-        <div class="stat">
-          <b id="taCount">0</b>
-          <span class="small">助教生活</span>
-        </div>
-
-        <div class="stat">
-          <b id="streak">0</b>
-          <span class="small">连续天数</span>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- 日记 -->
-    <div class="card">
-
-      <h2>📖 我的记录</h2>
-
-      <div class="grid">
-
-        <input
-          id="search"
-          placeholder="搜索标题或内容"
-          oninput="render()"
-        >
-
-        <select
-          id="filter"
-          onchange="render()"
-        >
-
-          <option value="">全部</option>
-
-          <option>A等生活</option>
-
-          <option>助教生活</option>
-
-          <option>A等生活 + 助教</option>
-
-        </select>
-
-      </div>
-
-      <div id="list"></div>
-
-    </div>
-
-  </div>
+<html lang="zh-CN">  
+<head>  
+<meta charset="utf-8">  
+<meta name="viewport" content="width=device-width,initial-scale=1">  
+<title>A等生活 · 助教日记</title>  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>  <style>  
+*{box-sizing:border-box}  
+  
+body{  
+  margin:0;  
+  font-family:system-ui,-apple-system,"Microsoft YaHei",sans-serif;  
+  background:linear-gradient(135deg,#eaf6ff,#fff7fb 55%,#f4fff9);  
+  color:#243447;  
+}  
+  
+.wrap{  
+  max-width:920px;  
+  margin:auto;  
+  padding:14px;  
+}  
+  
+.card{  
+  background:#fff;  
+  border-radius:22px;  
+  padding:18px;  
+  margin:14px 0;  
+  box-shadow:0 10px 30px #00000010;  
+  border:1px solid #edf2f7;  
+}  
+  
+.hero{  
+  background:linear-gradient(135deg,#3182ce,#805ad5);  
+  color:#fff;  
+  padding:24px;  
+  border-radius:26px;  
+  box-shadow:0 14px 34px #3182ce30;  
+}  
+  
+.hero h1{  
+  margin:0 0 7px;  
+  font-size:29px;  
+}  
+  
+.hero .sub{  
+  color:#eef6ff;  
+}  
+  
+h1{  
+  margin:4px 0;  
+  font-size:27px;  
+}  
+  
+.sub{  
+  color:#718096;  
+}  
+  
+.grid{  
+  display:grid;  
+  grid-template-columns:1fr 1fr;  
+  gap:12px;  
+}  
+  
+@media(max-width:650px){  
+  .grid{  
+    grid-template-columns:1fr;  
+  }  
+}  
+  
+input,  
+textarea,  
+select,  
+button{  
+  width:100%;  
+  padding:12px;  
+  border-radius:13px;  
+  border:1px solid #d8e1ea;  
+  font-size:16px;  
+}  
+  
+textarea{  
+  min-height:120px;  
+  resize:vertical;  
+}  
+  
+button{  
+  border:0;  
+  background:#3182ce;  
+  color:white;  
+  font-weight:700;  
+  cursor:pointer;  
+}  
+  
+.secondary{  
+  background:#edf2f7;  
+  color:#243447;  
+}  
+  
+.danger{  
+  background:#e53e3e;  
+}  
+  
+.hide{  
+  display:none;  
+}  
+  
+.row{  
+  display:flex;  
+  gap:10px;  
+  flex-wrap:wrap;  
+}  
+  
+.row>*{  
+  flex:1;  
+  min-width:120px;  
+}  
+  
+.entry{  
+  border-left:5px solid #3182ce;  
+  padding:14px 0 14px 14px;  
+  margin:15px 0;  
+  background:#fbfdff;  
+  border-radius:0 16px 16px 0;  
+}  
+  
+.small{  
+  font-size:13px;  
+  color:#718096;  
+}  
+  
+.quote{  
+  font-size:18px;  
+  font-weight:700;  
+  text-align:center;  
+  padding:16px;  
+  background:#f0f7ff;  
+  border-radius:16px;  
+  margin-top:14px;  
+}  
+  
+.stats{  
+  display:grid;  
+  grid-template-columns:repeat(4,1fr);  
+  gap:10px;  
+}  
+  
+.stat{  
+  background:#f8fafc;  
+  border-radius:16px;  
+  padding:13px;  
+  text-align:center;  
+}  
+  
+.stat b{  
+  display:block;  
+  font-size:22px;  
+}  
+  
+.photo-grid{  
+  display:grid;  
+  grid-template-columns:repeat(3,1fr);  
+  gap:8px;  
+  margin-top:10px;  
+}  
+  
+.photo-grid img{  
+  width:100%;  
+  aspect-ratio:1;  
+  border-radius:12px;  
+  object-fit:cover;  
+}  
+  
+.notice{  
+  background:#f0fff4;  
+  border:1px solid #c6f6d5;  
+  padding:11px;  
+  border-radius:13px;  
+  font-size:14px;  
+  margin:10px 0;  
+}  
+  
+@media(max-width:600px){  
+  .stats{  
+    grid-template-columns:repeat(2,1fr);  
+  }  
+  
+  .hero h1{  
+    font-size:25px;  
+  }  
+}  
+</style>  </head>  <body>  <div class="wrap">    <div class="hero">  
+    <h1>🌟 A等生活 · 助教日记</h1>  
+    <div class="sub">  
+      记录每一天的努力、成长与助教时光  
+    </div>  
+  </div>    <!-- 登录 -->    <div id="auth" class="card">  <h2>🔐 登录 / 注册</h2>  
+
+<p class="small">  
+  使用你自己的“账号 + 密码”，不需要邮箱。  
+</p>  
+
+<div class="grid">  
+
+  <input  
+    id="username"  
+    placeholder="账号，例如 chen2026"  
+  >  
+
+  <input  
+    id="password"  
+    type="password"  
+    placeholder="密码"  
+  >  
+
+</div>  
+
+<div class="row" style="margin-top:12px">  
+
+  <button onclick="register()">  
+    注册账号  
+  </button>  
+
+  <button onclick="login()">  
+    登录  
+  </button>  
+
+</div>  
+
+<p id="authMsg" class="small"></p>
+
+  </div>    <!-- 主程序 -->    <div id="app" class="hide">  <!-- 用户 -->  
+<div class="card">  
+
+  <div class="row">  
+
+    <div>  
+      <b id="who"></b>  
+
+      <div class="small">  
+        登录成功，资料会保存到云端 ☁️  
+      </div>  
+    </div>  
+
+    <button  
+      class="secondary"  
+      onclick="logout()"  
+    >  
+      退出登录  
+    </button>  
+
+  </div>  
+
+</div>  
+
+
+<!-- 励志语录 -->  
+<div class="quote" id="quote"></div>  
+
+
+<!-- 写日记 -->  
+<div class="card">  
+
+  <h2>✍️ 写下今天</h2>  
+
+  <div class="grid">  
+
+    <input  
+      id="date"  
+      type="date"  
+    >  
+
+    <select id="type">  
+
+      <option>A等生活</option>  
+
+      <option>助教生活</option>  
+
+      <option>A等生活 + 助教</option>  
+
+    </select>  
+
+    <input  
+      id="title"  
+      placeholder="标题"  
+    >  
+
+    <select id="mood">  
+
+      <option>😊 很棒</option>  
+
+      <option>🙂 不错</option>  
+
+      <option>😐 普通</option>  
+
+      <option>😔 有点累</option>  
+
+      <option>💪 坚持</option>  
+
+    </select>  
+
+    <select id="score">  
+
+      <option>5 ⭐</option>  
+
+      <option>4 ⭐</option>  
+
+      <option>3 ⭐</option>  
+
+      <option>2 ⭐</option>  
+
+      <option>1 ⭐</option>  
+
+    </select>  
+
+  </div>  
+
+  <textarea  
+    id="content"  
+    placeholder="今天发生了什么？"  
+  ></textarea>  
+
+  <textarea  
+    id="lesson"  
+    placeholder="今天学到的人生道理 / 学习心得"  
+  ></textarea>  
+
+  <label class="small">  
+    📷 添加照片（照片上传到云端）  
+  </label>  
+
+  <input  
+    id="photos"  
+    type="file"  
+    accept="image/*"  
+    multiple  
+  >  
+
+  <div  
+    id="photoPreview"  
+    class="photo-grid"  
+  ></div>  
+
+  <div class="row">  
+
+    <button onclick="saveEntry()">  
+      保存记录 ☁️  
+    </button>  
+
+    <button  
+      class="secondary"  
+      onclick="clearForm()"  
+    >  
+      清空  
+    </button>  
+
+  </div>  
+
+  <p id="saveMsg" class="small"></p>  
+
+</div>  
+
+
+<!-- 统计 -->  
+<div class="card">  
+
+  <h2>📊 我的 A等生活</h2>  
+
+  <div class="stats">  
+
+    <div class="stat">  
+      <b id="count">0</b>  
+      <span class="small">全部记录</span>  
+    </div>  
+
+    <div class="stat">  
+      <b id="studyCount">0</b>  
+      <span class="small">A等生活</span>  
+    </div>  
+
+    <div class="stat">  
+      <b id="taCount">0</b>  
+      <span class="small">助教生活</span>  
+    </div>  
+
+    <div class="stat">  
+      <b id="streak">0</b>  
+      <span class="small">连续天数</span>  
+    </div>  
+
+  </div>  
+
+</div>  
+
+
+<!-- 日记 -->  
+<div class="card">  
+
+  <h2>📖 我的记录</h2>  
+
+  <div class="grid">  
+
+    <input  
+      id="search"  
+      placeholder="搜索标题或内容"  
+      oninput="render()"  
+    >  
+
+    <select  
+      id="filter"  
+      onchange="render()"  
+    >  
+
+      <option value="">全部</option>  
+
+      <option>A等生活</option>  
+
+      <option>助教生活</option>  
+
+      <option>A等生活 + 助教</option>  
+
+    </select>  
+
+  </div>  
+
+  <div id="list"></div>  
 
 </div>
 
-
-<script>
-
-const SUPABASE_URL =
-"https://covnjgtdwpsothkcasls.supabase.co";
-
-const SUPABASE_KEY =
-"sb_publishable_MsamuvgocYfdrm_BbpXiAw_Bw6F48Z1";
-
-const sb =
-supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-const CLOUD_BUCKET =
-"diary-photos";
-
-let currentUser = null;
-let editingId = null;
-let entries = [];
-
-
-const quotes = [
-
-"今天的努力，会成为明天的底气。",
-
-"慢一点没关系，重要的是一直向前。",
-
-"把小事做好，就是A等生活。",
-
-"认真生活，认真学习，认真做好每一次助教。",
-
-"你今天的坚持，正在悄悄改变未来。",
-
-"真正的成长，是每天比昨天更认真一点。",
-
-"不要害怕走得慢，只要你没有停下来。",
-
-"优秀不是天生的，是一次次坚持换来的。",
-
-"今天多努力一点，未来就多一份选择。",
-
-"你认真走过的每一步，都算数。",
-
-"累的时候可以休息，但不要轻易放弃。",
-
-"把今天过好，就是对未来最好的负责。",
-
-"没有白费的努力，只有还没到时候的收获。",
-
-"相信自己，你比想象中更有潜力。",
-
-"先完成，再完美；先行动，再进步。",
-
-"真正厉害的人，是把平凡的日子过得认真。",
-
-"每一次坚持，都是在给未来的自己加分。",
-
-"困难不会一直存在，坚持会让你越来越强。",
-
-"别羡慕别人的起点，走好自己的路。",
-
-"今天的你，正在成为明天更好的你。",
-
-"学习不是为了证明给别人看，而是为了拥有更多可能。",
-
-"愿你眼里有光，心里有方向，脚下有力量。",
-
-"做一个自律的人，也做一个温柔的人。",
-
-"把目标放在心里，把行动放在每天。",
-
-"当你觉得坚持很难的时候，说明你正在成长。"
-
-];
-
-
-document.getElementById("quote").textContent =
-"💡 " +
-quotes[new Date().getDate() % quotes.length];
-
-
-document.getElementById("date").value =
-new Date().toISOString().slice(0,10);
-
-
-function msg(id,text){
-
-  document.getElementById(id).textContent =
-  text;
-
-}
-
-
-/* 密码 SHA-256 */
-async function hash(s){
-
-  const b =
-  await crypto.subtle.digest(
-    "SHA-256",
-    new TextEncoder().encode(s)
-  );
-
-  return [
-    ...new Uint8Array(b)
-  ]
-  .map(x =>
-    x.toString(16).padStart(2,"0")
-  )
-  .join("");
-
-}
-
-
-/* 注册 */
-async function register(){
-
-  const u =
-  username.value.trim();
-
-  const p =
-  password.value;
-
-  if(
-    u.length < 3 ||
-    p.length < 6
-  ){
-
-    return msg(
-      "authMsg",
-      "账号至少3个字符，密码至少6个字符。"
-    );
-
-  }
-
-  const h =
-  await hash(p);
-
-  const {
-    data,
-    error
-  } =
-  await sb
-  .from("app_accounts")
-  .insert({
-    username:u,
-    password_hash:h
-  })
-  .select("id,username")
-  .single();
-
-
-  if(error){
-
-    return msg(
-      "authMsg",
-      error.code === "23505"
-      ? "这个账号已经存在，请直接登录。"
-      : "注册失败："+error.message
-    );
-
-  }
-
-  await start(data);
-
-  msg("authMsg","");
-
-}
-
-
-/* 登录 */
-async function login(){
-
-  const u =
-  username.value.trim();
-
-  const p =
-  password.value;
-
-  if(!u || !p){
-
-    return msg(
-      "authMsg",
-      "请输入账号和密码。"
-    );
-
-  }
-
-  const h =
-  await hash(p);
-
-  const {
-    data,
-    error
-  } =
-  await sb
-  .from("app_accounts")
-  .select("id,username")
-  .eq("username",u)
-  .eq("password_hash",h)
-  .maybeSingle();
-
-
-  if(error || !data){
-
-    return msg(
-      "authMsg",
-      "账号或密码不正确。"
-    );
-
-  }
-
-  await start(data);
-
-}
-
-
-/* 登录成功 */
-async function start(user){
-
-  currentUser =
-  user;
-
-  localStorage.setItem(
-    "a等生活当前账号_v3",
-    JSON.stringify(user)
-  );
-
-  auth.classList.add("hide");
-
-  app.classList.remove("hide");
-
-  who.textContent =
-  "👤 " + user.username;
-
-  await load();
-
-}
-
-
-/* 退出 */
-async function logout(){
-
-  currentUser = null;
-
-  entries = [];
-
-  localStorage.removeItem(
-    "a等生活当前账号_v3"
-  );
-
-  app.classList.add("hide");
-
-  auth.classList.remove("hide");
-
-  render();
-
-}
-
-
-/* 读取云端记录 */
-async function load(){
-
-  const {
-    data,
-    error
-  } =
-  await sb
-  .from("diary_entries")
-  .select("*")
-  .eq("account_id",currentUser.id)
-  .order("date",{ascending:false})
-  .order("created_at",{ascending:false});
-
-
-  if(error){
-
-    saveMsg.textContent =
-    "读取失败："+error.message;
-
-    return;
-
-  }
-
-  entries =
-  data || [];
-
-  updateStats();
-
-  render();
-
-}
-
-
-/* 保存记录 */
-async function saveEntry(){
-
-  if(!currentUser)
-    return;
-
-
-  msg(
-    "saveMsg",
-    "正在保存……"
-  );
-
-
-  const files =
-  [
-    ...(document
-      .getElementById("photos")
-      .files || [])
-  ];
-
-
-  let photoUrls = [];
-
-
-  /* 上传照片 */
-  for(const file of files){
-
-    const safe =
-    file.name.replace(
-      /[^\w.\-一-龥]/g,
-      "_"
-    );
-
-
-    const path =
-    currentUser.id +
-    "/" +
-    Date.now() +
-    "_" +
-    Math.random()
-      .toString(36)
-      .slice(2) +
-    "_" +
-    safe;
-
-
-    const up =
-    await sb
-    .storage
-    .from(CLOUD_BUCKET)
-    .upload(
-      path,
-      file,
-      {
-        upsert:false
-      }
-    );
-
-
-    if(up.error){
-
-      return msg(
-        "saveMsg",
-        "照片上传失败："+up.error.message
-      );
-
-    }
-
-
-    const signed =
-    await sb
-    .storage
-    .from(CLOUD_BUCKET)
-    .createSignedUrl(
-      path,
-      60*60*24*365
-    );
-
-
-    if(signed.error){
-
-      return msg(
-        "saveMsg",
-        "照片链接生成失败："+signed.error.message
-      );
-
-    }
-
-
-    photoUrls.push(
-      signed.data.signedUrl
-    );
-
-  }
-
-
-  const payload = {
-
-    account_id:
-    currentUser.id,
-
-    date:
-    date.value,
-
-    type:
-    type.value,
-
-    title:
-    title.value.trim() ||
-    "今天的记录",
-
-    content:
-    content.value,
-
-    mood:
-    mood.value,
-
-    score:
-    score.value,
-
-    lesson:
-    lesson.value,
-
-    photos:
-    photoUrls
-
-  };
-
-
-  let r;
-
-
-  /* 编辑 */
-  if(editingId){
-
-    const old =
-    entries.find(
-      x => x.id === editingId
-    );
-
-
-    payload.photos = [
-      ...(old?.photos || []),
-      ...photoUrls
-    ];
-
-
-    r =
-    await sb
-    .from("diary_entries")
-    .update(payload)
-    .eq("id",editingId)
-    .eq(
-      "account_id",
-      currentUser.id
-    );
-
-  }
-
-
-  /* 新增 */
-  else{
-
-    r =
-    await sb
-    .from("diary_entries")
-    .insert(payload);
-
-  }
-
-
-  if(r.error){
-
-    return msg(
-      "saveMsg",
-      "保存失败："+r.error.message
-    );
-
-  }
-
-
-  const was =
-  !!editingId;
-
-
-  editingId = null;
-
-  clearForm();
-
-  await load();
-
-
-  msg(
-    "saveMsg",
-    was
-    ? "记录已更新 ☁️"
-    : "记录已保存到云端 ☁️"
-  );
-
-}
-
-
-/* 清空 */
-function clearForm(){
-
-  editingId = null;
-
-  date.value =
-  new Date()
-  .toISOString()
-  .slice(0,10);
-
-  title.value = "";
-
-  content.value = "";
-
-  lesson.value = "";
-
-  mood.value =
-  "😊 很棒";
-
-  score.value =
-  "5 ⭐";
-
-  document
-  .getElementById("photos")
-  .value = "";
-
-  document
-  .getElementById("photoPreview")
-  .innerHTML = "";
-
-}
-
-
-/* 编辑 */
-function editEntry(id){
-
-  const e =
-  entries.find(
-    x => x.id === id
-  );
-
-  if(!e)
-    return;
-
-
-  editingId =
-  id;
-
-  date.value =
-  e.date;
-
-  type.value =
-  e.type;
-
-  title.value =
-  e.title;
-
-  content.value =
-  e.content || "";
-
-  lesson.value =
-  e.lesson || "";
-
-  mood.value =
-  e.mood || "😊 很棒";
-
-  score.value =
-  e.score || "5 ⭐";
-
-
-  scrollTo({
-    top:0,
-    behavior:"smooth"
-  });
-
-}
-
-
-/* 删除 */
-async function delEntry(id){
-
-  if(
-    !confirm(
-      "确定删除这条记录吗？"
-    )
-  )
-    return;
-
-
-  const {
-    error
-  } =
-  await sb
-  .from("diary_entries")
-  .delete()
-  .eq("id",id)
-  .eq(
-    "account_id",
-    currentUser.id
-  );
-
-
-  if(error){
-
-    return alert(
-      "删除失败："+error.message
-    );
-
-  }
-
-
-  await load();
-
-}
-
-
-/* 日期 */
-function uniqueDates(){
-
-  return [
-    ...new Set(
-      entries
-      .map(e => e.date)
-      .filter(Boolean)
-    )
-  ].sort();
-
-}
-
-
-/* 连续天数 */
-function calcStreak(){
-
-  const ds =
-  new Set(
-    uniqueDates()
-  );
-
-  let d =
-  new Date();
-
-  d.setHours(
-    0,0,0,0
-  );
-
-  let n = 0;
-
-
-  while(
-    ds.has(
-      d.toISOString()
-      .slice(0,10)
-    )
-  ){
-
-    n++;
-
-    d.setDate(
-      d.getDate()-1
-    );
-
-  }
-
-
-  return n;
-
-}
-
-
-/* 更新统计 */
-function updateStats(){
-
-  document
-  .getElementById("count")
-  .textContent =
-  entries.length;
-
-
-  document
-  .getElementById("studyCount")
-  .textContent =
-  entries.filter(
-    e =>
-    String(
-      e.type || ""
-    ).includes("A等")
-  ).length;
-
-
-  document
-  .getElementById("taCount")
-  .textContent =
-  entries.filter(
-    e =>
-    String(
-      e.type || ""
-    ).includes("助教")
-  ).length;
-
-
-  document
-  .getElementById("streak")
-  .textContent =
-  calcStreak();
-
-}
-
-
-/* 显示记录 */
-function render(){
-
-  const q =
-  (search.value || "")
-  .toLowerCase();
-
-
-  const f =
-  (filter.value || "")
-  .trim();
-
-
-  const arr =
-  entries.filter(
-    e =>
-    (!f || e.type === f) &&
-    (
-      !q ||
-      [
-        e.title,
-        e.content,
-        e.lesson
-      ]
-      .join(" ")
-      .toLowerCase()
-      .includes(q)
-    )
-  );
-
-
-  list.innerHTML =
-  arr.length
-
-  ?
-
-  arr.map(e => `
-
-    <div class="entry">
-
-      <b>
-        ${esc(e.title)}
-      </b>
-
-      <span class="small">
-        ${e.date}
-        ·
-        ${esc(e.type)}
-        ·
-        ${esc(e.mood || "")}
-        ·
-        ${esc(e.score || "")}
-      </span>
-
-      <p>
-        ${esc(
-          e.content || ""
-        ).replace(
-          /\n/g,
-          "<br>"
-        )}
-      </p>
-
-      ${
-        e.lesson
-        ?
-        `<p>
-          💭 ${esc(e.lesson)}
-        </p>`
-        :
-        ""
-      }
-
-      ${
-        (e.photos || []).length
-        ?
-        `<div class="photo-grid">
-
-          ${e.photos.map(x => `
-
-            <img
-              src="${esc(x)}"
-              alt="记录照片"
-              loading="lazy"
-            >
-
-          `).join("")}
-
-        </div>`
-        :
-        ""
-      }
-
-      <div class="row">
-
-        <button
-          onclick="editEntry(${e.id})"
-        >
-          编辑
-        </button>
-
-        <button
-          class="danger"
-          onclick="delEntry(${e.id})"
-        >
-          删除
-        </button>
-
-      </div>
-
-    </div>
-
-  `).join("")
-
-  :
-
-  "<p class='small'>还没有记录，写下第一篇吧 ✨</p>";
-
-
-  updateStats();
-
-}
-
-
-/* 照片预览 */
-document
-.getElementById("photos")
-.addEventListener(
-  "change",
-  e => {
-
-    document
-    .getElementById("photoPreview")
-    .innerHTML =
-
-    [
-      ...e.target.files
-    ]
-    .map(
-      f =>
-      `<img
-        src="${URL.createObjectURL(f)}"
-        alt="预览"
-      >`
-    )
-    .join("");
-
-  }
-);
-
-
-/* 防止HTML注入 */
-function esc(s){
-
-  return String(
-    s ?? ""
-  ).replace(
-    /[&<>"']/g,
-    c =>
-    ({
-      "&":"&amp;",
-      "<":"&lt;",
-      ">":"&gt;",
-      '"':"&quot;",
-      "'":"&#39;"
-    }[c])
-  );
-
-}
-
-
-/* 自动恢复登录 */
-(async()=>{
-
-  try{
-
-    const u =
-    JSON.parse(
-      localStorage.getItem(
-        "a等生活当前账号_v3"
-      )
-    );
-
-    if(u)
-      await start(u);
-
-  }catch(e){
-
-    console.log(e);
-
-  }
-
-})();
-
-</script>
-
-</body>
+  </div>  </div>  <script>  
+  
+const SUPABASE_URL =  
+"https://covnjgtdwpsothkcasls.supabase.co";  
+  
+const SUPABASE_KEY =  
+"sb_publishable_MsamuvgocYfdrm_BbpXiAw_Bw6F48Z1";  
+  
+const sb =  
+supabase.createClient(  
+  SUPABASE_URL,  
+  SUPABASE_KEY  
+);  
+  
+const CLOUD_BUCKET =  
+"diary-photos";  
+  
+let currentUser = null;  
+let editingId = null;  
+let entries = [];  
+  
+  
+const quotes = [  
+  
+"今天的努力，会成为明天的底气。",  
+  
+"慢一点没关系，重要的是一直向前。",  
+  
+"把小事做好，就是A等生活。",  
+  
+"认真生活，认真学习，认真做好每一次助教。",  
+  
+"你今天的坚持，正在悄悄改变未来。",  
+  
+"真正的成长，是每天比昨天更认真一点。",  
+  
+"不要害怕走得慢，只要你没有停下来。",  
+  
+"优秀不是天生的，是一次次坚持换来的。",  
+  
+"今天多努力一点，未来就多一份选择。",  
+  
+"你认真走过的每一步，都算数。",  
+  
+"累的时候可以休息，但不要轻易放弃。",  
+  
+"把今天过好，就是对未来最好的负责。",  
+  
+"没有白费的努力，只有还没到时候的收获。",  
+  
+"相信自己，你比想象中更有潜力。",  
+  
+"先完成，再完美；先行动，再进步。",  
+  
+"真正厉害的人，是把平凡的日子过得认真。",  
+  
+"每一次坚持，都是在给未来的自己加分。",  
+  
+"困难不会一直存在，坚持会让你越来越强。",  
+  
+"别羡慕别人的起点，走好自己的路。",  
+  
+"今天的你，正在成为明天更好的你。",  
+  
+"学习不是为了证明给别人看，而是为了拥有更多可能。",  
+  
+"愿你眼里有光，心里有方向，脚下有力量。",  
+  
+"做一个自律的人，也做一个温柔的人。",  
+  
+"把目标放在心里，把行动放在每天。",  
+  
+"当你觉得坚持很难的时候，说明你正在成长。"  
+  
+];  
+  
+  
+document.getElementById("quote").textContent =  
+"💡 " +  
+quotes[new Date().getDate() % quotes.length];  
+  
+  
+document.getElementById("date").value =  
+new Date().toISOString().slice(0,10);  
+  
+  
+function msg(id,text){  
+  
+  document.getElementById(id).textContent =  
+  text;  
+  
+}  
+  
+  
+/* 密码 SHA-256 */  
+async function hash(s){  
+  
+  const b =  
+  await crypto.subtle.digest(  
+    "SHA-256",  
+    new TextEncoder().encode(s)  
+  );  
+  
+  return [  
+    ...new Uint8Array(b)  
+  ]  
+  .map(x =>  
+    x.toString(16).padStart(2,"0")  
+  )  
+  .join("");  
+  
+}  
+  
+  
+/* 注册 */  
+async function register(){  
+  
+  const u =  
+  username.value.trim();  
+  
+  const p =  
+  password.value;  
+  
+  if(  
+    u.length < 3 ||  
+    p.length < 6  
+  ){  
+  
+    return msg(  
+      "authMsg",  
+      "账号至少3个字符，密码至少6个字符。"  
+    );  
+  
+  }  
+  
+  const h =  
+  await hash(p);  
+  
+  const {  
+    data,  
+    error  
+  } =  
+  await sb  
+  .from("app_accounts")  
+  .insert({  
+    username:u,  
+    password_hash:h  
+  })  
+  .select("id,username")  
+  .single();  
+  
+  
+  if(error){  
+  
+    return msg(  
+      "authMsg",  
+      error.code === "23505"  
+      ? "这个账号已经存在，请直接登录。"  
+      : "注册失败："+error.message  
+    );  
+  
+  }  
+  
+  await start(data);  
+  
+  msg("authMsg","");  
+  
+}  
+  
+  
+/* 登录 */  
+async function login(){  
+  
+  const u =  
+  username.value.trim();  
+  
+  const p =  
+  password.value;  
+  
+  if(!u || !p){  
+  
+    return msg(  
+      "authMsg",  
+      "请输入账号和密码。"  
+    );  
+  
+  }  
+  
+  const h =  
+  await hash(p);  
+  
+  const {  
+    data,  
+    error  
+  } =  
+  await sb  
+  .from("app_accounts")  
+  .select("id,username")  
+  .eq("username",u)  
+  .eq("password_hash",h)  
+  .maybeSingle();  
+  
+  
+  if(error || !data){  
+  
+    return msg(  
+      "authMsg",  
+      "账号或密码不正确。"  
+    );  
+  
+  }  
+  
+  await start(data);  
+  
+}  
+  
+  
+/* 登录成功 */  
+async function start(user){  
+  
+  currentUser =  
+  user;  
+  
+  localStorage.setItem(  
+    "a等生活当前账号_v3",  
+    JSON.stringify(user)  
+  );  
+  
+  auth.classList.add("hide");  
+  
+  app.classList.remove("hide");  
+  
+  who.textContent =  
+  "👤 " + user.username;  
+  
+  await load();  
+  
+}  
+  
+  
+/* 退出 */  
+async function logout(){  
+  
+  currentUser = null;  
+  
+  entries = [];  
+  
+  localStorage.removeItem(  
+    "a等生活当前账号_v3"  
+  );  
+  
+  app.classList.add("hide");  
+  
+  auth.classList.remove("hide");  
+  
+  render();  
+  
+}  
+  
+  
+/* 读取云端记录 */  
+async function load(){  
+  
+  const {  
+    data,  
+    error  
+  } =  
+  await sb  
+  .from("diary_entries")  
+  .select("*")  
+  .eq("account_id",currentUser.id)  
+  .order("date",{ascending:false})  
+  .order("created_at",{ascending:false});  
+  
+  
+  if(error){  
+  
+    saveMsg.textContent =  
+    "读取失败："+error.message;  
+  
+    return;  
+  
+  }  
+  
+  entries =  
+  data || [];  
+  
+  updateStats();  
+  
+  render();  
+  
+}  
+  
+  
+/* 保存记录 */  
+async function saveEntry(){  
+  
+  if(!currentUser)  
+    return;  
+  
+  
+  msg(  
+    "saveMsg",  
+    "正在保存……"  
+  );  
+  
+  
+  const files =  
+  [  
+    ...(document  
+      .getElementById("photos")  
+      .files || [])  
+  ];  
+  
+  
+  let photoUrls = [];  
+  
+  
+  /* 上传照片 */  
+  for(const file of files){  
+  
+    const safe =  
+    file.name.replace(  
+      /[^\w.\-一-龥]/g,  
+      "_"  
+    );  
+  
+  
+    const path =  
+    currentUser.id +  
+    "/" +  
+    Date.now() +  
+    "_" +  
+    Math.random()  
+      .toString(36)  
+      .slice(2) +  
+    "_" +  
+    safe;  
+  
+  
+    const up =  
+    await sb  
+    .storage  
+    .from(CLOUD_BUCKET)  
+    .upload(  
+      path,  
+      file,  
+      {  
+        upsert:false  
+      }  
+    );  
+  
+  
+    if(up.error){  
+  
+      return msg(  
+        "saveMsg",  
+        "照片上传失败："+up.error.message  
+      );  
+  
+    }  
+  
+  
+    const signed =  
+    await sb  
+    .storage  
+    .from(CLOUD_BUCKET)  
+    .createSignedUrl(  
+      path,  
+      60*60*24*365  
+    );  
+  
+  
+    if(signed.error){  
+  
+      return msg(  
+        "saveMsg",  
+        "照片链接生成失败："+signed.error.message  
+      );  
+  
+    }  
+  
+  
+    photoUrls.push(  
+      signed.data.signedUrl  
+    );  
+  
+  }  
+  
+  
+  const payload = {  
+  
+    account_id:  
+    currentUser.id,  
+  
+    date:  
+    date.value,  
+  
+    type:  
+    type.value,  
+  
+    title:  
+    title.value.trim() ||  
+    "今天的记录",  
+  
+    content:  
+    content.value,  
+  
+    mood:  
+    mood.value,  
+  
+    score:  
+    score.value,  
+  
+    lesson:  
+    lesson.value,  
+  
+    photos:  
+    photoUrls  
+  
+  };  
+  
+  
+  let r;  
+  
+  
+  /* 编辑 */  
+  if(editingId){  
+  
+    const old =  
+    entries.find(  
+      x => x.id === editingId  
+    );  
+  
+  
+    payload.photos = [  
+      ...(old?.photos || []),  
+      ...photoUrls  
+    ];  
+  
+  
+    r =  
+    await sb  
+    .from("diary_entries")  
+    .update(payload)  
+    .eq("id",editingId)  
+    .eq(  
+      "account_id",  
+      currentUser.id  
+    );  
+  
+  }  
+  
+  
+  /* 新增 */  
+  else{  
+  
+    r =  
+    await sb  
+    .from("diary_entries")  
+    .insert(payload);  
+  
+  }  
+  
+  
+  if(r.error){  
+  
+    return msg(  
+      "saveMsg",  
+      "保存失败："+r.error.message  
+    );  
+  
+  }  
+  
+  
+  const was =  
+  !!editingId;  
+  
+  
+  editingId = null;  
+  
+  clearForm();  
+  
+  await load();  
+  
+  
+  msg(  
+    "saveMsg",  
+    was  
+    ? "记录已更新 ☁️"  
+    : "记录已保存到云端 ☁️"  
+  );  
+  
+}  
+  
+  
+/* 清空 */  
+function clearForm(){  
+  
+  editingId = null;  
+  
+  date.value =  
+  new Date()  
+  .toISOString()  
+  .slice(0,10);  
+  
+  title.value = "";  
+  
+  content.value = "";  
+  
+  lesson.value = "";  
+  
+  mood.value =  
+  "😊 很棒";  
+  
+  score.value =  
+  "5 ⭐";  
+  
+  document  
+  .getElementById("photos")  
+  .value = "";  
+  
+  document  
+  .getElementById("photoPreview")  
+  .innerHTML = "";  
+  
+}  
+  
+  
+/* 编辑 */  
+function editEntry(id){  
+  
+  const e =  
+  entries.find(  
+    x => x.id === id  
+  );  
+  
+  if(!e)  
+    return;  
+  
+  
+  editingId =  
+  id;  
+  
+  date.value =  
+  e.date;  
+  
+  type.value =  
+  e.type;  
+  
+  title.value =  
+  e.title;  
+  
+  content.value =  
+  e.content || "";  
+  
+  lesson.value =  
+  e.lesson || "";  
+  
+  mood.value =  
+  e.mood || "😊 很棒";  
+  
+  score.value =  
+  e.score || "5 ⭐";  
+  
+  
+  scrollTo({  
+    top:0,  
+    behavior:"smooth"  
+  });  
+  
+}  
+  
+  
+/* 删除 */  
+async function delEntry(id){  
+  
+  if(  
+    !confirm(  
+      "确定删除这条记录吗？"  
+    )  
+  )  
+    return;  
+  
+  
+  const {  
+    error  
+  } =  
+  await sb  
+  .from("diary_entries")  
+  .delete()  
+  .eq("id",id)  
+  .eq(  
+    "account_id",  
+    currentUser.id  
+  );  
+  
+  
+  if(error){  
+  
+    return alert(  
+      "删除失败："+error.message  
+    );  
+  
+  }  
+  
+  
+  await load();  
+  
+}  
+  
+  
+/* 日期 */  
+function uniqueDates(){  
+  
+  return [  
+    ...new Set(  
+      entries  
+      .map(e => e.date)  
+      .filter(Boolean)  
+    )  
+  ].sort();  
+  
+}  
+  
+  
+/* 连续天数 */  
+function calcStreak(){  
+  
+  const ds =  
+  new Set(  
+    uniqueDates()  
+  );  
+  
+  let d =  
+  new Date();  
+  
+  d.setHours(  
+    0,0,0,0  
+  );  
+  
+  let n = 0;  
+  
+  
+  while(  
+    ds.has(  
+      d.toISOString()  
+      .slice(0,10)  
+    )  
+  ){  
+  
+    n++;  
+  
+    d.setDate(  
+      d.getDate()-1  
+    );  
+  
+  }  
+  
+  
+  return n;  
+  
+}  
+  
+  
+/* 更新统计 */  
+function updateStats(){  
+  
+  document  
+  .getElementById("count")  
+  .textContent =  
+  entries.length;  
+  
+  
+  document  
+  .getElementById("studyCount")  
+  .textContent =  
+  entries.filter(  
+    e =>  
+    String(  
+      e.type || ""  
+    ).includes("A等")  
+  ).length;  
+  
+  
+  document  
+  .getElementById("taCount")  
+  .textContent =  
+  entries.filter(  
+    e =>  
+    String(  
+      e.type || ""  
+    ).includes("助教")  
+  ).length;  
+  
+  
+  document  
+  .getElementById("streak")  
+  .textContent =  
+  calcStreak();  
+  
+}  
+  
+  
+/* 显示记录 */  
+function render(){  
+  
+  const q =  
+  (search.value || "")  
+  .toLowerCase();  
+  
+  
+  const f =  
+  (filter.value || "")  
+  .trim();  
+  
+  
+  const arr =  
+  entries.filter(  
+    e =>  
+    (!f || e.type === f) &&  
+    (  
+      !q ||  
+      [  
+        e.title,  
+        e.content,  
+        e.lesson  
+      ]  
+      .join(" ")  
+      .toLowerCase()  
+      .includes(q)  
+    )  
+  );  
+  
+  
+  list.innerHTML =  
+  arr.length  
+  
+  ?  
+  
+  arr.map(e => `  
+  
+    <div class="entry">  
+  
+      <b>  
+        ${esc(e.title)}  
+      </b>  
+  
+      <span class="small">  
+        ${e.date}  
+        ·  
+        ${esc(e.type)}  
+        ·  
+        ${esc(e.mood || "")}  
+        ·  
+        ${esc(e.score || "")}  
+      </span>  
+  
+      <p>  
+        ${esc(  
+          e.content || ""  
+        ).replace(  
+          /\n/g,  
+          "<br>"  
+        )}  
+      </p>  
+  
+      ${  
+        e.lesson  
+        ?  
+        `<p>  
+          💭 ${esc(e.lesson)}  
+        </p>`  
+        :  
+        ""  
+      }  
+  
+      ${  
+        (e.photos || []).length  
+        ?  
+        `<div class="photo-grid">  
+  
+          ${e.photos.map(x => `  
+  
+            <img  
+              src="${esc(x)}"  
+              alt="记录照片"  
+              loading="lazy"  
+            >  
+  
+          `).join("")}  
+  
+        </div>`  
+        :  
+        ""  
+      }  
+  
+      <div class="row">  
+  
+        <button  
+          onclick="editEntry(${e.id})"  
+        >  
+          编辑  
+        </button>  
+  
+        <button  
+          class="danger"  
+          onclick="delEntry(${e.id})"  
+        >  
+          删除  
+        </button>  
+  
+      </div>  
+  
+    </div>  
+  
+  `).join("")  
+  
+  :  
+  
+  "<p class='small'>还没有记录，写下第一篇吧 ✨</p>";  
+  
+  
+  updateStats();  
+  
+}  
+  
+  
+/* 照片预览 */  
+document  
+.getElementById("photos")  
+.addEventListener(  
+  "change",  
+  e => {  
+  
+    document  
+    .getElementById("photoPreview")  
+    .innerHTML =  
+  
+    [  
+      ...e.target.files  
+    ]  
+    .map(  
+      f =>  
+      `<img  
+        src="${URL.createObjectURL(f)}"  
+        alt="预览"  
+      >`  
+    )  
+    .join("");  
+  
+  }  
+);  
+  
+  
+/* 防止HTML注入 */  
+function esc(s){  
+  
+  return String(  
+    s ?? ""  
+  ).replace(  
+    /[&<>"']/g,  
+    c =>  
+    ({  
+      "&":"&amp;",  
+      "<":"&lt;",  
+      ">":"&gt;",  
+      '"':"&quot;",  
+      "'":"&#39;"  
+    }[c])  
+  );  
+  
+}  
+  
+  
+/* 自动恢复登录 */  
+(async()=>{  
+  
+  try{  
+  
+    const u =  
+    JSON.parse(  
+      localStorage.getItem(  
+        "a等生活当前账号_v3"  
+      )  
+    );  
+  
+    if(u)  
+      await start(u);  
+  
+  }catch(e){  
+  
+    console.log(e);  
+  
+  }  
+  
+})();  
+  
+</script>  </body>  
 </html>
