@@ -182,6 +182,50 @@ button{
   margin:10px 0;
 }
 
+.recovery-box{
+  background:#fffaf0;
+  border:1px solid #f6d365;
+  padding:14px;
+  border-radius:16px;
+  margin-top:14px;
+}
+
+.recovery-box h3{
+  margin-top:0;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:#00000070;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:18px;
+  z-index:9999;
+}
+
+.modal.hide{
+  display:none;
+}
+
+.modal-card{
+  width:100%;
+  max-width:480px;
+  background:#fff;
+  border-radius:24px;
+  padding:20px;
+  box-shadow:0 20px 60px #00000030;
+}
+
+.modal-card h2{
+  margin-top:0;
+}
+
+.modal-card input{
+  margin:6px 0;
+}
+
 @media(max-width:600px){
   .stats{
     grid-template-columns:repeat(2,1fr);
@@ -204,6 +248,7 @@ button{
       记录每一天的努力、成长与助教时光
     </div>
   </div>
+
 
   <!-- 登录 -->
   <div id="auth" class="card">
@@ -240,6 +285,15 @@ button{
       </button>
 
     </div>
+
+    <!-- 只有旧账号需要使用这里 -->
+    <button
+      class="secondary"
+      style="margin-top:10px"
+      onclick="openRecovery()"
+    >
+      🔑 旧账号忘记密码
+    </button>
 
     <p id="authMsg" class="small"></p>
 
@@ -452,6 +506,84 @@ button{
 </div>
 
 
+<!-- ========================= -->
+<!-- 旧账号找回密码弹窗 -->
+<!-- ========================= -->
+
+<div
+  id="recoveryModal"
+  class="modal hide"
+>
+
+  <div class="modal-card">
+
+    <h2>🔑 找回旧账号</h2>
+
+    <p class="small">
+      这个功能只给已经设置过恢复信息的旧账号使用。
+    </p>
+
+    <div class="recovery-box">
+
+      <h3>⚠️ 注意</h3>
+
+      <div class="small">
+        新注册的账号不会自动拥有恢复码。
+        如果这是新账号，请直接使用正常登录方式。
+      </div>
+
+    </div>
+
+    <br>
+
+    <input
+      id="recoveryUsername"
+      placeholder="你的旧账号"
+    >
+
+    <input
+      id="recoveryKey"
+      type="password"
+      placeholder="旧账号恢复密钥"
+    >
+
+    <input
+      id="newPassword"
+      type="password"
+      placeholder="新的密码（至少6个字符）"
+    >
+
+    <input
+      id="newPassword2"
+      type="password"
+      placeholder="再次输入新密码"
+    >
+
+    <div class="row" style="margin-top:12px">
+
+      <button onclick="resetOldPassword()">
+        设置新密码
+      </button>
+
+      <button
+        class="secondary"
+        onclick="closeRecovery()"
+      >
+        取消
+      </button>
+
+    </div>
+
+    <p
+      id="recoveryMsg"
+      class="small"
+    ></p>
+
+  </div>
+
+</div>
+
+
 <script>
 
 const SUPABASE_URL =
@@ -538,6 +670,10 @@ document.getElementById("date").value =
 new Date().toISOString().slice(0,10);
 
 
+/* =========================
+   提示
+========================= */
+
 function msg(id,text){
 
   document.getElementById(id).textContent =
@@ -546,7 +682,10 @@ function msg(id,text){
 }
 
 
-/* 密码 SHA-256 */
+/* =========================
+   SHA-256
+========================= */
+
 async function hash(s){
 
   const b =
@@ -566,7 +705,12 @@ async function hash(s){
 }
 
 
-/* 注册 */
+/* =========================
+   注册
+   新账号完全保持原来的方式
+   不生成恢复码
+========================= */
+
 async function register(){
 
   const u =
@@ -622,7 +766,10 @@ async function register(){
 }
 
 
-/* 登录 */
+/* =========================
+   登录
+========================= */
+
 async function login(){
 
   const u =
@@ -669,7 +816,216 @@ async function login(){
 }
 
 
-/* 登录成功 */
+/* =========================
+   打开旧账号找回
+========================= */
+
+function openRecovery(){
+
+  document
+  .getElementById("recoveryModal")
+  .classList.remove("hide");
+
+  document
+  .getElementById("recoveryMsg")
+  .textContent = "";
+
+}
+
+
+/* =========================
+   关闭找回
+========================= */
+
+function closeRecovery(){
+
+  document
+  .getElementById("recoveryModal")
+  .classList.add("hide");
+
+  document
+  .getElementById("recoveryUsername")
+  .value = "";
+
+  document
+  .getElementById("recoveryKey")
+  .value = "";
+
+  document
+  .getElementById("newPassword")
+  .value = "";
+
+  document
+  .getElementById("newPassword2")
+  .value = "";
+
+  document
+  .getElementById("recoveryMsg")
+  .textContent = "";
+
+}
+
+
+/* =========================
+   旧账号找回密码
+========================= */
+
+async function resetOldPassword(){
+
+  const u =
+  document
+  .getElementById("recoveryUsername")
+  .value
+  .trim();
+
+  const key =
+  document
+  .getElementById("recoveryKey")
+  .value;
+
+  const np =
+  document
+  .getElementById("newPassword")
+  .value;
+
+  const np2 =
+  document
+  .getElementById("newPassword2")
+  .value;
+
+
+  if(!u || !key || !np || !np2){
+
+    return msg(
+      "recoveryMsg",
+      "请把资料填写完整。"
+    );
+
+  }
+
+
+  if(np.length < 6){
+
+    return msg(
+      "recoveryMsg",
+      "新密码至少需要6个字符。"
+    );
+
+  }
+
+
+  if(np !== np2){
+
+    return msg(
+      "recoveryMsg",
+      "两次输入的新密码不一样。"
+    );
+
+  }
+
+
+  msg(
+    "recoveryMsg",
+    "正在验证旧账号……"
+  );
+
+
+  const recoveryHash =
+  await hash(key);
+
+
+  /*
+    这里只查询旧账号的 recovery_hash。
+    新账号没有 recovery_hash，
+    所以不会因为这个功能自动获得恢复能力。
+  */
+
+  const {
+    data,
+    error
+  } =
+  await sb
+  .from("app_accounts")
+  .select("id,username,recovery_hash")
+  .eq("username",u)
+  .maybeSingle();
+
+
+  if(error){
+
+    return msg(
+      "recoveryMsg",
+      "验证失败："+error.message
+    );
+
+  }
+
+
+  if(
+    !data ||
+    !data.recovery_hash ||
+    data.recovery_hash !== recoveryHash
+  ){
+
+    return msg(
+      "recoveryMsg",
+      "旧账号或恢复密钥不正确。"
+    );
+
+  }
+
+
+  const newHash =
+  await hash(np);
+
+
+  const {
+    error:updateError
+  } =
+  await sb
+  .from("app_accounts")
+  .update({
+    password_hash:newHash
+  })
+  .eq("id",data.id)
+  .eq("username",data.username);
+
+
+  if(updateError){
+
+    return msg(
+      "recoveryMsg",
+      "修改密码失败："+updateError.message
+    );
+
+  }
+
+
+  msg(
+    "recoveryMsg",
+    "密码修改成功，可以使用新密码登录了。"
+  );
+
+
+  setTimeout(()=>{
+
+    closeRecovery();
+
+    username.value =
+    u;
+
+    password.value =
+    np;
+
+  },1200);
+
+}
+
+
+/* =========================
+   登录成功
+========================= */
+
 async function start(user){
 
   currentUser =
@@ -692,7 +1048,10 @@ async function start(user){
 }
 
 
-/* 退出 */
+/* =========================
+   退出
+========================= */
+
 async function logout(){
 
   currentUser = null;
@@ -712,7 +1071,10 @@ async function logout(){
 }
 
 
-/* 读取云端记录 */
+/* =========================
+   读取云端记录
+========================= */
+
 async function load(){
 
   const {
@@ -746,7 +1108,10 @@ async function load(){
 }
 
 
-/* 保存记录 */
+/* =========================
+   保存记录
+========================= */
+
 async function saveEntry(){
 
   if(!currentUser)
@@ -948,7 +1313,10 @@ async function saveEntry(){
 }
 
 
-/* 清空 */
+/* =========================
+   清空
+========================= */
+
 function clearForm(){
 
   editingId = null;
@@ -981,7 +1349,10 @@ function clearForm(){
 }
 
 
-/* 编辑 */
+/* =========================
+   编辑
+========================= */
+
 function editEntry(id){
 
   const e =
@@ -1026,7 +1397,10 @@ function editEntry(id){
 }
 
 
-/* 删除 */
+/* =========================
+   删除
+========================= */
+
 async function delEntry(id){
 
   if(
@@ -1064,7 +1438,10 @@ async function delEntry(id){
 }
 
 
-/* 日期 */
+/* =========================
+   日期
+========================= */
+
 function uniqueDates(){
 
   return [
@@ -1078,7 +1455,10 @@ function uniqueDates(){
 }
 
 
-/* 连续天数 */
+/* =========================
+   连续天数
+========================= */
+
 function calcStreak(){
 
   const ds =
@@ -1117,7 +1497,10 @@ function calcStreak(){
 }
 
 
-/* 更新统计 */
+/* =========================
+   更新统计
+========================= */
+
 function updateStats(){
 
   document
@@ -1156,7 +1539,10 @@ function updateStats(){
 }
 
 
-/* 显示记录 */
+/* =========================
+   显示记录
+========================= */
+
 function render(){
 
   const q =
@@ -1280,7 +1666,10 @@ function render(){
 }
 
 
-/* 照片预览 */
+/* =========================
+   照片预览
+========================= */
+
 document
 .getElementById("photos")
 .addEventListener(
@@ -1307,7 +1696,10 @@ document
 );
 
 
-/* 防止HTML注入 */
+/* =========================
+   防止HTML注入
+========================= */
+
 function esc(s){
 
   return String(
@@ -1327,7 +1719,10 @@ function esc(s){
 }
 
 
-/* 自动恢复登录 */
+/* =========================
+   自动恢复登录
+========================= */
+
 (async()=>{
 
   try{
